@@ -1,5 +1,5 @@
 package service;
 
 public class SampleService {
-	public void java() {} //¿¬½À
+	public void java() {} //í…ŒìŠ¤íŠ¸
 }
