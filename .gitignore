@@ -1,2 +1,6 @@
 .idea
 JavaBurger.iml
+/bin/
+*.classpath
+*.project
+*.prefs
