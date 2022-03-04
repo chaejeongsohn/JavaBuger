@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 .idea/*
 JavaBurger.iml
+=======
+/bin/
+.idea
+JavaBurger.iml
+.project
+>>>>>>> origin/main
