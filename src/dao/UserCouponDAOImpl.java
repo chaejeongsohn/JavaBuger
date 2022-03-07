@@ -10,7 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -103,6 +107,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	String sql = proFile.getProperty("usercoupon.selectAll");
     	List<Coupon> couponlist = new ArrayList<>();
     	
+    	
     	try {
     		con= SampleUtils.getConnection();
     		ps = con.prepareStatement(sql);
@@ -115,16 +120,41 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		//쿠폰번호에 해당하는 쿠폰정보 가져오기
     		Coupon coupon = couponService.selectCouponByNumber(rs.getInt(1));
     		//쿠폰기한이 만료되었으면 삭제하기
-    		//coupon.getCouponExpiration()
-    		
+    		boolean checkresult = compareDate(coupon.getCouponExpiration());
+    		if(checkresult) {
     		usercouponlist.add(usercoupons);
     		usercoupons.setCouponlist(couponlist);
     		couponlist.add(coupon);
+    		}else {
+    			deleteUserCoupon(coupon.getCouponNumber());
+    		}
     		}
     	}finally {
     		SampleUtils.close(con, ps, rs);
     	}
         return usercouponlist;
+    }
+    
+    /*쿠폰 만료기한 현재날짜랑 비교 메소드*/
+    public boolean compareDate(int checkDate){
+    	
+    	LocalDate today = LocalDate.now();
+    	String asStringDate = String.valueOf(checkDate);
+    	LocalDate date = LocalDate.parse(asStringDate, DateTimeFormatter.BASIC_ISO_DATE);
+    	
+    	int result = today.compareTo(date);
+    	if(result<0) {return true;}
+    	return false;
+    	
+    	
+    	/*작동잘되면 삭제할것
+    	 * String todayFormat = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    	
+    	Date today = new Date(dateFormat.parse(todayFormat).getTime());
+    	Date date = new Date(dateFormat.parse(chechDate).getTime());*/
+    	
+    	
     }
     
 

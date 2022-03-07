@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import dto.Coupon;
+import exception.AddException;
 import service.CouponService;
 import view.EndView;
 import view.FailView;
@@ -19,6 +20,8 @@ public class CouponController {
     		SuccessView.messagePrint("쿠폰을 등록했습니다.");
     	}catch(SQLException e) {
     		FailView.errorMessage(e.getMessage());
+    	}catch(AddException ex) {
+    		FailView.errorMessage(ex.getMessage());
     	}
     }
 
