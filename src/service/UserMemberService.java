@@ -53,8 +53,11 @@ public class UserMemberService {
      * @param userPhone
      * @return
      */
-    public String findUserId(String userName, int userPhone) {
-        return null;
+    public String findUserId(String userName, int userPhone) throws SQLException {
+    	String result = userMemberDAO.selectUserId(userName, userPhone);
+    	System.out.println(result);
+    	if(result == null) throw new SQLException("해당하는 정보가 없습니다.");
+        return result;
     }
 
     /**
@@ -92,8 +95,9 @@ public class UserMemberService {
         return null;
     }
 
-    public void updateUserInfo(UserMember userMember) {
-
+    public void updateUser(UserMember userMember) throws SQLException{
+    	int result = userMemberDAO.updateUser(userMember);
+    	if(result == 0) throw new SQLException("수정되지 않았습니다.");
     }
 
     public void deleteUser(String UserId) {

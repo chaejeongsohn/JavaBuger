@@ -40,30 +40,28 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     	
     	Connection con = null;
     	PreparedStatement ps = null;
-    	ResultSet rs= null;
-    	UserMember usermember = null;
-
+    	ResultSet rs = null;
+    	//UserMember usermember = null;
+    	
+    	
     	try {
 	    	con = SampleUtils.getConnection();
-			ps = con.prepareStatement("insert into board (userid, userpw, username, userphone, userbirthday, userjoindate) values (?, ?, ?, ?, ?, sysdate)");
+			ps = con.prepareStatement("insert into usermember (user_id, user_pw, user_name, user_phone, user_birthday, user_joindate) values (?, ?, ?, ?, ?, sysdate)");
 			
-			ps.setString(1, usermember.getUserId());
-			rs = ps.executeQuery();
+			ps.setString(1, userMember.getUserId());
 			
-			ps.setString(2, usermember.getUserPw());
-			rs = ps.executeQuery();
+			ps.setString(2, userMember.getUserPw());
 			
-			ps.setString(3, usermember.getUserName());
-			rs = ps.executeQuery();
+			ps.setString(3, userMember.getUserName());
 			
-			ps.setInt(4, usermember.getUserPhone());
-			rs = ps.executeQuery();
+			ps.setInt(4, userMember.getUserPhone());
 			
-			ps.setInt(5, usermember.getUserBirthDay());
-			rs = ps.executeQuery();
+			ps.setInt(5, userMember.getUserBirthDay());
+			
+			//rs = ps.executeQuery();
 			
 			result = ps.executeUpdate();
-			System.out.println("result = " + result);
+			//System.out.println("result = " + result);
 			
     	}catch (SQLException e) {
     		e.printStackTrace();
@@ -75,9 +73,35 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
     @Override
     public String selectUserId(String userName, int userPhone) throws SQLException {
-        return null;
+    	String userId = null;
+    	
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	
+    	
+    	String sql = "select user_id from usermember where user_name = ? and user_phone = ? ";
+    	try {
+    		con = SampleUtils.getConnection();
+    		ps = con.prepareStatement(sql);
+    		
+    		ps.setString(1, userName);
+    		ps.setInt(2, userPhone);
+    		
+    		rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			userId = rs.getString(1);
+    		}
+    	
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+    		SampleUtils.close(con, ps, rs);
+    	}
+    	return userId;
     }
-
+    
     @Override
     public List<UserMember> selectByBirthday(int userBirthDay) throws SQLException {
         return null;
@@ -85,6 +109,11 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
     @Override
     public int updateUser(UserMember userMember) throws SQLException {
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	int result = 0;
+    	
+    	String sql = "update usermember set ";
         return 0;
     }
 
