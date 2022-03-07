@@ -20,9 +20,15 @@ public class UserMemberService {
     public UserMember login(String userId, String userPw)throws NotFoundException, SQLException {
         UserMember userMember = userMemberDAO.selectUserInfo(userId);
         if (userMember == null) {
-            throw new NotFoundException("아이디를 다시 확안해주세요.");
+            throw new NotFoundException("아이디를 다시 확인해주세요.");
         }
         // 비밀번호 체크 필요
+        if(userPw != userMember.getUserPw()) {
+        	throw new NotFoundException("비밀번호가 일치하지 않습니다.");
+        }
+        
+        //로그인된 정보 저장하기
+        
         return userMember;
     }
 
