@@ -2,6 +2,10 @@ package view.menu;
 
 import java.util.Scanner;
 
+import controller.UserMemberController;
+import dao.UserMemberDAOImpl;
+import service.UserMemberService;
+
 public class UserMenuView {
     private static Scanner scanner = new Scanner(System.in);
 
@@ -12,6 +16,7 @@ public class UserMenuView {
             int menu = Integer.parseInt(scanner.nextLine());
             switch (menu) {
                 case 1: // 로그인
+                	UserMemberController.login("Cat01", "catcat11");
                     break;
                 case 2: // 회원가입
                     break;
