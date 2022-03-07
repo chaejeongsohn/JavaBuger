@@ -1,8 +1,8 @@
 package view;
 
-import dto.Product;
-
 import java.util.List;
+
+import dto.Product;
 
 public class EndView {
     public static void printProductList(List<Product> productList) {
@@ -13,4 +13,11 @@ public class EndView {
         System.out.println();
     }
 
+    /**
+     * productNumber로 상품검색
+     * */
+    public static void selectByProductNoPrint(Product product) {
+		System.out.println(product);
+	}
+    
 }

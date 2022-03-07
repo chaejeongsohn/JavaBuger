@@ -6,6 +6,7 @@ public class ManagementController {
     static ManagementService managementService = new ManagementService();
 
     public static void updatePassword(String managerPw) {
+    	
 
     }
 

@@ -7,7 +7,7 @@ public class ManagementService {
 	ManagementDAO managementDAO = new ManagementDAOImpl();
 
 	public void updatePassword(String managerPw){
-
+		
 	}
 
 	public void updateStoreName(String storeName){
