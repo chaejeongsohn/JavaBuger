@@ -47,5 +47,5 @@ public interface CouponDAO {
      * @return
      * @throws SQLException
      */
-    Coupon selectCouponByNumber() throws SQLException;
+    Coupon selectCouponByNumber(int CouponNumber) throws SQLException;
 }

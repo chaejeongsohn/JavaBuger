@@ -1,6 +1,7 @@
 package dao;
 
 import dto.UserCoupon;
+import exception.NotFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface UserCouponDAO {
      * @return
      * @throws SQLException
      */
-    int insertUserCoupon(UserCoupon userCoupon) throws SQLException;
+    int insertUserCoupon(UserCoupon userCoupon) throws SQLException, NotFoundException;
 
     /**
      * 사용자 쿠폰 삭제
@@ -23,7 +24,7 @@ public interface UserCouponDAO {
      * @return
      * @throws SQLException
      */
-    int deleteUserCoupon(int userCouponNumber) throws SQLException;
+    int deleteUserCoupon(int couponNumber) throws SQLException;
 
     /**
      * 사용자의 쿠폰리스트
@@ -31,7 +32,7 @@ public interface UserCouponDAO {
      * @return
      * @throws SQLException
      */
-    List<UserCoupon> selectUserCoupons() throws SQLException;
+    List<UserCoupon> selectUserCoupons(String userId) throws SQLException;
 
     /**
      * 사용자의 특정쿠폰 찾기(userCouponNumber 이용)
@@ -39,6 +40,6 @@ public interface UserCouponDAO {
      * @return
      * @throws SQLException
      */
-    UserCoupon selectUserCouponByNumber() throws SQLException;
+    UserCoupon selectUserCouponByNumber(String userId, int couponNumber) throws SQLException;
 
 }
