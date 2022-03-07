@@ -41,9 +41,10 @@ public class UserMemberService {
      *
      * @param userMember
      */
-    public void join(UserMember userMember) {
-
-    }
+    public void join(UserMember userMember) throws SQLException {
+    	int result = userMemberDAO.insertUser(userMember);
+    	if(result==0) throw new SQLException("회원가입에 실패했습니다.");
+    	}
 
     /**
      * 아이디 찾기
