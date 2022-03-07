@@ -26,20 +26,32 @@ public class ProductService {
         return productList;
     }
 
-    public Product selectProductByProductNumber(int productNumber) {
-        return null;
+    public Product selectProductByProductNumber(int productNumber) throws NotFoundException, SQLException {
+        Product product = productDAO.selectProductByProductNumber(productNumber);
+        if (product == null) {
+            throw new NotFoundException("상품목록에 " + productNumber + "번 상품이 없습니다.");
+        }
+        return product;
     }
 
-    public void insertProduct(Product product) {
-
+    public void insertProduct(Product product) throws SQLException {
+        int result = productDAO.insertProduct(product);
+        if (result == 0) {
+            throw new SQLException("등록되지 않았습니다.");
+        }
     }
 
-    public void updateProduct(Product product) {
-
+    public void updateProduct(Product product) throws SQLException{
+        int result = productDAO.updateProduct(product);
+        if (result == 0)
+            throw new SQLException("수정되지 않았습니다.");
     }
 
-    public void deleteProduct(int productNumber) {
+    public void deleteProduct(int productNumber) throws SQLException {
+        int result = productDAO.deleteProduct(productNumber);
 
+        if (result == 0)
+            throw new SQLException("삭제되지 않았습니다.");
     }
 
     public void addSoldOutProduct(Product product){
