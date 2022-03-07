@@ -36,6 +36,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     @Override
     public int insertUser(UserMember userMember) throws SQLException {
     	String userId;
+    	int result=0;
     	
     	Connection con = null;
     	PreparedStatement ps = null;
@@ -43,28 +44,33 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     	UserMember usermember = null;
 
     	try {
-	    	con = DbUtil.getConnection();
+	    	con = SampleUtils.getConnection();
 			ps = con.prepareStatement("insert into board (userid, userpw, username, userphone, userbirthday, userjoindate) values (?, ?, ?, ?, ?, sysdate)");
 			
-			ps.setString(1, usermember.);
+			ps.setString(1, usermember.getUserId());
 			rs = ps.executeQuery();
 			
-			ps.setString(2, userPassword);
+			ps.setString(2, usermember.getUserPw());
 			rs = ps.executeQuery();
 			
-			ps.setString(3, userName);
+			ps.setString(3, usermember.getUserName());
 			rs = ps.executeQuery();
 			
-			ps.setInt(4, userPhone);
+			ps.setInt(4, usermember.getUserPhone());
 			rs = ps.executeQuery();
 			
-			ps.setInt(5, userBirthDay);
+			ps.setInt(5, usermember.getUserBirthDay());
 			rs = ps.executeQuery();
 			
+			result = ps.executeUpdate();
+			System.out.println("result = " + result);
+			
+    	}catch (SQLException e) {
+    		e.printStackTrace();
     	}finally {
-    		
+    		SampleUtils.close(con, ps, rs);
     	}
-        return 0;
+        return result;
     }
 
     @Override

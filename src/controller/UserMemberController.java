@@ -3,6 +3,7 @@ package controller;
 import dto.UserMember;
 import service.UserMemberService;
 import view.FailView;
+import view.SuccessView;
 
 
 public class UserMemberController {
@@ -17,7 +18,12 @@ public class UserMemberController {
     }
 
     public static void join(UserMember userMember) {
-
+    	try {
+    		userMemberService.join(userMember);
+    		SuccessView.messagePrint("회원가입이 완료되었습니다.");
+    	} catch (Exception e) {
+    		FailView.errorMessage(e.getMessage());
+    	}
     }
 
     public static void findUserId(String userName, int userPhone) {
