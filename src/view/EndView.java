@@ -13,11 +13,4 @@ public class EndView {
         System.out.println();
     }
 
-    /**
-     * productNumber로 상품검색
-     * */
-    public static void selectByProductNoPrint(Product product) {
-        System.out.println(product);
-    }
-
 }
