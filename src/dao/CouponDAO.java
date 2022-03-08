@@ -1,6 +1,7 @@
 package dao;
 
 import dto.Coupon;
+import exception.AddException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface CouponDAO {
      * @param coupon
      * @return
      */
-    int insertCoupon(Coupon coupon) throws SQLException;
+    int insertCoupon(Coupon coupon) throws SQLException, AddException;
 
     /**
      * 매니저가 쿠폰 삭제
@@ -47,5 +48,5 @@ public interface CouponDAO {
      * @return
      * @throws SQLException
      */
-    Coupon selectCouponByNumber() throws SQLException;
+    Coupon selectCouponByNumber(int CouponNumber) throws SQLException;
 }

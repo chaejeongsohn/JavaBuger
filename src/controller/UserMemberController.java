@@ -4,8 +4,11 @@ import java.sql.SQLException;
 
 import dto.UserMember;
 import service.UserMemberService;
+import service.UserSessionService;
+import view.EndView;
 import view.FailView;
 import view.SuccessView;
+import view.menu.UserDetailMenuView;
 
 
 public class UserMemberController {
@@ -13,7 +16,8 @@ public class UserMemberController {
 
     public static void login(String userId, String userPw) {
         try {
-            UserMember userMember = userMemberService.login(userId, userPw);
+            userMemberService.login(userId, userPw);
+            UserDetailMenuView.memberMenu();
         } catch (Exception e) {
             FailView.errorMessage(e.getMessage());
         }
@@ -68,8 +72,23 @@ public class UserMemberController {
     	}
     }
     
-    public static void deleteUser(String userId) {
+    public static void deleteUser() {
+        try{
+            String userId = UserSessionService.getUserSession().getUserId();
+            userMemberService.deleteUser(userId);
+            SuccessView.messagePrint(userId+" 님의 회원탈퇴가 완료되었습니다.");
+        }catch (SQLException e){
+            FailView.errorMessage(e.getMessage());
+        }
+    }
 
+    public static void showUserInfo(){
+        try{
+            UserMember userMember = userMemberService.showUserInfo();
+            EndView.userMemberPrint(userMember);
+        }catch (Exception e){
+            FailView.errorMessage(e.getMessage());
+        }
     }
 
 }

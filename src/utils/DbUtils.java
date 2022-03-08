@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.sql.*;
 import java.util.Properties;
 
-public class SampleUtils {
+public class DbUtils {
     private static Properties proFile = new Properties();
 
 
@@ -45,4 +45,13 @@ public class SampleUtils {
         }
     }
 
+    public static void close(Connection con, Statement st) {
+        try {
+            if(st != null) st.close();
+            if(con != null) con.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

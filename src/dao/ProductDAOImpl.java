@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Properties;
 
 import dto.Product;
-import utils.SampleUtils;
+import utils.DbUtils;
 
 public class ProductDAOImpl implements ProductDAO {
-	private Properties proFile = SampleUtils.getProFile();
+	private Properties proFile = DbUtils.getProFile();
 
 	@Override
 	public List<Product> selectProducts() throws SQLException {
@@ -22,7 +22,7 @@ public class ProductDAOImpl implements ProductDAO {
 		List<Product> list = new ArrayList<Product>(); // 리턴값
 		String sql = proFile.getProperty("product.selectProducts"); // select * from product order by productNumber desc
 		try {
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 
 			rs = ps.executeQuery();
@@ -35,7 +35,7 @@ public class ProductDAOImpl implements ProductDAO {
 				list.add(product);
 			}
 		} finally {
-			SampleUtils.close(con, ps, rs);
+			DbUtils.close(con, ps, rs);
 		}
 		return list;
 	}
@@ -50,7 +50,7 @@ public class ProductDAOImpl implements ProductDAO {
 		String sql = proFile.getProperty("product.selectProductByProductNumber"); // select * from product where
 																					// productNumber = ?
 		try {
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, productNumber); // ?값
 			rs = ps.executeQuery();
@@ -60,7 +60,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 			}
 		} finally {
-			SampleUtils.close(con, ps, rs);
+			DbUtils.close(con, ps, rs);
 		}
 		return product;
 	}
@@ -72,7 +72,7 @@ public class ProductDAOImpl implements ProductDAO {
 		int result = 0;
 		String sql = proFile.getProperty("product.insert"); //
 		try {
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, product.getCategoryNumber());
@@ -83,7 +83,7 @@ public class ProductDAOImpl implements ProductDAO {
 			result = ps.executeUpdate();
 
 		} finally {
-			SampleUtils.close(con, ps, null);
+			DbUtils.close(con, ps, null);
 		}
 		return result;
 	}
@@ -97,7 +97,7 @@ public class ProductDAOImpl implements ProductDAO {
 		String sql = proFile.getProperty("product.update"); // update product set CATEGORY_NO = ?, PRD_NAME = ?,
 															// PRD_PRICE = ?,PRD_DETAIL = ? where PRD_NO = ?
 		try {
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, product.getCategoryNumber());
@@ -108,7 +108,7 @@ public class ProductDAOImpl implements ProductDAO {
 			result = ps.executeUpdate();
 
 		} finally {
-			SampleUtils.close(con, ps, null);
+			DbUtils.close(con, ps, null);
 		}
 		return result;
 	}
@@ -120,7 +120,7 @@ public class ProductDAOImpl implements ProductDAO {
 		int result = 0;
 		String sql = proFile.getProperty("product.delete"); // delete from product where PRD_NO = ?
 		try {
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setInt(1, productNumber);
@@ -128,7 +128,7 @@ public class ProductDAOImpl implements ProductDAO {
 			result = ps.executeUpdate();
 
 		} finally {
-			SampleUtils.close(con, ps, null);
+			DbUtils.close(con, ps, null);
 		}
 		return result;
 

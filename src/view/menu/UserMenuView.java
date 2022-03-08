@@ -35,7 +35,7 @@ public class UserMenuView {
     }
 
     private static void printUserMenu() {
-        System.out.println("---------회원전용 메뉴---------------");
+        System.out.println("--------- 회원 로그인 화면 ---------------");
         System.out.println("1. 로그인   2. 회원가입  3. 아이디찾기  4. 비밀번호찾기 5. 프로그램종료 ");
     }
 
@@ -46,7 +46,6 @@ public class UserMenuView {
         String inputPw = scanner.nextLine();
 
         UserMemberController.login(inputId, inputPw);
-       // CartController.insertUserSession(inputId);
     }
     
     private static void printJoin() {
@@ -61,7 +60,7 @@ public class UserMenuView {
     	System.out.print("생년월일을 입력하세요 ex.19940416 > ");
     	int inputBirthday =Integer.parseInt(scanner.nextLine());
     	
-    	UserMember userMember = new UserMember(inputName, inputId, inputPw, inputPhone, inputBirthday, inputName);
+    	UserMember userMember = new UserMember(inputId, inputPw, inputName, inputPhone, inputBirthday);
     	UserMemberController.join(userMember);
     }
     
