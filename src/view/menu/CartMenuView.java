@@ -23,16 +23,16 @@ public class CartMenuView {
             int menu = Integer.parseInt(scanner.nextLine());
             switch(menu) {
                 case 1:
-                    CartController.handleProductOrder('B');
+                    CartController.handleProductOrder("B");
                     break;
                 case 2:
-                    CartController.handleProductOrder('D');
+                    CartController.handleProductOrder("D");
                     break;
                 case 3:
-                    CartController.handleProductOrder('C');
+                    CartController.handleProductOrder("C");
                     break;
                 case 4:
-                    CartController.handleProductOrder('D');
+                    CartController.handleProductOrder("A");
                     break;
                 case 5:
                     CartMenuView.cartMenu2(); // 상품주문을 하고 장바구니에 다 담겼다면 장바구니확인/주문이동 화면으로 넘어간다
@@ -75,6 +75,16 @@ public class CartMenuView {
     }
 
     /*
+    CartController 에서 유저의 상품선택을 위해 사용하는 호출용.. (후에 고칠 수 있음 고쳐보기)
+     */
+    public static int askUserInput() {
+        System.out.println("---------------- 원하시는 상품의 상품번호를 입력하세요 ----------------");
+        int userInput = Integer.parseInt(scanner.nextLine());
+
+        return userInput;
+    }
+
+    /*
     1. 상품검색 & 장바구니 담기
      */
     private static void printCartMenu1() {
@@ -90,4 +100,6 @@ public class CartMenuView {
         System.out.println("1. 수량 플러스   2. 수량 마이너스    3. 전체 삭제   4. 상품목록으로 돌아가기   5. 주문하기");
 
     }
+
+
 }

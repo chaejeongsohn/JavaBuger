@@ -1,11 +1,14 @@
 package controller;
 
 import dto.CartProduct;
+import dto.Product;
+import dto.ProductOption;
 import exception.NotFoundException;
 import service.CartService;
 import view.EndView;
 import view.FailView;
 import view.SuccessView;
+import view.menu.CartMenuView;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,21 +23,53 @@ public class CartController {
     static {
         try {
             cartService = new CartService();
-        } catch (SQLException | NotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            FailView.errorMessage("장바구니 기능을 구현하는 도중 DAO 에서 에러 발생 했습니다.");
+        } catch (NotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    /*
+//    static {
+//        try {
+//            cartService = new CartService();
+//        } catch (SQLException | NotFoundException e) {
+//            e.printStackTrace();
+//            FailView.errorMessage("장바구니 기능을 구현하는 도중 DAO 에서 에러 발생 했습니다.");
+//        }
+//    }
 
+    /*
+        1. print method for the given category -> as parameter of view methods
+        2. get user's choice and deliver it as the parameter of handleProductOrder
+        3. create an if condition for Burger Category "B"
+           -> if B, then ask for Production Option as well.
      */
-    public static void handleProductOrder(char category){
-        boolean result = cartService.handleProductOrder(category);
+    public static void handleProductOrder(String category){
+        //1.
+        List<Product> productsByCategory = cartService.getAllProductsForDisplay(category);
+        EndView.printProductsByCategory(productsByCategory);
+
+        //user's input needed here as int, the productNumber of choice
+        int productNumber = CartMenuView.askUserInput();
+
+        //2.
+        boolean result = cartService.handleProductOrder(productNumber);
         if(result) {
             SuccessView.messagePrint("선택하신 상품을 장바구니에 담았습니다.");
         }else {
             FailView.errorMessage("선택하신 상품을 장바구니에 담지 못하였습니다.");
+        }
+
+        //3.버거메뉴는 추가적으로 상품옵션(토핑) 까지 받아야 한다.
+        if(category.equals("B") || category.equals("b")) {
+            while(true) {
+                List<ProductOption> productOptions = cartService.getAllProductOptionsForDisplay();
+                EndView.printAllProductOptions(productOptions);
+
+                int productOptionNumber = CartMenuView.askUserInput(); // 원하는 상품("옵션")을 선택해주세요
+                cartService.handleProductOptionOrder(productNumber, productOptionNumber);
+            }
         }
     }
 

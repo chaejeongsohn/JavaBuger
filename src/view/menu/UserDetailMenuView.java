@@ -16,6 +16,8 @@ public class UserDetailMenuView {
             int menu = Integer.parseInt(scanner.nextLine());
             switch (menu) {
                 case 1: // 주문하기
+                    //CartMenuView 로 이동하여 주문받기/장바구니담기/결제화면이동 까지 진행
+                    CartMenuView.cartMenu1();
                     break;
                 case 2: // 나의정보
                     printUserInfoMenu();

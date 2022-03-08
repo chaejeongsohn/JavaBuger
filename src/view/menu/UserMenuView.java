@@ -18,9 +18,6 @@ public class UserMenuView {
             switch (menu) {
                 case 1: // 로그인
                     printLogin();
-
-                    //CartMenuView 로 이동하여 주문받기/장바구니담기/결제화면이동 까지 진행
-                    CartMenuView.cartMenu1();
                     break;
                 case 2: // 회원가입
                 	printJoin(); 
