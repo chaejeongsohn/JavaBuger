@@ -38,7 +38,12 @@ public class UserMemberController {
     }
 
     public static void findUserPw(String userId, int userBirthDay) {
-
+    	try {
+    		String result = userMemberService.findUserPw(userId, userBirthDay);
+    		SuccessView.messagePrint(userId + "님의 비밀번호는 "+ result + " 입니다.");
+    	}catch(Exception e) {
+    		FailView.errorMessage(e.getMessage());
+    	}
     }
 
     public static void checkExistUserId(String userId) {

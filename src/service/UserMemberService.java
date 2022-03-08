@@ -55,7 +55,7 @@ public class UserMemberService {
      */
     public String findUserId(String userName, int userPhone) throws SQLException {
     	String result = userMemberDAO.selectUserId(userName, userPhone);
-    	System.out.println(result);
+    	
     	if(result == null) throw new SQLException("해당하는 정보가 없습니다.");
         return result;
     }
@@ -64,11 +64,14 @@ public class UserMemberService {
      * 패스워드 찾기
      *
      * @param userId
-     * @param userPhone
+     * @param userBirthday
      * @return
      */
-    public String findUserPw(String userId, int userPhone) {
-        return null;
+    public String findUserPw(String userId, int userBirthday) throws SQLException{
+    	String result = userMemberDAO.selectUserPw(userId, userBirthday);
+    
+    	if(result == null) throw new SQLException("해당하는 정보가 없습니다.");
+        return result;
     }
 
     /**
