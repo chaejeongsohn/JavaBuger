@@ -1,10 +1,15 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserCoupon {
     private int userCouponNumber; // 사용자에게 지급된 쿠폰번호
     private String userId; // 사용자 아이디
     private int couponNumber; // 지급된 쿠폰종류 해당 번호
     private int couponAmount; // 쿠폰수량 (ex.5)
+    
+    private List<Coupon> couponlist = new ArrayList<Coupon>();
 
     public UserCoupon(int userCouponNumber, String userId, int couponNumber, int couponAmount) {
         this.userCouponNumber = userCouponNumber;
@@ -45,9 +50,17 @@ public class UserCoupon {
         this.couponAmount = couponAmount;
     }
 
-    @Override
+    public List<Coupon> getCouponlist() {
+		return couponlist;
+	}
+
+	public void setCouponlist(List<Coupon> coupon) {
+		this.couponlist = coupon;
+	}
+
+	@Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("");
+		final StringBuilder sb = new StringBuilder("");
         sb.append("userCouponNumber=").append(userCouponNumber);
         sb.append(", userId='").append(userId).append('\'');
         sb.append(", CouponNumber=").append(couponNumber);
