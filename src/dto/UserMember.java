@@ -21,6 +21,10 @@ public class UserMember {
         this.userJoinDate = userJoinDate;
     }
 
+    public UserMember(UserMember userMember){
+        this(userMember.userId, userMember.userPw, userMember.userName, userMember.userPhone, userMember.userBirthDay, userMember.userJoinDate);
+
+    }
 
     public String getUserId() {
         return userId;
