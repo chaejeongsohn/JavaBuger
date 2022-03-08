@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserMemberDAOImpl implements UserMemberDAO {
@@ -100,20 +101,16 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     @Override
     public String selectUserPw(String userId, int userBirthday) throws SQLException {
     	String userPw = null;
-    	
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
-    	
-    	
+
     	String sql = "select user_pw from usermember where user_id = ? and user_birthday = ? ";
     	try {
     		con = DbUtils.getConnection();
     		ps = con.prepareStatement(sql);
-    		
     		ps.setString(1, userId);
     		ps.setInt(2, userBirthday);
-    		
     		rs = ps.executeQuery();
     		
     		if(rs.next()) {
@@ -129,8 +126,29 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     }
     
     @Override
-    public List<UserMember> selectByBirthday(int userBirthDay) throws SQLException {
-        return null;
+    public List<String> selectByBirthday(int userBirthDay) throws SQLException {
+        List<String> birthDayUserIdList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select userId from UserMember where user_birthdaty = ? ";
+        try{
+            con=DbUtils.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, userBirthDay);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                String userId = rs.getString(1);
+                birthDayUserIdList.add(userId);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return birthDayUserIdList;
     }
 
     @Override

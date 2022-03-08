@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import dto.UserMember;
 import service.UserMemberService;
@@ -63,18 +64,7 @@ public class UserMemberController {
     	}
     }
 
-    public static void checkExistUserId(String userId) {
 
-    }
-
-    public static void checkUserInfo(String userId) {
-
-    }
-
-    public static void checkByBirthDay(int userBirthday) {
-
-    }
-    
     public static void updateUser(UserMember userMember) {
     	try {
     		userMemberService.updateUser(userMember);

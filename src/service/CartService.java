@@ -58,7 +58,7 @@ public class CartService {
     public boolean handleProductOrder(int productNumber){
         System.out.println("productNumber : " + productNumber);
         System.out.println("cart");
-        insertProductToCartProduct(productNumber);
+        // insertProductToCartProduct(productNumber);
 
         return false;
     }
