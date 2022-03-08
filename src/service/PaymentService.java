@@ -1,9 +1,11 @@
 package service;
 
+
 import dao.PaymentDAO;
 import dao.PaymentDAOImpl;
 import dto.Payment;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class PaymentService {
@@ -22,7 +24,9 @@ public class PaymentService {
         return null;
     }
 
-    public void insertPayment(Payment payment)  {
+    public void insertPayment(Payment payment) throws SQLException {
+    	int result = paymentDAO.insertPayment(payment);
+    	if(result==0) throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
     }
 
     public void deletePayment(int paymentNumber) {

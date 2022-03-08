@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Payment {
     private int paymentNumber;
     private String userId;
@@ -7,6 +10,8 @@ public class Payment {
     private int paymentMehtod;
     private int paymentPrice;
     private int userCouponNumber;
+    
+    List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
 
     public Payment(int paymentNumber, String userId, String paymentDate, int paymentMehtod, int paymentPrice, int userCouponNumber) {
         this.paymentNumber = paymentNumber;
@@ -64,8 +69,18 @@ public class Payment {
     public void setUserCouponNumber(int userCouponNumber) {
         this.userCouponNumber = userCouponNumber;
     }
+    
+    
 
-    @Override
+    public List<OrderProduct> getOrderlist() {
+		return orderlist;
+	}
+
+	public void setOrderlist(List<OrderProduct> orderlist) {
+		this.orderlist = orderlist;
+	}
+
+	@Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("");
         sb.append("paymentNumber=").append(paymentNumber);
