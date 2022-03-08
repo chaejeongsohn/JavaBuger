@@ -20,11 +20,13 @@ public class UserMenuView {
                     printLogin();
                     break;
                 case 2: // 회원가입
-                	printJoin();
+                	printJoin(); 
                     break;
                 case 3: // 아이디찾기
+                	printUserID();
                     break;
                 case 4: // 비밀번호찾기
+                	printUserPW();
                     break;
                 case 5: // 프로그램 종료
                     System.exit(0);
@@ -44,7 +46,7 @@ public class UserMenuView {
         String inputPw = scanner.nextLine();
 
         UserMemberController.login(inputId, inputPw);
-
+       // CartController.insertUserSession(inputId);
     }
     
     private static void printJoin() {
@@ -55,10 +57,29 @@ public class UserMenuView {
     	System.out.print("이름을 입력하세요 > ");
     	String inputName = scanner.nextLine();
     	System.out.print(" '-'를 제외한 핸드폰 번호를 입력해주세요 > ");
-    	int inputPhone = scanner.nextInt();
+    	int inputPhone = Integer.parseInt(scanner.nextLine());
     	System.out.print("생년월일을 입력하세요 ex.19940416 > ");
-    	int inputBirthday = scanner.nextInt();
+    	int inputBirthday =Integer.parseInt(scanner.nextLine());
     	
-    	//UserMemberController.join();
+    	UserMember userMember = new UserMember(inputName, inputId, inputPw, inputPhone, inputBirthday, inputName);
+    	UserMemberController.join(userMember);
+    }
+    
+    private static void printUserID() {
+    	System.out.print("이름을 입력하세요 > ");
+    	String inputName = scanner.nextLine();
+    	System.out.print("'-'를 제외한 핸드폰 번호를 입력해주세요 > ");
+    	int inputPhone = Integer.parseInt(scanner.nextLine());
+    	
+    	UserMemberController.findUserId(inputName, inputPhone);
+    }
+    
+    private static void printUserPW() {
+    	System.out.print("아이디를 입력하세요 > ");
+    	String inputId = scanner.nextLine();
+    	System.out.print("생년월일 8글자를 입력해주세요 ex.19951105 > ");
+    	int inputBirthday = Integer.parseInt(scanner.nextLine());
+    	
+    	UserMemberController.findUserPw(inputId, inputBirthday);
     }
 }

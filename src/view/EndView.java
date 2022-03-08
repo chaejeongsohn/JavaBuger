@@ -14,6 +14,7 @@ public class EndView {
         System.out.println();
     }
 
+
     public static void printProductOptionList(List<ProductOption> productOptionList) {
         System.out.println("---------- 상품옵션 리스트 " + productOptionList.size() + "개 -------------");
         for(ProductOption productOption : productOptionList) {
@@ -27,4 +28,11 @@ public class EndView {
         System.out.println(productOption);
         System.out.println();
     }
+    /**
+     * productNumber로 상품검색
+     * */
+    public static void selectByProductNoPrint(Product product) {
+        System.out.println(product);
+    }
+
 }
