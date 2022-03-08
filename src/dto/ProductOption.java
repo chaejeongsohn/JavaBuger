@@ -2,7 +2,7 @@ package dto;
 
 public class ProductOption {
     private int optionNumber;
-    private char categoryNumber;
+    private String categoryNumber;
     private String optionName;
     private int optionPrice;
 
@@ -10,7 +10,7 @@ public class ProductOption {
         this.optionName = optionName;
     }
 
-    public ProductOption(int optionNumber, char categoryNumber, String optionName, int optionPrice) {
+    public ProductOption(int optionNumber, String categoryNumber, String optionName, int optionPrice) {
         this.optionNumber = optionNumber;
         this.categoryNumber = categoryNumber;
         this.optionName = optionName;
@@ -30,11 +30,11 @@ public class ProductOption {
         this.optionNumber = optionNumber;
     }
 
-    public char getCategoryNumber() {
+    public String getCategoryNumber() {
         return categoryNumber;
     }
 
-    public void setCategoryNumber(char categoryNumber) {
+    public void setCategoryNumber(String categoryNumber) {
         this.categoryNumber = categoryNumber;
     }
 

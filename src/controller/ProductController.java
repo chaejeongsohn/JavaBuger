@@ -20,14 +20,17 @@ public class ProductController {
 		}
 	}
 
-	public static void selectProductByProductNumber(int productNumber) {
+	public static Product selectProductByProductNumber(int productNumber) {
+		Product product = null;
 		try {
-			Product product = productService.selectProductByProductNumber(productNumber);
+			product = productService.selectProductByProductNumber(productNumber);
 			EndView.selectByProductNoPrint(product);
 
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
+
+		return product;
 	}
 
 	public static void insertProduct(Product product) {
