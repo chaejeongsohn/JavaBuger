@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.sql.*;
 import java.util.Properties;
 
-public class SampleUtils {
+public class DbUtils {
     private static Properties proFile = new Properties();
 
 

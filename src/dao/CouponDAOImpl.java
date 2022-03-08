@@ -2,7 +2,7 @@ package dao;
 
 import dto.Coupon;
 import exception.AddException;
-import utils.SampleUtils;
+import utils.DbUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class CouponDAOImpl implements CouponDAO {
-	private Properties proFile = SampleUtils.getProFile();
+	private Properties proFile = DbUtils.getProFile();
 	
     @Override
     public int insertCoupon(Coupon coupon) throws SQLException, AddException {
@@ -25,7 +25,7 @@ public class CouponDAOImpl implements CouponDAO {
     	int result = 0;
     	
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		
     		ps = con.prepareStatement(sql);
     		
@@ -42,7 +42,7 @@ public class CouponDAOImpl implements CouponDAO {
     		}
     		
     	}finally {
-    		SampleUtils.close(con, ps, null);
+    		DbUtils.close(con, ps, null);
     	}
         return result;
     }
@@ -55,7 +55,7 @@ public class CouponDAOImpl implements CouponDAO {
     	int result = 0;
     	
     	try {
-    		con = SampleUtils.getConnection();    				
+    		con = DbUtils.getConnection();
 
     		ps = con.prepareStatement(sql);
     		ps.setInt(1, couponNumber);
@@ -63,7 +63,7 @@ public class CouponDAOImpl implements CouponDAO {
     		result=ps.executeUpdate();
     		
     	}finally {
-    		SampleUtils.close(con, ps, null);
+    		DbUtils.close(con, ps, null);
     	}
     	 return result;
     	}
@@ -77,7 +77,7 @@ public class CouponDAOImpl implements CouponDAO {
     	int result= 0;
     	
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		
     		ps = con.prepareStatement(sql);
     		ps.setInt(1, coupon.getCouponNumber());
@@ -88,7 +88,7 @@ public class CouponDAOImpl implements CouponDAO {
     		result = ps.executeUpdate();
     		
     	}finally{
-    		SampleUtils.close(con, ps, null);
+    		DbUtils.close(con, ps, null);
     	}
         return result;
     }
@@ -103,7 +103,7 @@ public class CouponDAOImpl implements CouponDAO {
     	//String sql = proFile.getProperty("coupon.selectAll");
     	
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		ps =con.prepareStatement(sql);
     		System.out.println("왔음");
     		rs=ps.executeQuery();
@@ -116,7 +116,7 @@ public class CouponDAOImpl implements CouponDAO {
     			couponlist.add(coupons);
     		}
     	}finally {
-    		SampleUtils.close(con, ps, rs);
+    		DbUtils.close(con, ps, rs);
     	}
     			
         return couponlist;
@@ -130,7 +130,7 @@ public class CouponDAOImpl implements CouponDAO {
     	Coupon coupon =null;
     	String sql = proFile.getProperty("coupon.selectByNo");
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		ps=con.prepareStatement(sql);
     		ps.setInt(1, CouponNumber);
     		
@@ -139,7 +139,7 @@ public class CouponDAOImpl implements CouponDAO {
     			coupon = new Coupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     		}
     	}finally{
-    		SampleUtils.close(con, ps, rs);
+    		DbUtils.close(con, ps, rs);
     	}
         return coupon;
     }

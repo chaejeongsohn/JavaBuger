@@ -4,24 +4,20 @@ import dto.Coupon;
 import dto.UserCoupon;
 import exception.NotFoundException;
 import service.CouponService;
-import utils.SampleUtils;
+import utils.DbUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import controller.CouponController;
-
 public class UserCouponDAOImpl implements UserCouponDAO {
-	 private Properties proFile = SampleUtils.getProFile();
+	 private Properties proFile = DbUtils.getProFile();
 	 private CouponService couponService = new CouponService();
 	 CouponDAO couponDao = new CouponDAOImpl();
 	 
@@ -35,7 +31,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	int result = 0;
     	
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		//쿠폰에서 쿠폰 찾기
     		Coupon coupon = couponDao.selectCouponByNumber(userCoupon.getCouponNumber());
     		if(coupon==null) {
@@ -54,7 +50,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		    		
     		result = ps.executeUpdate();
     	}finally {
-    		SampleUtils.close(con, ps, null);
+    		DbUtils.close(con, ps, null);
     	}
         return result;
     }
@@ -74,7 +70,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		result =ps.executeUpdate();
     		
     	}finally {
-    		SampleUtils.close(null, ps, null);
+    		DbUtils.close(null, ps, null);
     	}
     	return result;
     }
@@ -86,14 +82,14 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	String sql = proFile.getProperty("usercoupon.delete");
     	int result =0;
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		
     		ps = con.prepareStatement(sql);
     		ps.setInt(1, couponNumber);
     		
     		result =ps.executeUpdate();
     	}finally {
-    		SampleUtils.close(con, ps, null);
+    		DbUtils.close(con, ps, null);
     	}
         return result;
     }
@@ -109,7 +105,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	
     	
     	try {
-    		con= SampleUtils.getConnection();
+    		con= DbUtils.getConnection();
     		ps = con.prepareStatement(sql);
     		ps.setString(1, userId);
     		
@@ -130,7 +126,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		}
     		}
     	}finally {
-    		SampleUtils.close(con, ps, rs);
+    		DbUtils.close(con, ps, rs);
     	}
         return usercouponlist;
     }
@@ -168,7 +164,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	List<Coupon> couponlist = new ArrayList<>();
     	
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		ps =con.prepareStatement(sql);
     		ps.setString(1, userId);
     		ps.setInt(2, couponNumber);
@@ -182,7 +178,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		couponlist.add(coupon);
     		
     	}finally {
-    		SampleUtils.close(con, ps, rs);
+    		DbUtils.close(con, ps, rs);
     	}
         return usercoupon;
     }

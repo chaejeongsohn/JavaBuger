@@ -2,7 +2,7 @@ package dao;
 
 import dto.UserMember;
 import service.UserSessionService;
-import utils.SampleUtils;
+import utils.DbUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         UserMember usermember = null;
 
         try {
-            con = SampleUtils.getConnection();
+            con = DbUtils.getConnection();
             ps = con.prepareStatement("select * from usermember where user_id=?");
             ps.setString(1, userId);
             rs = ps.executeQuery();
@@ -29,7 +29,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
             }
         } finally {
-            SampleUtils.close(con, ps, rs);
+            DbUtils.close(con, ps, rs);
         }
         return usermember;
     }
@@ -44,7 +44,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         //UserMember usermember = null;
 
         try {
-            con = SampleUtils.getConnection();
+            con = DbUtils.getConnection();
             ps = con.prepareStatement("insert into usermember (user_id, user_pw, user_name, user_phone, user_birthday, user_joindate) values (?, ?, ?, ?, ?, sysdate)");
 
             ps.setString(1, userMember.getUserId());
@@ -60,7 +60,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            SampleUtils.close(con, ps);
+            DbUtils.close(con, ps);
         }
         return result;
     }
@@ -76,7 +76,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
         String sql = "select user_id from usermember where user_name = ? and user_phone = ? ";
         try {
-            con = SampleUtils.getConnection();
+            con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
 
             ps.setString(1, userName);
@@ -91,7 +91,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            SampleUtils.close(con, ps, rs);
+            DbUtils.close(con, ps, rs);
         }
         return userId;
     }
@@ -107,7 +107,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     	
     	String sql = "select user_pw from usermember where user_id = ? and user_birthday = ? ";
     	try {
-    		con = SampleUtils.getConnection();
+    		con = DbUtils.getConnection();
     		ps = con.prepareStatement(sql);
     		
     		ps.setString(1, userId);
@@ -122,7 +122,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}finally {
-    		SampleUtils.close(con, ps, rs);
+    		DbUtils.close(con, ps, rs);
     	}
     	return userPw;
     }
@@ -139,7 +139,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         String sql = "update UserMember set user_name =?, user_Phone=?, user_pw=? where user_id =?";
         int result = 0;
         try {
-            con = SampleUtils.getConnection();
+            con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
 
             ps.setString(1, UserSessionService.getUserSession().getUserName());
@@ -149,7 +149,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
             result = ps.executeUpdate();
         } finally {
-            SampleUtils.close(con, ps);
+            DbUtils.close(con, ps);
         }
         return result;
     }
@@ -162,13 +162,13 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 		int result = 0;
 
 		try{
-			con = SampleUtils.getConnection();
+			con = DbUtils.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1,userId);
 
 			result = ps.executeUpdate();
 		}finally {
-			SampleUtils.close(con,ps);
+			DbUtils.close(con,ps);
 		}
         return result;
     }
