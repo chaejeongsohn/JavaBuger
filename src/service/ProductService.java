@@ -23,9 +23,15 @@ public class ProductService {
 		// productList에 넣음
 		// .equals 오버라이딩해서 Product의 productID가 동일한지 체크하면 됨
 		// productList를 return해야 함
-		if (productList.size() == 0)
-			throw new NotFoundException("현재 상품이 없습니다.");
-		return productList;
+		/*
+		 * if (productList.size() == 0) throw new NotFoundException("현재 상품이 없습니다.");
+		 * return productList;
+		 */
+		if (list.size() == 0) {
+			throw new SQLException("등록되어있는 상품이 없어 검색할 수가 없습니다.");
+		}
+
+		return list;
 	}
 
 	public Product selectProductByProductNumber(int productNumber) throws NotFoundException, SQLException {
