@@ -35,6 +35,16 @@ public interface UserMemberDAO {
      * @throws SQLException
      */
     String selectUserId(String userName, int userPhone) throws SQLException;
+    
+    /**
+     * 비밀번호 찾기
+     *
+     * @param userId
+     * @param userBirthday
+     * @return
+     * @throws SQLException
+     */
+    String selectUserPw(String userId, int userBirthday) throws SQLException;
 
     /**
      * 해당 생일 UserMember들 체크

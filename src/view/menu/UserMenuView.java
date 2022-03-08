@@ -26,6 +26,7 @@ public class UserMenuView {
                 	printUserID();
                     break;
                 case 4: // 비밀번호찾기
+                	printUserPW();
                     break;
                 case 5: // 프로그램 종료
                     System.exit(0);
@@ -71,5 +72,14 @@ public class UserMenuView {
     	int inputPhone = Integer.parseInt(scanner.nextLine());
     	
     	UserMemberController.findUserId(inputName, inputPhone);
+    }
+    
+    private static void printUserPW() {
+    	System.out.print("아이디를 입력하세요 > ");
+    	String inputId = scanner.nextLine();
+    	System.out.print("생년월일 8글자를 입력해주세요 ex.19951105 > ");
+    	int inputBirthday = Integer.parseInt(scanner.nextLine());
+    	
+    	UserMemberController.findUserPw(inputId, inputBirthday);
     }
 }

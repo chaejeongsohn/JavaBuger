@@ -103,6 +103,37 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     }
     
     @Override
+    public String selectUserPw(String userId, int userBirthday) throws SQLException {
+    	String userPw = null;
+    	
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	
+    	
+    	String sql = "select user_pw from usermember where user_id = ? and user_birthday = ? ";
+    	try {
+    		con = SampleUtils.getConnection();
+    		ps = con.prepareStatement(sql);
+    		
+    		ps.setString(1, userId);
+    		ps.setInt(2, userBirthday);
+    		
+    		rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			userPw = rs.getString(1);
+    		}
+
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+    		SampleUtils.close(con, ps, rs);
+    	}
+    	return userPw;
+    }
+    
+    @Override
     public List<UserMember> selectByBirthday(int userBirthDay) throws SQLException {
         return null;
     }
