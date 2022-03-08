@@ -5,8 +5,7 @@ import java.util.List;
 import dto.Coupon;
 import dto.Product;
 import dto.UserCoupon;
-
-
+import dto.UserMember;
 
 
 public class EndView {
@@ -51,11 +50,12 @@ public class EndView {
 		
 	}
 
-    /**
-     * productNumber로 상품검색
-     * */
-    public static void selectByProductNoPrint(Product product) {
-        System.out.println(product);
-    }
 
+    /**
+     * UserMember 출력
+     * @param userMember
+     */
+    public static void userMemberPrint(UserMember userMember) {
+        System.out.println(userMember.toString());
+    }
 }

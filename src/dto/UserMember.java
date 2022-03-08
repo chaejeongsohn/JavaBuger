@@ -8,14 +8,19 @@ public class UserMember {
     private int userBirthDay;// ex) 19910101(8자리)
     private String userJoinDate; // sysdate
 
-    public UserMember(String userId, String userPassword, String userName, int userPhone, int userBirthDay, String userJoinDate) {
+    public UserMember(String userId, String userPassword, String userName, int userPhone, int userBirthDay) {
         this.userId = userId;
         this.userPw = userPassword;
         this.userName = userName;
         this.userPhone = userPhone;
         this.userBirthDay = userBirthDay;
+    }
+
+    public UserMember(String userId, String userPw, String userName, int userPhone, int userBirthDay, String userJoinDate) {
+        this(userId,userPw,userName,userPhone,userBirthDay);
         this.userJoinDate = userJoinDate;
     }
+
 
     public String getUserId() {
         return userId;

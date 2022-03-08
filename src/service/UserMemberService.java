@@ -11,6 +11,7 @@ import java.util.List;
 public class UserMemberService {
     UserMemberDAO userMemberDAO = new UserMemberDAOImpl();
 
+
     /**
      * 로그인
      *
@@ -29,6 +30,7 @@ public class UserMemberService {
             throw new NotFoundException("비밀번호가 일치하지 않습니다.");
         } else {
             System.out.println("로그인 되었습니다.");
+            UserSessionService.setUserSession(userMember);
         }
 
         //로그인된 정보 저장하기
@@ -100,10 +102,15 @@ public class UserMemberService {
 
     public void updateUser(UserMember userMember) throws SQLException{
     	int result = userMemberDAO.updateUser(userMember);
-    	if(result == 0) throw new SQLException("수정되지 않았습니다.");
+    	if(result != 1) throw new SQLException("수정에 실패하였습니다.");
     }
 
-    public void deleteUser(String UserId) {
+    public void deleteUser(String userId) throws SQLException{
+        int result = userMemberDAO.deleteUser(userId);
+        if(result != 1) throw new SQLException(userId+" 님의 회원 탈퇴에 실패하였습니다.");
+    }
 
+    public UserMember showUserInfo() throws NotFoundException {
+        return UserSessionService.getUserSession();
     }
 }
