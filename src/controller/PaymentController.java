@@ -1,7 +1,12 @@
 package controller;
 
+import java.sql.SQLException;
+
 import dto.Payment;
+import exception.NotFoundException;
 import service.PaymentService;
+import view.FailView;
+import view.SuccessView;
 
 
 public class PaymentController {
@@ -21,6 +26,12 @@ public class PaymentController {
     }
 
     public static void insertPayment(Payment payment) {
+    	try{
+    		paymentService.insertPayment(payment);
+    		SuccessView.messagePrint("[주문 완료!]"+payment.getPaymentMehtod()+"로 결제완료되었습니다.");
+    	}catch(SQLException e) {
+    		FailView.errorMessage(e.getMessage());
+    	}
     }
 
     public static void deletePayment(int paymentNumber) {
