@@ -27,5 +27,10 @@ public class ManagementController {
 
 	public static void checkPassword(String managerPw) {
 
+		if (managerPw.equals(managerPw)) {
+			System.out.println("비밀번호가 일치합니다");
+		}else {
+			System.out.println("비밀번호가 불일치합니다 다시 입력해주세요");
+		}
 	}
 }

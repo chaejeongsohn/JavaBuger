@@ -12,7 +12,7 @@ import dto.Product;
 import utils.DbUtils;
 
 public class ProductDAOImpl implements ProductDAO {
-	private Properties proFile = DbUtils.getProFile();
+	//private Properties proFile = DbUtils.getProFile();
 
 	@Override
 	public List<Product> selectProducts() throws SQLException {
@@ -20,10 +20,10 @@ public class ProductDAOImpl implements ProductDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null; // select 문일 때만 사용
 		List<Product> list = new ArrayList<Product>(); // 리턴값
-		String sql = proFile.getProperty("product.selectProducts"); // select * from product order by productNumber desc
+		//String sql = proFile.getProperty("product.selectProducts"); // select * from product order by PRD_NO desc
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("select * from product order by PRD_NO desc");
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -47,11 +47,11 @@ public class ProductDAOImpl implements ProductDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Product product = null;
-		String sql = proFile.getProperty("product.selectProductByProductNumber"); // select * from product where
+		//String sql = proFile.getProperty("product.selectProductByProductNumber"); // select * from product where
 																					// productNumber = ?
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("select * from product where PRD_NO = ?" );
 			ps.setInt(1, productNumber); // ?값
 			rs = ps.executeQuery();
 			if (rs.next()) {// 한번만 나가니까 while이 아니라 if 써야함
@@ -70,10 +70,10 @@ public class ProductDAOImpl implements ProductDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = proFile.getProperty("product.insert"); //
+		//String sql = proFile.getProperty("product.insert"); //
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("insert into product (PRD_NO, CATEGORY_NO, PRD_NAME, PRD_PRICE, PRD_DETAIL) values (PRD_NO_SEQ.NEXTVAL, ?, ?, ?, ?)");
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, product.getCategoryNumber());
 			ps.setString(2, product.getProductName());
@@ -94,11 +94,11 @@ public class ProductDAOImpl implements ProductDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = proFile.getProperty("product.update"); // update product set CATEGORY_NO = ?, PRD_NAME = ?,
+		//String sql = proFile.getProperty("product.update"); // update product set CATEGORY_NO = ?, PRD_NAME = ?,
 															// PRD_PRICE = ?,PRD_DETAIL = ? where PRD_NO = ?
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("update product set CATEGORY_NO = ?, PRD_NAME = ?, PRD_PRICE = ?, PRD_DETAIL = ? where PRD_NO = ?");
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, product.getCategoryNumber());
 			ps.setString(2, product.getProductName());
@@ -118,10 +118,10 @@ public class ProductDAOImpl implements ProductDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = proFile.getProperty("product.delete"); // delete from product where PRD_NO = ?
+		//String sql = proFile.getProperty("product.delete"); // delete from product where PRD_NO = ?
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("delete from product where PRD_NO = ?");
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setInt(1, productNumber);
 

@@ -27,7 +27,7 @@ public class ProductOptionDAOImpl {
             rs = ps.executeQuery();
 
             while(rs.next()) {
-                ProductOption productOption = new ProductOption(rs.getInt(1), rs.getString(2).charAt(0), rs.getString(3), rs.getInt(4));
+                ProductOption productOption = new ProductOption(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 productOptionList.add(productOption);
             }
         } finally {
@@ -53,7 +53,7 @@ public class ProductOptionDAOImpl {
             rs = ps.executeQuery();
 
             if(rs.next()) {
-                productOption = new ProductOption(rs.getInt(1), rs.getString(2).charAt(0), rs.getString(3), rs.getInt(4));
+                productOption = new ProductOption(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
             }
         } finally {
             DbUtils.close(con, ps, rs);
@@ -74,7 +74,7 @@ public class ProductOptionDAOImpl {
             con.setAutoCommit(false);
 
             ps = con.prepareStatement(sql);
-            ps.setString(1, Character.toString(productOption.getCategoryNumber()) );
+            ps.setString(1, productOption.getCategoryNumber());
             ps.setString(2, productOption.getOptionName());
             ps.setInt(3, productOption.getOptionPrice());
 
@@ -110,7 +110,7 @@ public class ProductOptionDAOImpl {
             con.setAutoCommit(false);
 
             ps = con.prepareStatement(sql);
-            ps.setString(1, Character.toString(productOption.getCategoryNumber()) );
+            ps.setString(1, productOption.getCategoryNumber() );
             ps.setString(2, productOption.getOptionName());
             ps.setInt(3, productOption.getOptionPrice());
             ps.setInt(4, productOption.getOptionNumber());
