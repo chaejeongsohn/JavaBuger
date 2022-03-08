@@ -53,15 +53,16 @@ public class UserMemberDAOImpl implements UserMemberDAO {
             ps.setInt(4, userMember.getUserPhone());
             ps.setInt(5, userMember.getUserBirthDay());
             //rs = ps.executeQuery();
-
+            
             result = ps.executeUpdate();
-            //System.out.println("result = " + result);
+        //    System.out.println("result = " + result);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+       } catch (SQLException e) {
+           e.printStackTrace();
         } finally {
             DbUtils.close(con, ps);
         }
+       // System.out.println(result);
         return result;
     }
 

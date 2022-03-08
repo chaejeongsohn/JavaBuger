@@ -29,6 +29,7 @@ public class UserDetailMenuView {
                 case 5: //이전으로 돌아가기
                     return;
                 case 6: // 프로그램 종료
+                	System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
             }
         }
@@ -62,6 +63,7 @@ public class UserDetailMenuView {
                 return;
 
             case 5: // 프로그램 종료
+            	System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
 
         }
