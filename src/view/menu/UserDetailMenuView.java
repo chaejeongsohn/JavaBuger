@@ -1,14 +1,16 @@
 package view.menu;
 
 import controller.UserMemberController;
+import exception.NotFoundException;
 import service.UserSessionService;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserDetailMenuView {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void memberMenu() {
+    public static void memberMenu() throws SQLException, NotFoundException {
         while (true) {
             System.out.println("------------ 회원 전용 메뉴 ---------------");
             System.out.println("1. 주문하기   2. 나의정보  3. 구매내역  4. 쿠폰조회 5.이전으로 돌아가기 6. 프로그램종료");

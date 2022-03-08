@@ -2,11 +2,7 @@ package view;
 
 import java.util.List;
 
-import dto.Coupon;
-import dto.Product;
-import dto.ProductOption;
-import dto.UserCoupon;
-import dto.UserMember;
+import dto.*;
 
 public class EndView {
 	public static void printProductList(List<Product> productList) {
@@ -82,10 +78,9 @@ public class EndView {
 
 	public static void printAllProductOptions(List<ProductOption> productOptions) {
 		System.out.println("------------ 상품에 추가 할 상품옵션 리스트 ------------");
+		System.out.println("상품옵션번호\t상품옵션이름\t상품가격");
 		for (ProductOption po : productOptions) {
-			System.out.println("상품옵션번호\t상품옵션이름\t상품가격");
-			System.out.println("----------------------------------------------------");
-			System.out.println(po.getOptionNumber() + "\t" + po.getOptionName() + "\t" + po.getOptionPrice() + "\n");
+			System.out.println(po.getOptionNumber() + "\t" + po.getOptionName() + "\t" + po.getOptionPrice());
 		}
 	}
 
@@ -93,4 +88,18 @@ public class EndView {
 		System.out.println(productOption);
 	}
 
+	public static void printCartProducts(List<CartProduct> cartProducts) {
+		//toDO: fix
+		int count = cartProducts.size();
+		System.out.println("---------- 장바구니 내역: 총 " + count + " 개 ------------");
+		for(int i=0; i<count; i++) {
+			System.out.println("장바구니 " + i + " 번째 목록 :");
+
+			CartProduct cp = cartProducts.get(i);
+			System.out.println("상품명 : " + cp.getProduct().getProductName());
+			System.out.println("상품옵션 리스트 : " + cp.getOptionList());
+			System.out.println("장바구니 상품 현재수량 :" + cp.getQuantity());
+			System.out.println("----------");
+		}
+	}
 }

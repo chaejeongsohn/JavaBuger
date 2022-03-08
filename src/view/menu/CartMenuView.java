@@ -1,6 +1,8 @@
 package view.menu;
 import controller.CartController;
+import exception.NotFoundException;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CartMenuView {
@@ -35,9 +37,11 @@ public class CartMenuView {
                     CartController.handleProductOrder("A");
                     break;
                 case 5:
-                    CartMenuView.cartMenu2(); // 상품주문을 하고 장바구니에 다 담겼다면 장바구니확인/주문이동 화면으로 넘어간다
+                    // 상품주문을 하고 넘어갈때 주문정보를 장바구니에 다 담고 장바구니확인/주문이동 화면으로 넘어간다
+                    CartController.saveOrderInfo();
+                    CartMenuView.cartMenu2();
                 default:
-                    System.out.println("something went wrong with switch case on cartMenu1()");
+                    System.out.println("NOO");
             }
         }
     }
@@ -48,6 +52,7 @@ public class CartMenuView {
     public static void cartMenu2() {
         while(true) {
             System.out.println("--------- 상품 주문 / 장바구니 화면 (2)---------------");
+            CartController.getAllCartProductsForDisplay();
             printCartMenu2();
             //1. 수량 플러스   2. 수량 마이너스    3. 전체 삭제   4. 상품목록으로 돌아가기   5. 주문하기
             System.out.println("메뉴를 선택해주세요 > ");
@@ -69,7 +74,7 @@ public class CartMenuView {
                     //toDO: 채정님 구매 메뉴로 가는 뷰를 여기다 입력
                     break;
                 default:
-                    System.out.println("something went wrong with switch case on cartMenu2()");
+                    System.out.println("NOO");
             }
         }
     }
@@ -77,8 +82,15 @@ public class CartMenuView {
     /*
     CartController 에서 유저의 상품선택을 위해 사용하는 호출용.. (후에 고칠 수 있음 고쳐보기)
      */
-    public static int askUserInput() {
-        System.out.print("\n원하시는 상품의 상품번호를 입력하세요 >> ");
+    public static int askUserInput1() {
+        System.out.print("\n원하시는 상품의 번호를 입력하세요 >> ");
+        int userInput = Integer.parseInt(scanner.nextLine());
+
+        return userInput;
+    }
+
+    public static int askUserInput2() {
+        System.out.println("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> ");
         int userInput = Integer.parseInt(scanner.nextLine());
 
         return userInput;

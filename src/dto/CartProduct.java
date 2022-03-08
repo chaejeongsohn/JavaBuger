@@ -7,10 +7,15 @@ public class CartProduct {
     private List<ProductOption> optionList;
     private int quantity;
 
+
     public CartProduct(Product product, List<ProductOption> optionList, int quantity) {
         this.product = product;
         this.optionList = optionList;
         this.quantity = quantity;
+    }
+
+    public CartProduct() {
+
     }
 
     public Product getProduct() {
