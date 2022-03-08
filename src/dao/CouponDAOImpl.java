@@ -99,7 +99,8 @@ public class CouponDAOImpl implements CouponDAO {
     	PreparedStatement ps = null;
     	ResultSet rs= null;
     	List<Coupon> couponlist = new ArrayList<Coupon>();
-    	String sql = proFile.getProperty("coupon.selectAll");
+    	String sql = "select*from coupon order by coupon_no";
+    	//String sql = proFile.getProperty("coupon.selectAll");
     	
     	try {
     		con = SampleUtils.getConnection();

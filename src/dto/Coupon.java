@@ -47,11 +47,7 @@ public class Coupon {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append("couponNumber=").append(couponNumber);
-        sb.append(", couponExpiration=").append(couponExpiration);
-        sb.append(", couponDetail='").append(couponDetail).append('\'');
-        sb.append(", couponDiscountRate=").append(couponDiscountRate);
-        return sb.toString();
+    	return "쿠폰번호[ "+couponNumber+" ] | "+couponDetail+" | "+couponDiscountRate+" | "+couponExpiration+" 만료 | "; 
+        
     }
 }
