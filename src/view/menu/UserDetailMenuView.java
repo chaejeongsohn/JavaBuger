@@ -34,7 +34,7 @@ public class UserDetailMenuView {
         }
     }
 
-
+    
     private static void printUserInfoMenu() {
         System.out.println("------------ 나의 정보 메뉴 ---------------");
         System.out.println("1. 나의상세정보   2. 정보수정  3. 회원탈퇴  4. 이전으로 돌아가기 5. 프로그램 종료 ");

@@ -66,7 +66,7 @@ public class CartMenuView {
                     CartMenuView.cartMenu1();
                     break;
                 case 5:
-                    //toDO: 구매 메뉴로 가는 뷰를 여기다 입력
+                    //toDO: 채정님 구매 메뉴로 가는 뷰를 여기다 입력
                     break;
                 default:
                     System.out.println("something went wrong with switch case on cartMenu2()");

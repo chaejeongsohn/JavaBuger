@@ -70,7 +70,8 @@ public class CartController {
                 int productOptionNumber = CartMenuView.askUserInput(); // 원하는 상품("옵션")을 선택해주세요
                 cartService.handleProductOptionOrder(productNumber, productOptionNumber);
             }
-        }
+        } // end of if
+
     }
 
     /*

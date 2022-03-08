@@ -7,6 +7,7 @@ import exception.NotFoundException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +29,13 @@ public class CartService {
         비회원 유저인 경우:
             위에 'test123' 대신 null 입력
      */
-    private Map<String, List<CartProduct>> userCart; //String : User 객체의 userId
     private List<Product> allProducts;
     private List<ProductOption> allProductOptions;
+    private List<CartProduct> cartProducts = new ArrayList<>();
+    private Map<String, List<CartProduct>> userCart = new HashMap< String, List<CartProduct> >(); //String : User 객체의 userId
     private String userId;
-
     //init 작업
+
     public CartService() throws SQLException, NotFoundException {
         /*
             유저가 로그인을 했다면 -> userCart 에 유저 아이디를 입력
@@ -43,7 +45,7 @@ public class CartService {
         */
         userId = UserSessionService.getUserSession().getUserId();
         System.out.println("*******User ID : " + userId);
-        userCart.put(userId, null);
+        userCart.put(userId, cartProducts);
         allProducts = productService.selectProducts();
         allProductOptions = productOptionService.selectProductOptions();
     }
@@ -56,6 +58,7 @@ public class CartService {
      */
     public boolean handleProductOrder(int productNumber){
         //toDo
+        System.out.println("productNumber : " + productNumber);
 
         return false;
     }
