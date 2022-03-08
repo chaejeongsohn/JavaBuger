@@ -41,16 +41,16 @@ public class ProductController {
 
 	public static void updateProduct(Product product) {
 		try {
-			productService.insertProduct(product);
+			productService.updateProduct(product);
 			SuccessView.messagePrint("수정되었습니다.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
 
-	public static void deleteProduct(Product product) {
+	public static void deleteProduct(int productNumber) {
 		try {
-			productService.insertProduct(product);
+			productService.deleteProduct(productNumber);
 			SuccessView.messagePrint("삭제되었습니다.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
