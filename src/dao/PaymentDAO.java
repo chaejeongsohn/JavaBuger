@@ -1,11 +1,31 @@
 package dao;
 
+
 import dto.Payment;
+import dto.Ranking;
+import dto.SalesDate;
+
 
 import java.sql.SQLException;
 import java.util.List;
 
+
+
 public interface PaymentDAO {
+	
+	 /*메뉴별 매출순위*/
+	List<Ranking> selectSalesranking(String category)throws SQLException;
+	
+	
+	/*일별 매출순위*/
+	List<SalesDate> selectSalseByDate()throws SQLException;
+	
+	
+	/*사용자 구매내역 추가*/
+    int insertPayment(Payment payment) throws SQLException;
+    
+    
+
     /**
      * 전체 구매내역 조회
      *
@@ -38,7 +58,7 @@ public interface PaymentDAO {
      * @return
      * @throws SQLException
      */
-    List<Payment> selectPaymentByPaymentDate(String paymentDate) throws SQLException;
+
 
     /**
      * 구매내역 추가
@@ -47,7 +67,7 @@ public interface PaymentDAO {
      * @return
      * @throws SQLException
      */
-    int insertPayment(Payment payment) throws SQLException;
+
 
     /**
      * 구매내역 삭제
@@ -67,4 +87,10 @@ public interface PaymentDAO {
      * @throws SQLException
      */
     int updatePayment(Payment payment) throws SQLException;
+
+
+
+
+
+    
 }

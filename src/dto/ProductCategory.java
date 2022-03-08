@@ -3,6 +3,10 @@ package dto;
 public class ProductCategory {
     private char categoryNumber; // ex) A~D
     private String categoryName; // ex) set, burger, side, drink
+    
+    public ProductCategory(char categoryNumber) {
+    	this.categoryNumber = categoryNumber;
+    }
 
     public ProductCategory(char categoryNumber, String categoryName) {
         this.categoryNumber = categoryNumber;
