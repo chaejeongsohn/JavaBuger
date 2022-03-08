@@ -30,15 +30,6 @@ public class CartController {
         }
     }
 
-//    static {
-//        try {
-//            cartService = new CartService();
-//        } catch (SQLException | NotFoundException e) {
-//            e.printStackTrace();
-//            FailView.errorMessage("장바구니 기능을 구현하는 도중 DAO 에서 에러 발생 했습니다.");
-//        }
-//    }
-
     /*
         1. print method for the given category -> as parameter of view methods
         2. get user's choice and deliver it as the parameter of handleProductOrder

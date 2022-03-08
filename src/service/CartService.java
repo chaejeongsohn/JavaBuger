@@ -34,8 +34,8 @@ public class CartService {
     private List<CartProduct> cartProducts = new ArrayList<>();
     private Map<String, List<CartProduct>> userCart = new HashMap< String, List<CartProduct> >(); //String : User 객체의 userId
     private String userId;
-    //init 작업
 
+    //init 작업
     public CartService() throws SQLException, NotFoundException {
         /*
             유저가 로그인을 했다면 -> userCart 에 유저 아이디를 입력
@@ -44,7 +44,6 @@ public class CartService {
             allProducts 와 allProductOptions 채워넣기 (용도1: 화면 출력 / 용도2: userCart 맵에 담기)
         */
         userId = UserSessionService.getUserSession().getUserId();
-        System.out.println("*******User ID : " + userId);
         userCart.put(userId, cartProducts);
         allProducts = productService.selectProducts();
         allProductOptions = productOptionService.selectProductOptions();
@@ -57,8 +56,9 @@ public class CartService {
         (단, cartController 만들 것)
      */
     public boolean handleProductOrder(int productNumber){
-        //toDo
         System.out.println("productNumber : " + productNumber);
+        System.out.println("cart");
+        insertProductToCartProduct(productNumber);
 
         return false;
     }
@@ -67,7 +67,8 @@ public class CartService {
         상품옵션을 받을 때는 상품번호 와 상품옵션번호 를 둘 다 꼭 받아야한다.
      */
     public boolean handleProductOptionOrder(int productNumber, int productOptionNumber) {
-        //toDo
+        System.out.println("productNumber : " + productNumber);
+        System.out.println("productOptionNumber" + productOptionNumber);
 
         return false;
     }
@@ -129,18 +130,16 @@ public class CartService {
         return userCart.get(userId); //위에서 이미 가져온 세션의 userId 입력하여 카트내역만 전달한다.
     }
 
-    public boolean insertProductToUserCart() {
-        //toDO
-        boolean result = false;
-
-        return result;
+    ////////////// private method for userCart //////////////
+    private void insertProductToCartProduct(int productNumber, CartProduct cartProduct) throws SQLException, NotFoundException {
+        Product product = productService.selectProductByProductNumber(productNumber);
+        cartProduct.setProduct(product);
+        cartProducts.add(cartProduct);
     }
 
-    public boolean insertOptionToUserCart() {
+    private void insertOptionToCartProduct() {
         //toDO
-        boolean result = false;
 
-        return result;
     }
 
 

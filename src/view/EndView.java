@@ -85,7 +85,7 @@ public class EndView {
 		for (ProductOption po : productOptions) {
 			System.out.println("상품옵션번호\t상품옵션이름\t상품가격");
 			System.out.println("----------------------------------------------------");
-			System.out.println(po.getOptionNumber() + "\t" + po.getOptionName() + "\t" + po.getOptionPrice());
+			System.out.println(po.getOptionNumber() + "\t" + po.getOptionName() + "\t" + po.getOptionPrice() + "\n");
 		}
 	}
 
