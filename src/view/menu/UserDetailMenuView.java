@@ -1,5 +1,6 @@
 package view.menu;
 
+import controller.UserCouponController;
 import controller.UserMemberController;
 import service.UserSessionService;
 
@@ -23,6 +24,7 @@ public class UserDetailMenuView {
                 case 3: // 구매내역
                     break;
                 case 4: // 쿠폰조회
+                    printUserCouponMenu();
                     break;
                 case 5: //이전으로 돌아가기
                     return;
@@ -90,5 +92,9 @@ public class UserDetailMenuView {
             case 4: // 이전으로 돌아가기
                 return;
         }
+    }
+
+    private static void printUserCouponMenu(){
+        UserCouponController.selectUserCoupons(UserSessionService.getUserSession().getUserId());
     }
 }

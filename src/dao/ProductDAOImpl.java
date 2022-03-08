@@ -131,6 +131,5 @@ public class ProductDAOImpl implements ProductDAO {
 			DbUtils.close(con, ps, null);
 		}
 		return result;
-
 	}
 }
