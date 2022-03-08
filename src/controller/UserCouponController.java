@@ -37,8 +37,8 @@ public class UserCouponController {
 
     public static void selectUserCoupons(String userId) {
     		try{
-    			List<UserCoupon> usercouponlist = userCouponService.selectUserCoupons(userId);
-    			EndView.printUserCouponlist(userId,usercouponlist);
+    			List<UserCoupon> userCouponList = userCouponService.selectUserCoupons(userId);
+    			EndView.printUserCouponlist(userId,userCouponList);
     		}catch(SQLException e) {
     			FailView.errorMessage(e.getMessage());
     		}

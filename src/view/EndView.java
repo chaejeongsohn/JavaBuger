@@ -35,11 +35,11 @@ public class EndView {
 	}
 
 	public static void printUserCouponlist(String userId, List<UserCoupon> usercouponlist) {
-		System.out.println("--[ ID : " + userId + " ]님의 쿠폰목록 --");
-		for (UserCoupon usercoupon : usercouponlist) {
-			System.out.print(usercoupon.getCouponNumber() + " | ");
-			for (Coupon coupon : usercoupon.getCouponlist()) {
-				System.out.print(coupon.getCouponDetail() + " | " + coupon.getCouponExpiration() + " 만료 | ");
+		System.out.println("--[ ID : "+userId+" ]님의 쿠폰목록 --");
+		for(UserCoupon usercoupon : usercouponlist) {
+			System.out.print(usercoupon.getCouponNumber()+" | ");
+			for(Coupon coupon : usercoupon.getCouponList()) {
+				System.out.print(coupon.getCouponDetail()+" | "+coupon.getCouponExpiration()+" 만료 | ");
 			}
 			System.out.println(usercoupon.getCouponAmount() + "장 ");
 		}
