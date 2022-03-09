@@ -35,11 +35,11 @@ public class EndView {
 	}
 
 	public static void printUserCouponlist(String userId, List<UserCoupon> usercouponlist) {
-		System.out.println("--[ ID : "+userId+" ]님의 쿠폰목록 --");
-		for(UserCoupon usercoupon : usercouponlist) {
-			System.out.print(usercoupon.getCouponNumber()+" | ");
-			for(Coupon coupon : usercoupon.getCouponList()) {
-				System.out.print(coupon.getCouponDetail()+" | "+coupon.getCouponExpiration()+" 만료 | ");
+		System.out.println("--[ ID : " + userId + " ]님의 쿠폰목록 --");
+		for (UserCoupon usercoupon : usercouponlist) {
+			System.out.print(usercoupon.getCouponNumber() + " | ");
+			for (Coupon coupon : usercoupon.getCouponList()) {
+				System.out.print(coupon.getCouponDetail() + " | " + coupon.getCouponExpiration() + " 만료 | ");
 			}
 			System.out.println(usercoupon.getCouponAmount() + "장 ");
 		}
@@ -58,25 +58,25 @@ public class EndView {
 		System.out.println();
 	}
 
-    /**
-     * UserMember 출력
-     * @param userMember
-     */
-    public static void userMemberPrint(UserMember userMember) {
-        System.out.println(userMember.toString());
-    }
-
+	/**
+	 * UserMember 출력
+	 * 
+	 * @param userMember
+	 */
+	public static void userMemberPrint(UserMember userMember) {
+		System.out.println(userMember.toString());
+	}
 
 	//////////////////////// CartController ////////////////////////
 	public static void printProductsByCategory(List<Product> productsByCategory) {
 		System.out.println("------------ 선택하신 상품 카테고리 리스트 ------------");
-		for(Product p : productsByCategory) {
+		for (Product p : productsByCategory) {
 			System.out.println("상품번호\t상품이름\t상품가격");
 			System.out.println("----------------------------------------------------");
-			System.out.println( p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice() );
+			System.out.println(p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice());
 
 			System.out.print("상품정보: ");
-			System.out.println( p.getProductDetail() );
+			System.out.println(p.getProductDetail());
 		}
 	}
 
