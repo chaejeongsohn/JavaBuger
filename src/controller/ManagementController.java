@@ -31,7 +31,7 @@ public class ManagementController {
 		try {
 			check = managementService.checkPassword(managerPw);
 			if (check) {
-				System.out.println("비밀번호가 일치합니다");
+				System.out.println("비밀번호가 일치합니다. 매니저 계정으로 로그인합니다.");
 			} else {
 				System.out.println("비밀번호가 불일치합니다 다시 입력해주세요");
 			}

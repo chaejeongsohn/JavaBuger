@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartProduct {
@@ -7,10 +8,15 @@ public class CartProduct {
     private List<ProductOption> optionList;
     private int quantity;
 
+
     public CartProduct(Product product, List<ProductOption> optionList, int quantity) {
         this.product = product;
         this.optionList = optionList;
         this.quantity = quantity;
+    }
+
+    public CartProduct() {
+        optionList = new ArrayList<>();
     }
 
     public Product getProduct() {

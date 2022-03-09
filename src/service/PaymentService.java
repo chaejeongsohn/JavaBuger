@@ -9,6 +9,7 @@ import dto.Ranking;
 import dto.SalesDate;
 import view.EndView;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,7 +35,12 @@ public class PaymentService {
     	int result = paymentDAO.insertPayment(payment);
     	if(result==0) throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
     }
-    
+
+    public List<UserPaymentDetail> selectPaymentByUserId(String userId) throws SQLException{
+        List<UserPaymentDetail> userPaymentDetailList = paymentDAO.selectPaymentByUserId(userId);
+        if(userPaymentDetailList.size() == 0) throw new SQLException("해당 주문 내역이 없습니다.");
+        return userPaymentDetailList;
+    }
     public static void selectPayments() {
     	
     }

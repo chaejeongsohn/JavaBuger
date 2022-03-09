@@ -14,23 +14,25 @@ public class ManagerDetailMenuView {
     public static void printCouponMenu(){
         System.out.println("-----------------------------------");
         System.out.println("1.쿠폰추가  |  2.쿠폰삭제  |  3.쿠폰수정  |  4.쿠폰목록  |  5.이전으로 돌아가기");
-        System.out.println("메뉴를 선택하세요 > ");
-        int menu = Integer.parseInt(scanner.nextLine());
+        System.out.println("원하시는 기능의 번호를 입력하세요 > ");
+        String menu = scanner.nextLine();
         switch (menu) {
-            case 1: // 쿠폰추가
+            case "1": // 쿠폰추가
                 printInsertCouponMenu();
                 break;
-            case 2: // 쿠폰삭제
+            case "2": // 쿠폰삭제
                 printDeleteCouponMenu();
                 break;
-            case 3: // 쿠폰수정
+            case "3": // 쿠폰수정
                 printUpdateCouponMenu();
                 break;
-            case 4: // 쿠폰 목록
+            case "4": // 쿠폰 목록
                 printAllCoupons();
                 break;
-            case 5:  // 이전으로 돌아가기
+            case "5":  // 이전으로 돌아가기
                 return;
+            default:
+				System.out.println("번호를 다시 입력해주세요");
         }
 
 
@@ -67,26 +69,27 @@ public class ManagerDetailMenuView {
         System.out.println("---------쿠폰 수정 메뉴 -----------");
         System.out.println("1.쿠폰 내용 변경 2.쿠폰 할인률 변경 3.쿠폰 만료기한 변경 4. 이전으로 돌아가기");
         System.out.println("메뉴를 선택하세요 > ");
-        int menu = Integer.parseInt(scanner.nextLine());
+        String menu = scanner.nextLine();
         switch (menu) {
-            case 1: // 쿠폰내용변경
+            case "1": // 쿠폰내용변경
                 System.out.print("새로운 쿠폰내용은? > ");
                 String couponDetail = scanner.nextLine();
                 coupon.setCouponDetail(couponDetail);
                 break;
-            case 2: // 폰번호변경
+            case "2": // 폰번호변경
                 System.out.print("새로운 쿠폰 할인률은? > ");
                 int couponDiscountRate = Integer.parseInt(scanner.nextLine());
                 coupon.setCouponDiscountRate(couponDiscountRate);
-
                 break;
-            case 3: // 쿠폰만료기한
+            case "3": // 쿠폰만료기한
                 System.out.print("새로운 쿠폰 만료기한은? > ");
                 int couponExpiration = Integer.parseInt(scanner.nextLine());
                 coupon.setCouponExpiration(couponExpiration);
                 break;
-            case 4: // 이전으로 돌아가기
+            case "4": // 이전으로 돌아가기
                 return;
+            default:
+				System.out.println("번호를 다시 입력해주세요");
         }
         CouponController.updateCoupon(coupon);
     }

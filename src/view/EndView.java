@@ -1,24 +1,11 @@
 package view;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import dto.*;
 
-import dto.Coupon;
-import dto.Product;
-import dto.ProductCategory;
-import dto.ProductOption;
-import dto.Ranking;
-import dto.SalesDate;
-import dto.UserCoupon;
-import dto.UserMember;
+import java.util.List;
 
 public class EndView {
+
 	public static void printProductList(List<Product> productList) {
 		System.out.println("-----상품 " + productList.size() + "개 -------------");
 		for (Product product : productList) {
