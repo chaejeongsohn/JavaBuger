@@ -4,6 +4,7 @@ package dao;
 import dto.Payment;
 import dto.Ranking;
 import dto.SalesDate;
+import dto.UserPaymentDetail;
 
 
 import java.sql.SQLException;
@@ -45,12 +46,12 @@ public interface PaymentDAO {
 
 
     /**
-     * 아이디로 구매내역들 조회
-     *
+     * 아이디로 구매내역 조회
+     * @param userId
      * @return
      * @throws SQLException
      */
-    List<Payment> selectPaymentByUserId(String userId) throws SQLException;
+    List<UserPaymentDetail> selectPaymentByUserId(String userId) throws SQLException;
 
     /**
      * 날짜로 구매내역들 조회
