@@ -1,16 +1,14 @@
 package controller;
 
 
-import dto.Payment;
-import dto.Ranking;
-import dto.SalesDate;
-import dto.UserPaymentDetail;
+import dto.*;
 import service.PaymentService;
 import view.EndView;
 import view.FailView;
 import view.SuccessView;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,15 +55,42 @@ public class PaymentController {
 
     public static void selectPaymentByUserId(String userId) {
         try {
-            List<UserPaymentDetail> userPaymentDetailList= paymentService.selectPaymentByUserId(userId);
-            for(UserPaymentDetail userPaymentDetail : userPaymentDetailList){
-                System.out.println(userPaymentDetail);
+            List<UserTotalPaymentDetail> userTotalPaymentDetailList = paymentService.selectPaymentByUserId(userId);
+            for(UserTotalPaymentDetail userTotalPaymentDetail : userTotalPaymentDetailList){
+                System.out.println(userTotalPaymentDetail);
             }
         } catch (SQLException e) {
             FailView.errorMessage(e.getMessage());
         }
     }
 
+
+    public static void selectUserPaymentByPaymentDate(String userId, String paymentDate){
+        try{
+            List<UserPaymentDetailByDate> userPaymentDetailByDateList = paymentService.selectUserPaymentByPaymentDate(userId, paymentDate);
+            List<UserPaymentDetailByDate> paymentList = new ArrayList<>();
+
+            for(UserPaymentDetailByDate userPaymentDetailByDate : userPaymentDetailByDateList){
+                UserPaymentDetailByDate payment = new UserPaymentDetailByDate(0,null, null);
+                int lastPayNumber = 0;
+                int lastOrderProductNumber = 0;
+                List<String> optionList = null;
+                if(userPaymentDetailByDate.getPayNumber() != lastPayNumber){
+                    payment.setPayPrice(userPaymentDetailByDate.getPayPrice());
+                    payment.setProductName(userPaymentDetailByDate.getProductName());
+                    lastPayNumber = userPaymentDetailByDate.getPayNumber();
+                    if(userPaymentDetailByDate.getOrderProductNumber() != lastOrderProductNumber){
+                        optionList.add(userPaymentDetailByDate.getProductOptionName());
+                        lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
+                    }
+                }
+                payment.setProductOptionNameList(optionList);
+                System.out.println(userPaymentDetailByDate);
+            }
+        }catch(SQLException e){
+            FailView.errorMessage(e.getMessage());
+        }
+    }
 
     public static void selectPayments() {
 

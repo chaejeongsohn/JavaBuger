@@ -263,8 +263,8 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 
     @Override
-    public List<UserPaymentDetail> selectPaymentByUserId(String userId) throws SQLException {
-        List<UserPaymentDetail> userPaymentDetailList = new ArrayList<>();
+    public List<UserTotalPaymentDetail> selectPaymentByUserId(String userId) throws SQLException {
+        List<UserTotalPaymentDetail> userTotalPaymentDetailList = new ArrayList<>();
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -284,23 +284,50 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 
             while (rs.next()) {
-                UserPaymentDetail userPaymentDetail = new UserPaymentDetail(rs.getString(1), rs.getInt(2)
+                UserTotalPaymentDetail userTotalPaymentDetail = new UserTotalPaymentDetail(rs.getString(1), rs.getInt(2)
                         , rs.getString(3), rs.getInt(4));
-				userPaymentDetailList.add(userPaymentDetail);
+				userTotalPaymentDetailList.add(userTotalPaymentDetail);
             }
         } finally {
             DbUtils.close(con, ps, rs);
         }
-        return userPaymentDetailList;
+        return userTotalPaymentDetailList;
     }
 
-    @Override
-    public int deletePayment(int paymentNumber) throws SQLException {
-        return 0;
+    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException{
+        List<UserPaymentDetailByDate> userPaymentDetailByDateList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select payment.pay_price, payment.pay_no, product.prd_name, orderOption.order_prd_no, productOption.opt_name\n" +
+                "from payment Left outer join orderproduct\n" +
+                "on payment.pay_no = orderproduct.pay_no\n" +
+                "Left outer join orderoption\n" +
+                "on orderproduct.order_prd_no = orderoption.order_prd_no\n" +
+                "Left outer join product\n" +
+                "on orderproduct.prd_no = product.prd_no\n" +
+                "Left outer join productOption\n" +
+                "on orderOption.opt_no = productOption.opt_no\n" +
+                "where payment.user_id = ?" +
+                "and payment.pay_date = ?";
+        try {
+            con = DbUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            ps.setString(2, paymentDate);
+            rs = ps.executeQuery();
+
+
+            while (rs.next()) {
+                UserPaymentDetailByDate userPaymentDetailByDate = new UserPaymentDetailByDate(
+                        rs.getInt(1),rs.getInt(2),
+                rs.getString(3),rs.getInt(4),rs.getString(5));
+                userPaymentDetailByDateList.add(userPaymentDetailByDate);
+            }
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return userPaymentDetailByDateList;
     }
 
-    @Override
-    public int updatePayment(Payment payment) throws SQLException {
-        return 0;
-    }
 }
