@@ -21,10 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 
 public class PaymentDAOImpl implements PaymentDAO {
@@ -134,26 +131,29 @@ public class PaymentDAOImpl implements PaymentDAO {
 	
 	
     @Override
-    public List<SalesDate> selectSalseByDate() throws SQLException {
+    public List<SalesDate> selectSalseByDate() throws SQLException, NullPointerException{
     	List<SalesDate> saleslist = new ArrayList<SalesDate>();
     	List<Date> paylist = selectDateAll();	
-    	DateFormat dateFormat = new SimpleDateFormat("yyyy년 mm월 dd일");
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
     	
     	for(Date salesdate: paylist) {
     		int totalSales = selectSalesAllByDate(salesdate);
     		String strDate= dateFormat.format(salesdate);
+    		if(!strDate.isEmpty()) {
     		SalesDate sales = new SalesDate(strDate, totalSales);
     		saleslist.add(sales);
+    		}
     	}
         return saleslist;
     }
     /*전체 결제일 조회*/
-    public List<Date> selectDateAll() throws SQLException{
+    public List<Date> selectDateAll() throws SQLException, NullPointerException {
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
     	String sql = "select pay_date from payment";
-    	List<Date> paylist = new ArrayList<>();
+    	List<Date> originlist = new ArrayList<>();
+    	List<Date> resultlist = new ArrayList<>();
     	
     	try {
     		con=DbUtils.getConnection();
@@ -162,12 +162,22 @@ public class PaymentDAOImpl implements PaymentDAO {
     		
     		while(rs.next()) {
     			Date date =rs.getDate(1);
-    			paylist.add(date);
+    			if(date!=null) {
+    				originlist.add(date);
+    			}
+    		
+    	int originsize =originlist.size();
+    	for (int i=0;i<originsize;i++) {
+    		if(!resultlist.contains(originlist.get(i))) {
+    			resultlist.add(originlist.get(i));
+    		}
+    	Collections.sort(resultlist);
+    	}	
     		}
     	}finally{
     		DbUtils.close(con, ps, rs);
     	}
-    	return paylist;
+    	return resultlist;
     }
     /*결제일별 결제 금액 조회*/
     public int selectSalesAllByDate(Date date) throws SQLException {

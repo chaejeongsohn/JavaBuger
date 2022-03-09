@@ -7,7 +7,7 @@ import dao.PaymentDAOImpl;
 import dto.Payment;
 import dto.Ranking;
 import dto.SalesDate;
-
+import view.EndView;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -23,8 +23,9 @@ public class PaymentService {
     	return ranklist;
 	}
 
-    public List<SalesDate> selectSalseByDate() throws SQLException{
+    public List<SalesDate> selectSalseByDate() throws SQLException, NullPointerException{
     	List<SalesDate> saleslist = paymentDAO.selectSalseByDate();
+    	EndView.printDateSales(saleslist);
     	if(saleslist==null||saleslist.size()==0)throw new SQLException("저장된 매출내역이 없습니다.");
         return null;
     }

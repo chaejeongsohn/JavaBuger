@@ -114,13 +114,14 @@ public class EndView {
 		System.out.println();
 		
 	}
-
-	public static void printDateSales(List<SalesDate> saleslist) {//NullPointerException 오류남
-		System.out.println("---[ 일별 매출 현황 ]---");	
-		for(SalesDate sales: saleslist) {
-			System.out.println(sales.getDate());
-				System.out.println(sales);
+	public static void printDateSales(List<SalesDate> saleslist) {
+		System.out.println("---[ 일별 매출 현황 ]---");
+		for(SalesDate sales : saleslist) {		
+		System.out.println(sales.getDate()+" | "+sales.getTotalsales()+"원");
 		}
 	}
+
+
+
 
 }

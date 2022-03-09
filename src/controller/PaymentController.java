@@ -7,7 +7,6 @@ import java.util.List;
 
 import dto.Payment;
 import dto.Ranking;
-import dto.SalesDate;
 import service.PaymentService;
 import view.EndView;
 import view.FailView;
@@ -35,13 +34,14 @@ public class PaymentController {
     	}
     }
     
-    /*일별 매출순위*/
+    /*일별 매출 내역*/
     public static void selectSalseByDate() {
     	try{
-    		List<SalesDate> saleslist =paymentService.selectSalseByDate();
-    		EndView.printDateSales(saleslist);
+    		paymentService.selectSalseByDate();
     	}catch(SQLException e) {
     		FailView.errorMessage(e.getMessage());
+    	}catch(NullPointerException ex) {
+    		FailView.errorMessage("NullPointerException이 발생했습니다.");
     	}
     }
     

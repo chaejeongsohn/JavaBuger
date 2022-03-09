@@ -18,7 +18,7 @@ public interface PaymentDAO {
 	
 	
 	/*일별 매출순위*/
-	List<SalesDate> selectSalseByDate()throws SQLException;
+	List<SalesDate> selectSalseByDate()throws SQLException, NullPointerException;
 	
 	
 	/*사용자 구매내역 추가*/
