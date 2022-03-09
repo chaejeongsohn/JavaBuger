@@ -1,26 +1,17 @@
 package view;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
-<<<<<<< HEAD
 import dto.*;
-=======
+
 import dto.Coupon;
 import dto.Product;
-import dto.ProductCategory;
 import dto.ProductOption;
 import dto.Ranking;
 import dto.SalesDate;
 import dto.UserCoupon;
 import dto.UserMember;
->>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
+
 
 public class EndView {
 	public static void printProductList(List<Product> productList) {
@@ -106,7 +97,6 @@ public class EndView {
 		System.out.println(productOption);
 	}
 
-<<<<<<< HEAD
 	public static void printCartProducts(List<CartProduct> cartProducts) {
 		int count = cartProducts.size();
 		System.out.println("---------- 장바구니 내역: 총 " + count + " 개 ------------");
@@ -127,7 +117,7 @@ public class EndView {
 		}
 		System.out.println();
 	}
-=======
+
 	public static void printSalesRanking(List<Ranking> ranking) {
 		int rankno =1;
 		Ranking rank = ranking.get(0);
@@ -148,5 +138,4 @@ public class EndView {
 		}
 	}
 
->>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 }
