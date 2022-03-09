@@ -1,9 +1,9 @@
 package view.menu;
 
 import controller.CartController;
-import controller.CouponController;
 import controller.OrderProductController;
 import controller.PaymentController;
+import controller.UserCouponController;
 import dto.*;
 import service.UserSessionService;
 
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class OrderMenuView {
+	
 
 
     private static Scanner scanner = new Scanner(System.in);
@@ -50,22 +51,19 @@ public class OrderMenuView {
         }
         System.out.print("장바구니 상품 총 가격 :" + totalPrice);
         System.out.println();
-
+        int couponNumber = 0;
         System.out.println("1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
         switch (menu) {
             case 1:
-                // 쿠폰 나열
-                // CouponController.displayCoupons();
-                // 쿠폰 선택 및 적용
-                // CouponController.applyCoupon();
+                couponNumber =userchoiceCoupon(userId);
                 break;
             case 2:
                 // 결제 방법 선택
                 PaymentController.selectPayments();
                 int paymentMethod = 0;
-                Payment payment = new Payment(userId, paymentMethod, totalPrice, 1);
+                Payment payment = new Payment(userId, paymentMethod, totalPrice,couponNumber);
                 try {
                     int paymentNumber = PaymentController.insertPayment(payment);
                     List<OrderProduct> orderProductList = new ArrayList<>();
@@ -83,5 +81,18 @@ public class OrderMenuView {
             default:
                 System.out.println("default");
         }
+    }
+    
+    public static int userchoiceCoupon(String userId) {
+    	int couponNumber =0;
+    	UserCouponController.selectUserCoupons(userId);
+    	System.out.println("사용하실 쿠폰 번호를 입력해주세요.");
+    	while(true) {
+    		int conum = Integer.parseInt(scanner.nextLine());
+    		UserCoupon usercoupon = UserCouponController.selectUserCouponByNumber(userId, conum);
+    		couponNumber=usercoupon.getUserCouponNumber();
+    		break;
+    	}
+    	return couponNumber;
     }
 }

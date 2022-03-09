@@ -9,19 +9,6 @@ import java.util.List;
 
 public interface PaymentDAO {
 
-	
-	 /*메뉴별 매출순위*/
-	List<Ranking> selectSalesranking(String category)throws SQLException;
-	
-	
-	/*일별 매출순위*/
-	List<SalesDate> selectSalseByDate()throws SQLException, NullPointerException;
-	
-	
-	/*사용자 구매내역 추가*/
-    int insertPayment(Payment payment) throws SQLException;
-    
-
 
     /**
      * 전체 구매내역 조회
