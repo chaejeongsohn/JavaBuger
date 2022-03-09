@@ -1,11 +1,13 @@
 package view.menu;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import controller.UserMemberController;
 import dao.UserMemberDAOImpl;
 import dto.UserMember;
+import exception.NotFoundException;
 import service.UserMemberService;
 
 public class UserMenuView {
@@ -50,6 +52,8 @@ public class UserMenuView {
         String inputPw = scanner.nextLine();
 
         UserMemberController.login(inputId, inputPw);
+        
+        UserDetailMenuView.memberMenu();
     }
     
     private static void printJoin() {
@@ -60,15 +64,15 @@ public class UserMenuView {
     	int inputBirthday = 0;
     	
     	try {
-	    	System.out.print("사용하실 아이디를 입력하세요 > ");
+	    	System.out.print("사용하실 아이디를 입력하세요(영소문자와 숫자를 포함하여 6~11글자 내외로 입력) > ");
 	    	inputId = scanner.nextLine();
-	    	System.out.print("사용하실 비밀번호를 입력하세요 > ");
+	    	System.out.print("사용하실 비밀번호를 입력하세요(영어와 숫자를 포함하여 8~15글자 내외로 입력) > ");
 	    	inputPw = scanner.nextLine();
 	    	System.out.print("이름을 입력하세요 > ");
 	    	inputName = scanner.nextLine();
 	    	System.out.print(" '-'를 제외한 핸드폰 번호를 입력해주세요 > ");
 	    	inputPhone = Integer.parseInt(scanner.nextLine());
-	    	System.out.print("생년월일을 입력하세요 ex.19940416 > ");
+	    	System.out.print("생년월일 8글자를 입력하세요 ex.19940416 > ");
 	    	inputBirthday =Integer.parseInt(scanner.nextLine());
     	}catch (NumberFormatException e) {
     		System.out.println("잘못된 입력값입니다.");

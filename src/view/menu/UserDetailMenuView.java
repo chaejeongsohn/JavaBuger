@@ -13,10 +13,10 @@ import java.util.Scanner;
 public class UserDetailMenuView {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void memberMenu() throws SQLException, NotFoundException {
+    public static void memberMenu() {
         while (true) {
             System.out.println("------------ 회원 전용 메뉴 ---------------");
-            System.out.println("1. 주문하기   2. 나의정보  3. 구매내역  4. 쿠폰조회 5.이전으로 돌아가기 6. 프로그램종료");
+            System.out.println("1. 주문하기   2. 나의 정보  3. 구매 내역  4. 쿠폰조회 5.이전으로 돌아가기 6. 프로그램 종료");
             System.out.println("메뉴를 선택하세요 > ");
             int menu = Integer.parseInt(scanner.nextLine());
             switch (menu) {
@@ -45,7 +45,7 @@ public class UserDetailMenuView {
 
     private static void printUserInfoMenu() {
         System.out.println("------------ 나의 정보 메뉴 ---------------");
-        System.out.println("1. 나의상세정보   2. 정보수정  3. 회원탈퇴  4. 이전으로 돌아가기 5. 프로그램 종료 ");
+        System.out.println("1. 나의 상세정보   2. 정보 수정  3. 회원 탈퇴  4. 이전으로 돌아가기 5. 프로그램 종료 ");
         System.out.println("메뉴를 선택하세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
         switch (menu) {
@@ -80,7 +80,7 @@ public class UserDetailMenuView {
 
     private static void printUpdateUserMenu(UserMember updateUserMember) {
         System.out.println("---------정보 수정 메뉴 -----------");
-        System.out.println("1.이름변경 2.폰번호변경 3.비밀번호변경 4.이전으로 돌아가기 5. 프로그램 종료");
+        System.out.println("1.이름 변경  2.폰번호 변경 3. 비밀번호 변경  4.이전으로 돌아가기 5. 프로그램 종료");
         System.out.println("메뉴를 선택하세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
         //UserMember updateUserMember = new UserMember(UserSessionService.getUserSession());
@@ -118,7 +118,7 @@ public class UserDetailMenuView {
     private static void printUserPaymentMenu() {
         PaymentController.selectPaymentByUserId(UserSessionService.getUserSession().getUserId());
         System.out.println("------------ 나의 구매내역 메뉴 ---------------");
-        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
+        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장 최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
         System.out.println("메뉴를 선택하세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
         switch (menu) {
