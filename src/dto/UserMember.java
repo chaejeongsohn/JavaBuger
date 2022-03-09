@@ -80,7 +80,7 @@ public class UserMember {
         sb.append("아이디 : ").append(userId).append('\n');
         sb.append("패스워드 : ").append(userPw).append('\n');
         sb.append("이름 : ").append(userName).append('\n');
-        sb.append("폰번호 : ").append(userPhone).append('\n');
+        sb.append("휴대폰번호 : ").append(userPhone).append('\n');
         sb.append("생일 : ").append(userBirthDay).append('\n');
         sb.append("가입날짜 : ").append(userJoinDate).append('\n');
         return sb.toString();

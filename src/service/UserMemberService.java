@@ -32,7 +32,7 @@ public class UserMemberService {
         if (!userPw.equals(userMember.getUserPw())) {
             throw new NotFoundException("비밀번호가 일치하지 않습니다.");
         } else {
-            System.out.println("로그인 되었습니다.");
+            System.out.println(userId + "님 로그인 되었습니다.");
             UserSessionService.setUserSession(userMember);
         }
 
