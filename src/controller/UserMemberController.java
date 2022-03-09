@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import dto.UserMember;
 import service.UserMemberService;
@@ -24,8 +25,21 @@ public class UserMemberController {
     }
 
     public static void join(UserMember userMember) {
+    	String userID = null;
+    	String userPw = null;
+    	int userPhone = 0;
+    	int userBirthDay = 0;
+    	
     	try {
-    		userMemberService.join(userMember);
+    		boolean result = false;
+//    		while(result) {
+    		result = userMemberService.join(userMember);
+//    		}
+    	/*	userMemberService.validID(userID);
+    		userMemberService.validPW(userPw);
+    		userMemberService.validPhoneNo(userPhone);
+    		userMemberService.checkBirthday(userBirthDay);
+    	*/
     		SuccessView.messagePrint("회원가입이 완료되었습니다.");
     	} catch (Exception e) {
     		FailView.errorMessage(e.getMessage());
@@ -50,18 +64,7 @@ public class UserMemberController {
     	}
     }
 
-    public static void checkExistUserId(String userId) {
 
-    }
-
-    public static void checkUserInfo(String userId) {
-
-    }
-
-    public static void checkByBirthDay(int userBirthday) {
-
-    }
-    
     public static void updateUser(UserMember userMember) {
     	try {
     		userMemberService.updateUser(userMember);

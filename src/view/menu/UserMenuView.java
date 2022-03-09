@@ -1,5 +1,6 @@
 package view.menu;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import controller.UserMemberController;
@@ -28,7 +29,10 @@ public class UserMenuView {
                 case 4: // 비밀번호찾기
                 	printUserPW();
                     break;
-                case 5: // 프로그램 종료
+                case 5: //이전으로 돌아가기
+                	return;
+                case 6: // 프로그램 종료
+                	System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
             }
         }
@@ -36,7 +40,7 @@ public class UserMenuView {
 
     private static void printUserMenu() {
         System.out.println("--------- 회원 로그인 화면 ---------------");
-        System.out.println("1. 로그인   2. 회원가입  3. 아이디찾기  4. 비밀번호찾기 5. 프로그램종료 ");
+        System.out.println("1. 로그인   2. 회원가입  3. 아이디찾기  4. 비밀번호찾기 5. 이전으로 돌아가기 6. 프로그램 종료 ");
     }
 
     private static void printLogin(){
@@ -49,16 +53,27 @@ public class UserMenuView {
     }
     
     private static void printJoin() {
-    	System.out.print("사용하실 아이디를 입력하세요 > ");
-    	String inputId = scanner.nextLine();
-    	System.out.print("사용하실 비밀번호를 입력하세요 > ");
-    	String inputPw = scanner.nextLine();
-    	System.out.print("이름을 입력하세요 > ");
-    	String inputName = scanner.nextLine();
-    	System.out.print(" '-'를 제외한 핸드폰 번호를 입력해주세요 > ");
-    	int inputPhone = Integer.parseInt(scanner.nextLine());
-    	System.out.print("생년월일을 입력하세요 ex.19940416 > ");
-    	int inputBirthday =Integer.parseInt(scanner.nextLine());
+    	String inputId = null;
+    	String inputPw = null;
+    	String inputName = null;
+    	int inputPhone = 0;
+    	int inputBirthday = 0;
+    	
+    	try {
+	    	System.out.print("사용하실 아이디를 입력하세요 > ");
+	    	inputId = scanner.nextLine();
+	    	System.out.print("사용하실 비밀번호를 입력하세요 > ");
+	    	inputPw = scanner.nextLine();
+	    	System.out.print("이름을 입력하세요 > ");
+	    	inputName = scanner.nextLine();
+	    	System.out.print(" '-'를 제외한 핸드폰 번호를 입력해주세요 > ");
+	    	inputPhone = Integer.parseInt(scanner.nextLine());
+	    	System.out.print("생년월일을 입력하세요 ex.19940416 > ");
+	    	inputBirthday =Integer.parseInt(scanner.nextLine());
+    	}catch (NumberFormatException e) {
+    		System.out.println("잘못된 입력값입니다.");
+    		return;
+    	}
     	
     	UserMember userMember = new UserMember(inputId, inputPw, inputName, inputPhone, inputBirthday);
     	UserMemberController.join(userMember);

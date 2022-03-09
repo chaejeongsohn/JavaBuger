@@ -2,36 +2,44 @@ package view.menu;
 
 import java.util.Scanner;
 
+import controller.ManagementController;
 import controller.ProductController;
 import controller.ProductOptionController;
 import dto.Product;
 import dto.ProductOption;
-import service.ProductService;
 
 public class ManagerMenuView {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void managerMenu() {
+		System.out.println("비밀번호를 입력해주세요.");
 		while (true) {
-			printManagerMenu();
-			System.out.println("메뉴를 선택해주세요 > ");
-			int menu = Integer.parseInt(scanner.nextLine());
-			switch (menu) {
-			case 1: // 상품관리
-				productControl();
-				break;
-			case 2: // 옵션관리
-				optionControl();
-				break;
-			case 3: // 매출관리
-				break;
-			case 4: // 매점관리
-				break;
-			case 5: // 프로그램 종료
-				System.exit(0);
+			String pwd = scanner.nextLine();
+			boolean check = ManagementController.checkPassword(pwd);
+			while (check) {
+				printManagerMenu();
+				System.out.println("메뉴를 선택해주세요 > ");
+				int menu = Integer.parseInt(scanner.nextLine());
+				switch (menu) {
+				case 1: // 상품관리
+					productControl();
+					break;
+				case 2: // 옵션관리
+					optionControl();
+					break;
+				case 3: // 매출관리
+					break;
+				case 4: // 매점관리
+					storeControl();
+					break;
+				case 5: // 프로그램 종료
+					System.out.println("프로그램을 종료합니다.");
+					System.exit(0);
+				}
 			}
+			System.out.println("다시 입력해주세요.");
 		}
-	}
+	}// managerMenu 메소드
 
 	private static void printManagerMenu() {
 		System.out.println("---------------------");
@@ -46,7 +54,7 @@ public class ManagerMenuView {
 			switch (menu) {
 			case 1: // 상품수정
 				printUpdateProductMenu();
-
+				printManagerMenu();
 				break;
 			case 2: // 상품등록
 
@@ -78,21 +86,22 @@ public class ManagerMenuView {
 			int menu = Integer.parseInt(scanner.nextLine());
 			switch (menu) {
 			case 1: // 상품이름 수정
-				System.out.println("수정할 상품 이름를 입력해주세요. >");
+				System.out.println("수정할 상품 이름은?");
 				String name = scanner.nextLine();
 				selectProduct.setProductName(name);
 				ProductController.updateProduct(selectProduct);
+				System.out.println(name);
 				break;
 
 			case 2: // 상품가격 변경
-				System.out.println("수정할 상품 가격를 입력해주세요. >");
+				System.out.println("수정할 상품 가격 이름은?");
 				int price = scanner.nextInt();
 				selectProduct.setProductNumber(price);
 				ProductController.updateProduct(selectProduct);
 				break;
 
 			case 3: // 상품설명 변경
-				System.out.println("수정할 상품 설명을 입력해주세요. >");
+				System.out.println("수정할 상품 설명은?");
 				String detail = scanner.nextLine();
 				selectProduct.setProductDetail(detail);
 				ProductController.updateProduct(selectProduct);
@@ -107,9 +116,6 @@ public class ManagerMenuView {
 	private static void printInsertProductMenu() {
 		ProductController.selectProducts();
 
-		System.out.print("등록할 상품번호는 ? ");
-		int productNumber = Integer.parseInt(scanner.nextLine());
-
 		System.out.print("등록할 상품카테고리번호는 ? ");
 		String categoryNumber = scanner.nextLine();
 
@@ -122,8 +128,7 @@ public class ManagerMenuView {
 		System.out.print("등록할 상품설명은 ? ");
 		String productDetail = scanner.nextLine();
 
-		ProductController
-				.insertProduct(new Product(productNumber, categoryNumber, productName, productPrice, productDetail));
+		ProductController.insertProduct(new Product(categoryNumber, productName, productPrice, productDetail));
 
 	}// printInsertProductMenu 메소드 끝
 
@@ -193,12 +198,6 @@ public class ManagerMenuView {
 
 	private static void printInsertOptionMenu() {
 		ProductOptionController.selectProductOptions();
-		
-		System.out.print("등록할 옵션번호는 ? ");
-		int optionNumber = Integer.parseInt(scanner.nextLine());
-
-		System.out.print("등록할 옵션카테고리번호는 ? ");
-		String categoryNumber = scanner.nextLine();
 
 		System.out.print("등록할 옵션이름은 ? ");
 		String optionName = scanner.nextLine();
@@ -206,8 +205,8 @@ public class ManagerMenuView {
 		System.out.print("등록할 옵션가격은 ? ");
 		int optionPrice = Integer.parseInt(scanner.nextLine());
 
-		ProductOptionController
-				.insertProductOption(new ProductOption(optionNumber, categoryNumber, optionName, optionPrice));
+		// ProductOptionController.insertProductOption(new ProductOption(categoryNumber,
+		// optionName, optionPrice));
 	}
 
 	private static void printDeleteOptionMenu() {
@@ -219,6 +218,30 @@ public class ManagerMenuView {
 
 		if (selectOption != null) {
 			ProductOptionController.deleteProductOption(optionNumber);
+		}
+	}
+
+	private static void storeControl() {
+
+		System.out.println("수정할 항목을 선택해주세요. >");
+		System.out.println("1. 매니저 비밀번호 변경   2. 가게이름 변경 ");
+		int menu = Integer.parseInt(scanner.nextLine());
+		while (true) {
+			switch (menu) {
+			case 1:
+				System.out.println("변경할 비밀번호는? ");
+				String managerPw = scanner.nextLine();
+				ManagementController.updatePassword(managerPw);
+				break;
+
+			case 2:
+				System.out.println("변경할 가게이름은? ");
+				String storeName = scanner.nextLine();
+				ManagementController.updateStoreName(storeName);
+				break;
+
+			}
+			break;
 		}
 	}
 

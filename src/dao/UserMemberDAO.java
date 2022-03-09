@@ -53,7 +53,7 @@ public interface UserMemberDAO {
      * @return
      * @throws SQLException
      */
-    List<UserMember> selectByBirthday(int userBirthDay) throws SQLException;
+    List<String> selectByBirthday(int userBirthDay) throws SQLException;
 
     /**
      * 회원 정보 수정

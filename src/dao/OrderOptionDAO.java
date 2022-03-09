@@ -1,7 +1,9 @@
 package dao;
 
 import dto.OrderOption;
+import dto.OrderProduct;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public interface OrderOptionDAO {
      * @return
      * @throws SQLException
      */
-    int insertOrderOption(OrderOption orderOption) throws SQLException;
+    int[] insertOrderOption(Connection con, OrderProduct orderproduct) throws SQLException;
 
 
     /**

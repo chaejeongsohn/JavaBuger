@@ -1,10 +1,21 @@
 package view.menu;
 
+import controller.PaymentController;
+import controller.UserCouponController;
 import controller.UserMemberController;
+<<<<<<< HEAD
 import exception.NotFoundException;
 import service.UserSessionService;
 
 import java.sql.SQLException;
+=======
+import dto.Payment;
+import dto.UserMember;
+import service.UserSessionService;
+
+import java.time.LocalDate;
+import java.util.List;
+>>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 import java.util.Scanner;
 
 public class UserDetailMenuView {
@@ -25,12 +36,15 @@ public class UserDetailMenuView {
                     printUserInfoMenu();
                     break;
                 case 3: // 구매내역
+                    printUserPaymentMenu();
                     break;
                 case 4: // 쿠폰조회
+                    printUserCouponMenu();
                     break;
                 case 5: //이전으로 돌아가기
                     return;
                 case 6: // 프로그램 종료
+                	System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
             }
         }
@@ -47,13 +61,14 @@ public class UserDetailMenuView {
                 UserMemberController.showUserInfo();
                 break;
             case 2: // 정보수정
-                printUpdateUserMenu();
-                UserMemberController.updateUser(UserSessionService.getUserSession());
+                UserMember updateUserMember = new UserMember(UserSessionService.getUserSession());
+                printUpdateUserMenu(updateUserMember);
+                UserMemberController.updateUser(updateUserMember);
                 break;
             case 3: // 회원탈퇴
                 System.out.println("정말로 탈퇴하시겠습니까? (Y/N) ");
                 String answer = scanner.nextLine();
-                if(answer.toUpperCase().equals("Y")){
+                if(answer.equalsIgnoreCase("Y")){
                     UserMemberController.deleteUser();
                 }else{
                     System.out.println("이전으로 돌아갑니다.");
@@ -64,35 +79,81 @@ public class UserDetailMenuView {
                 return;
 
             case 5: // 프로그램 종료
+            	System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
 
         }
     }
 
 
-    private static void printUpdateUserMenu(){
+    private static void printUpdateUserMenu(UserMember updateUserMember){
         System.out.println("---------정보 수정 메뉴 -----------");
-        System.out.println("1.이름변경 2.폰번호변경 3.비밀번호변경 4. 이전으로 돌아가기");
+        System.out.println("1.이름변경 2.폰번호변경 3.비밀번호변경 4.이전으로 돌아가기 5. 프로그램 종료");
         System.out.println("메뉴를 선택하세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
+        //UserMember updateUserMember = new UserMember(UserSessionService.getUserSession());
         switch (menu) {
             case 1: // 이름변경
                 System.out.print("새로운 이름은? > ");
                 String newName = scanner.nextLine();
-                UserSessionService.getUserSession().setUserName(newName);
+                updateUserMember.setUserName(newName);
                 break;
             case 2: // 폰번호변경
                 System.out.print("새로운 폰번호는? > ");
                 int newPhoneNumber = Integer.parseInt(scanner.nextLine());
-                UserSessionService.getUserSession().setUserPhone(newPhoneNumber);
+                updateUserMember.setUserPhone(newPhoneNumber);
                 break;
             case 3: // 비밀번호변경
                 System.out.print("새로운 비밀번호는? > ");
                 String newPassword = scanner.nextLine();
-                UserSessionService.getUserSession().setUserPw(newPassword);
+                updateUserMember.setUserPw(newPassword);
                 break;
-            case 4: // 이전으로 돌아가기
+            case 4:
+                System.out.println("이전으로 돌아갑니다.");
                 return;
+
+            case 5: // 프로그램 종료
+                System.out.println("프로그램을 종료합니다.");
+                System.exit(0);
+
         }
     }
+
+    private static void printUserCouponMenu(){
+        UserCouponController.selectUserCoupons(UserSessionService.getUserSession().getUserId());
+    }
+
+    private static void printUserPaymentMenu(){
+        PaymentController.selectPaymentByUserId(UserSessionService.getUserSession().getUserId());
+        System.out.println("------------ 나의 구매내역 메뉴 ---------------");
+        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
+        System.out.println("메뉴를 선택하세요 > ");
+        int menu = Integer.parseInt(scanner.nextLine());
+        switch (menu) {
+            case 1: // 월별 구매내역 상세조회
+                System.out.println("조회 원하시는 해당 월을 입력하세요 > ");
+                int month = Integer.parseInt(scanner.nextLine());
+                //paymentController.selectUserPaymentByMonth(month);
+                break;
+            case 2: // 구매날짜로 상세조회
+                System.out.println("원하시는 조회 날짜를 입력하세요 ex)2022-03-01 > ");
+                String paymentDate = scanner.nextLine();
+                //PaymentController.selectUserPaymentByPaymentDate(paymentDate);
+                break;
+            case 3: // 가장 최근 구매내역 조회
+                //paymentController.selectLastUserPayment;
+                break;
+            case 4:
+                System.out.println("이전으로 돌아갑니다.");
+                return;
+            case 5: // 프로그램 종료
+                System.out.println("프로그램을 종료합니다.");
+                System.exit(0);
+
+
+        }
+
+    }
+
+
 }

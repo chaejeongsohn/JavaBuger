@@ -9,7 +9,7 @@ public class UserCoupon {
     private int couponNumber; // 지급된 쿠폰종류 해당 번호
     private int couponAmount; // 쿠폰수량 (ex.5)
     
-    private List<Coupon> couponlist = new ArrayList<Coupon>();
+    private List<Coupon> couponList = new ArrayList<>();
 
     public UserCoupon(int userCouponNumber, String userId, int couponNumber, int couponAmount) {
         this.userCouponNumber = userCouponNumber;
@@ -50,12 +50,12 @@ public class UserCoupon {
         this.couponAmount = couponAmount;
     }
 
-    public List<Coupon> getCouponlist() {
-		return couponlist;
+    public List<Coupon> getCouponList() {
+		return couponList;
 	}
 
-	public void setCouponlist(List<Coupon> coupon) {
-		this.couponlist = coupon;
+	public void setCouponList(List<Coupon> coupon) {
+		this.couponList = coupon;
 	}
 
 	@Override

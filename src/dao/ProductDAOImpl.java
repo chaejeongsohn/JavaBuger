@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import dto.Product;
 import utils.DbUtils;
@@ -104,6 +103,7 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setString(2, product.getProductName());
 			ps.setInt(3, product.getProductPrice());
 			ps.setString(4, product.getProductDetail());
+			ps.setInt(5, product.getProductNumber());
 
 			result = ps.executeUpdate();
 
@@ -131,6 +131,5 @@ public class ProductDAOImpl implements ProductDAO {
 			DbUtils.close(con, ps, null);
 		}
 		return result;
-
 	}
 }

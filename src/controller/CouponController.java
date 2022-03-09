@@ -52,13 +52,14 @@ public class CouponController {
     	}
     }
 
-    public static void selectCouponByNumber(int CouponNumber) {
-    	try{
-    		Coupon coupon =couponService.selectCouponByNumber(CouponNumber);
+    public static Coupon selectCouponByNumber(int CouponNumber) {
+    	Coupon coupon = null;
+		try{
+    		coupon =couponService.selectCouponByNumber(CouponNumber);
     		EndView.printCoupon(coupon);
     	}catch(SQLException e) {
     		FailView.errorMessage(e.getMessage());
     	}
-
+		return coupon;
     }
 }

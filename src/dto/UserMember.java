@@ -21,6 +21,10 @@ public class UserMember {
         this.userJoinDate = userJoinDate;
     }
 
+    public UserMember(UserMember userMember){
+        this(userMember.userId, userMember.userPw, userMember.userName, userMember.userPhone, userMember.userBirthDay, userMember.userJoinDate);
+
+    }
 
     public String getUserId() {
         return userId;
@@ -72,13 +76,13 @@ public class UserMember {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append("userId='").append(userId).append('\'');
-        sb.append(", userPassword='").append(userPw).append('\'');
-        sb.append(", userName='").append(userName).append('\'');
-        sb.append(", userPhone=").append(userPhone);
-        sb.append(", userBirthDay=").append(userBirthDay);
-        sb.append(", userJoinDate='").append(userJoinDate).append('\'');
+        final StringBuilder sb = new StringBuilder();
+        sb.append("아이디 : ").append(userId).append('\n');
+        sb.append("패스워드 : ").append(userPw).append('\n');
+        sb.append("이름 : ").append(userName).append('\n');
+        sb.append("폰번호 : ").append(userPhone).append('\n');
+        sb.append("생일 : ").append(userBirthDay).append('\n');
+        sb.append("가입날짜 : ").append(userJoinDate).append('\n');
         return sb.toString();
     }
 }

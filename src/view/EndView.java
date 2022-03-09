@@ -1,8 +1,26 @@
 package view;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+<<<<<<< HEAD
 import dto.*;
+=======
+import dto.Coupon;
+import dto.Product;
+import dto.ProductCategory;
+import dto.ProductOption;
+import dto.Ranking;
+import dto.SalesDate;
+import dto.UserCoupon;
+import dto.UserMember;
+>>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 
 public class EndView {
 	public static void printProductList(List<Product> productList) {
@@ -34,7 +52,7 @@ public class EndView {
 		System.out.println("--[ ID : " + userId + " ]님의 쿠폰목록 --");
 		for (UserCoupon usercoupon : usercouponlist) {
 			System.out.print(usercoupon.getCouponNumber() + " | ");
-			for (Coupon coupon : usercoupon.getCouponlist()) {
+			for (Coupon coupon : usercoupon.getCouponList()) {
 				System.out.print(coupon.getCouponDetail() + " | " + coupon.getCouponExpiration() + " 만료 | ");
 			}
 			System.out.println(usercoupon.getCouponAmount() + "장 ");
@@ -54,25 +72,25 @@ public class EndView {
 		System.out.println();
 	}
 
-    /**
-     * UserMember 출력
-     * @param userMember
-     */
-    public static void userMemberPrint(UserMember userMember) {
-        System.out.println(userMember.toString());
-    }
-
+	/**
+	 * UserMember 출력
+	 * 
+	 * @param userMember
+	 */
+	public static void userMemberPrint(UserMember userMember) {
+		System.out.println(userMember.toString());
+	}
 
 	//////////////////////// CartController ////////////////////////
 	public static void printProductsByCategory(List<Product> productsByCategory) {
 		System.out.println("------------ 선택하신 상품 카테고리 리스트 ------------");
-		for(Product p : productsByCategory) {
+		for (Product p : productsByCategory) {
 			System.out.println("상품번호\t상품이름\t상품가격");
 			System.out.println("----------------------------------------------------");
-			System.out.println( p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice() );
+			System.out.println(p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice());
 
 			System.out.print("상품정보: ");
-			System.out.println( p.getProductDetail() );
+			System.out.println(p.getProductDetail());
 		}
 	}
 
@@ -88,6 +106,7 @@ public class EndView {
 		System.out.println(productOption);
 	}
 
+<<<<<<< HEAD
 	public static void printCartProducts(List<CartProduct> cartProducts) {
 		int count = cartProducts.size();
 		System.out.println("---------- 장바구니 내역: 총 " + count + " 개 ------------");
@@ -108,4 +127,26 @@ public class EndView {
 		}
 		System.out.println();
 	}
+=======
+	public static void printSalesRanking(List<Ranking> ranking) {
+		int rankno =1;
+		Ranking rank = ranking.get(0);
+		System.out.println("---[ "+rank.getCategoryName()+" ] 매출 순위 ---");
+		for(Ranking ranklist : ranking) {
+			System.out.println(rankno +". [ "+ ranklist.getProductName()+" ] 총 매출액: "+ranklist.getTotalPrice()+"원" );
+			rankno= rankno+1;
+		}
+		System.out.println();
+		
+	}
+
+	public static void printDateSales(List<SalesDate> saleslist) {//NullPointerException 오류남
+		System.out.println("---[ 일별 매출 현황 ]---");	
+		for(SalesDate sales: saleslist) {
+			System.out.println(sales.getDate());
+				System.out.println(sales);
+		}
+	}
+
+>>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 }

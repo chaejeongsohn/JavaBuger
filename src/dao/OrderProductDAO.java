@@ -1,7 +1,9 @@
 package dao;
 
 import dto.OrderProduct;
+import dto.Payment;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public interface OrderProductDAO {
      * @return
      * @throws SQLException
      */
-    int insertOrderProduct(OrderProduct orderProduct) throws SQLException;
+    int[] insertOrderProduct(Connection con ,Payment payment) throws SQLException;
 
     /**
      * 해당 제품 구매내역 삭제 (orderProductNo 이용)

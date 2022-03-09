@@ -62,8 +62,10 @@ public class ProductService {
 			throw new SQLException("삭제되지 않았습니다.");
 	}
 
-	public void addSoldOutProduct(Product product) {
-
+	public void updateSoldOutProduct(Product product) {
+		// updateStatusProduct
+		// product.setStatus("판매중")
+		// product.setStatus("판매중");
 	}
 
 	public void deleteSoldOutProduct(Product product) {
@@ -71,6 +73,7 @@ public class ProductService {
 	}
 
 	public List<Product> showSoldOutProductList() {
+
 		return soldOutProductList;
 	}
 }
