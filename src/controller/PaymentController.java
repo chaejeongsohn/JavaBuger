@@ -42,15 +42,16 @@ public class PaymentController {
             FailView.errorMessage(e.getMessage());
         }
     }
-
-
-    public static void insertPayment(Payment payment) {
-        try {
-            paymentService.insertPayment(payment);
-            SuccessView.messagePrint("[주문 완료!]" + payment.getPaymentMehtod() + "로 결제완료되었습니다.");
-        } catch (SQLException e) {
-            FailView.errorMessage(e.getMessage());
-        }
+    
+    public static int insertPayment(Payment payment) throws SQLException {
+    	try{
+    		int result = paymentService.insertPayment(payment);
+    		SuccessView.messagePrint("[주문 완료!]"+payment.getPaymentMethod()+"로 결제완료되었습니다.");
+            return result;
+    	}catch(SQLException e) {
+    		FailView.errorMessage(e.getMessage());
+            throw e;
+    	}
     }
 
     public static void selectPaymentByUserId(String userId) {

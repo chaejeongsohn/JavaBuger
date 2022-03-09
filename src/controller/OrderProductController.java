@@ -1,10 +1,16 @@
 package controller;
 
 import dto.OrderProduct;
+import service.OrderProductService;
+import utils.DbUtils;
+import view.FailView;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class OrderProductController {
+    static OrderProductService orderProductService = new OrderProductService();
+
     public static void selectOrderProducts() throws SQLException {
     }
 
@@ -18,6 +24,14 @@ public class OrderProductController {
     }
 
     public static void updateOrderProduct(OrderProduct orderProduct) throws SQLException {
+    }
+
+    public static void insertOrderProductList(List<OrderProduct> orderProductList) {
+        try {
+            orderProductService.insertOrderProduct(DbUtils.getConnection(), orderProductList);
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        }
     }
 
 }

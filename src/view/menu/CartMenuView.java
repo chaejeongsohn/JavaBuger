@@ -1,8 +1,5 @@
 package view.menu;
 import controller.CartController;
-import exception.NotFoundException;
-
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CartMenuView {
@@ -76,7 +73,7 @@ public class CartMenuView {
                     CartMenuView.cartMenu1();
                     break;
                 case "5":
-                    //toDO: 채정님 구매 메뉴로 가는 뷰를 여기다 입력
+                    OrderMenuView.orderMenu(); // 구매 화면으로 넘어간다.
                     break;
                 default:
                     System.out.println("번호를 다시 입력해주세요");
@@ -85,7 +82,7 @@ public class CartMenuView {
     }
 
     /*
-    CartController 에서 유저의 상품선택을 위해 사용하는 호출용.. (후에 고칠 수 있음 고쳐보기)
+    CartController 에서 유저의 상품선택을 위해 사용하는 호출용..
      */
     public static int askUserInput(String message) {
         System.out.print(message);

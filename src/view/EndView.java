@@ -89,7 +89,14 @@ public class EndView {
     }
 
     public static void printCartProducts(List<CartProduct> cartProducts) {
-        int count = cartProducts.size();
+        int count;
+        if(cartProducts == null) {
+            System.out.println("---------- 장바구니가 비어있습니다. ----------");
+            return;
+        }else {
+            count = cartProducts.size();
+        }
+
         System.out.println("---------- 장바구니 내역: 총 " + count + " 개 ------------");
         for (int i = 0; i < count; i++) {
             System.out.print((i + 1) + ". ");
