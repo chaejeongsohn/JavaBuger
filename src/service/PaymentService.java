@@ -1,13 +1,14 @@
 package service;
 
 
-
 import dao.PaymentDAO;
 import dao.PaymentDAOImpl;
+
 import dto.Payment;
 import dto.Ranking;
 import dto.SalesDate;
 import view.EndView;
+
 
 
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class PaymentService {
     PaymentDAO paymentDAO = new PaymentDAOImpl();
+
     
     public List<Ranking> selectSalesranking(String category) throws SQLException{
     	List<Ranking> ranklist= paymentDAO.selectSalesranking(category);
@@ -28,30 +30,42 @@ public class PaymentService {
     	List<SalesDate> saleslist = paymentDAO.selectSalseByDate();
     	EndView.printDateSales(saleslist);
     	if(saleslist==null||saleslist.size()==0)throw new SQLException("저장된 매출내역이 없습니다.");
+
+
+
         return null;
     }
 
-    public void insertPayment(Payment payment) throws SQLException {
-    	int result = paymentDAO.insertPayment(payment);
-    	if(result==0) throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+    public int insertPayment(Payment payment) throws SQLException {
+        int result = paymentDAO.insertPayment(payment);
+        if (result == 0) throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+        return result;
     }
 
-    public List<UserPaymentDetail> selectPaymentByUserId(String userId) throws SQLException{
-        List<UserPaymentDetail> userPaymentDetailList = paymentDAO.selectPaymentByUserId(userId);
-        if(userPaymentDetailList.size() == 0) throw new SQLException("해당 주문 내역이 없습니다.");
-        return userPaymentDetailList;
+    public List<UserTotalPaymentDetail> selectPaymentByUserId(String userId) throws SQLException {
+        List<UserTotalPaymentDetail> userTotalPaymentDetailList = paymentDAO.selectPaymentByUserId(userId);
+        if (userTotalPaymentDetailList.size() == 0) throw new SQLException("해당 주문 내역이 없습니다.");
+        return userTotalPaymentDetailList;
     }
+
+    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException {
+        List<UserPaymentDetailByDate> userPaymentDetailByDateList = paymentDAO.selectUserPaymentByPaymentDate(userId, paymentDate);
+        if (userPaymentDetailByDateList.size() == 0) throw new SQLException("해당 주문내역 없습니다.");
+        return userPaymentDetailByDateList;
+    }
+
+
     public static void selectPayments() {
-    	
+
     }
 
     public void deletePayment(int paymentNumber) {
+
     }
 
     public void updatePayment(Payment payment) {
+
     }
 
-	
 
-	
 }

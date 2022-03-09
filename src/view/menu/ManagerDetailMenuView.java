@@ -35,7 +35,6 @@ public class ManagerDetailMenuView {
 				System.out.println("번호를 다시 입력해주세요");
         }
 
-
     }
 
     private static void printInsertCouponMenu(){

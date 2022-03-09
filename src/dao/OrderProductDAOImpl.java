@@ -27,26 +27,27 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     }
 
     @Override
-    public int[] insertOrderProduct(Connection con ,Payment payment) throws SQLException {
+    public int[] insertOrderProduct(Connection con , List<OrderProduct> orderProductList) throws SQLException {
         PreparedStatement ps = null;
-        String sql = "insert into orderproduct values (ORDER_PRD_NO_SEQ.nextval, PAY_NO_SEQ.currval,?,?)";
+        String sql = "insert into orderproduct values (ORDER_PRD_NO_SEQ.nextval, ?,?,?)";
     	int result []=null;
     	
     	try {
     		
     		ps =con.prepareStatement(sql);
-    		for(OrderProduct order : payment.getOrderlist()) {
+    		for(OrderProduct order : orderProductList) {
     			/*이거 없어도 작동 잘 되면 삭제하기
     			 * Product product = productDAO.selectProductByProductNumber(order.getProductNumber());*/
-    			
-    			ps.setInt(1, order.getProductNumber());
-    			ps.setInt(2, order.getOrderProductAmount());
+
+                ps.setInt(1, order.getPaymentNumber());
+    			ps.setInt(2, order.getProductNumber());
+    			ps.setInt(3, order.getOrderProductAmount());
     			ps.addBatch();
     			
-    			List<OrderOption> orderop= order.getOrderoptionlist();
-    			if(orderop!=null) {
-    				orderOptionService.insertOrderOption(con,order);
-    			}
+//    			List<OrderOption> orderop= order.getOrderoptionlist();
+//    			if(orderop!=null) {
+//    				orderOptionService.insertOrderOption(con,order);
+//    			}
     			ps.clearParameters();
     		}
     		result =ps.executeBatch();
