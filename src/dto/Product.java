@@ -1,79 +1,88 @@
 package dto;
 
 public class Product {
-    private int productNumber;
-    private String categoryNumber;
-    private String productName;
-    private int productPrice;
-    private String productDetail;
+	private int productNumber;
+	private String categoryNumber;
+	private String productName;
+	private int productPrice;
+	private String productDetail;
 
-    public Product(String productName) {
-        this.productName = productName;
-    }
+	public Product(String productName) {
+		this.productName = productName;
+	}
 
-    public Product(int productNumber, String categoryNumber, String productName, int productPrice, String productDetail) {
-        this.productNumber = productNumber;
-        this.categoryNumber = categoryNumber;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productDetail = productDetail;
-    }
+	public Product(int productNumber, String categoryNumber, String productName, int productPrice,
+			String productDetail) {
+		this.productNumber = productNumber;
+		this.categoryNumber = categoryNumber;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productDetail = productDetail;
+	}
 
-    public Product(String productName, int productPrice, String productDetail) {
-        this.categoryNumber = categoryNumber;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productDetail = productDetail;
-    }
+	public Product(String productName, int productPrice, String productDetail) {
 
-    public int getProductNumber() {
-        return productNumber;
-    }
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productDetail = productDetail;
+	}
 
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
+	public Product(String categoryNumber, String productName, int productPrice, String productDetail) {
 
-    public String getCategoryNumber() {
-        return categoryNumber;
-    }
+		this.categoryNumber = categoryNumber;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productDetail = productDetail;
+	}
 
-    public void setCategoryNumber(String categoryNumber) {
-        this.categoryNumber = categoryNumber;
-    }
+	public int getProductNumber() {
+		return productNumber;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public void setProductNumber(int productNumber) {
+		this.productNumber = productNumber;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public String getCategoryNumber() {
+		return categoryNumber;
+	}
 
-    public int getProductPrice() {
-        return productPrice;
-    }
+	public void setCategoryNumber(String categoryNumber) {
+		this.categoryNumber = categoryNumber;
+	}
 
-    public void setProductPrice(int productPrice) {
-        this.productPrice = productPrice;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public String getProductDetail() {
-        return productDetail;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public void setProductDetail(String productDetail) {
-        this.productDetail = productDetail;
-    }
+	public int getProductPrice() {
+		return productPrice;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append("productNumber=").append(productNumber);
-        sb.append(", categoryNumber=").append(categoryNumber);
-        sb.append(", productName='").append(productName).append('\'');
-        sb.append(", productPrice=").append(productPrice);
-        sb.append(", productDetail='").append(productDetail).append('\'');
-        return sb.toString();
-    }
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public String getProductDetail() {
+		return productDetail;
+	}
+
+	public void setProductDetail(String productDetail) {
+		this.productDetail = productDetail;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("");
+		sb.append("productNumber=").append(productNumber);
+		sb.append(", categoryNumber=").append(categoryNumber);
+		sb.append(", productName='").append(productName).append('\'');
+		sb.append(", productPrice=").append(productPrice);
+		sb.append(", productDetail='").append(productDetail).append('\'');
+		return sb.toString();
+	}
 }
