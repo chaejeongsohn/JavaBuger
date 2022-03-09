@@ -59,10 +59,10 @@ public class CartMenuView {
             int menu = Integer.parseInt(scanner.nextLine());
             switch(menu) {
                 case 1:
-                    CartController.increaseUserCartQuantity(0);
+                    CartController.increaseUserCartQuantity();
                     break;
                 case 2:
-                    CartController.decreaseUserCartQuantity(0);
+                    CartController.decreaseUserCartQuantity();
                     break;
                 case 3:
                     CartController.clearUserCart();

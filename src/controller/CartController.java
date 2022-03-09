@@ -27,51 +27,60 @@ public class CartController {
     }
 
     public static void handleProductOrder(String category) {
-        boolean isProductInUserCart = false;
+        CartProduct cartProduct = null; // 공유 카트아이템 객체
 
-        //1.
         List<Product> productsByCategory = cartService.getAllProductsForDisplay(category);
         EndView.printProductsByCategory(productsByCategory);
 
         //user's input needed here as int, the productNumber of choice
         int productNumber = CartMenuView.askUserInput("\n원하시는 상품의 번호를 입력하세요 >> ");
 
-        //2.
-        try {
-            isProductInUserCart = cartService.addProduct(productNumber);
-        } catch (SQLException | NotFoundException e) {
-            FailView.errorMessage(e.getMessage());
+//        try {
+//            cartProduct = cartService.addProduct(productNumber);
+//        } catch (SQLException | NotFoundException e) {
+//            FailView.errorMessage(e.getMessage());
+//        }
+        cartProduct = new CartProduct();
+        for (Product product : productsByCategory) {
+            if (product.getProductNumber() == productNumber) {
+                cartProduct.setProduct(product);
+                cartProduct.setQuantity(1);
+                break;
+            }
+        }
+        if (cartProduct.getProduct() == null) {
+            FailView.errorMessage("선택하신 상품을 장바구니에 담지 못하였습니다.");
+            return;
         }
 
-        //3.
-        if(isProductInUserCart) {
-            SuccessView.messagePrint("선택하신 상품을 장바구니에 담았습니다.\n");
+        //add product options to "Burger" Product
+        if (category.equals("B")) {
+            List<ProductOption> productOptions = cartService.getAllProductOptionsForDisplay();
+            EndView.printAllProductOptions(productOptions);
 
-            //add product options to "Burger" Product
-            if(category.equals("B")) {
-                List<ProductOption> productOptions = cartService.getAllProductOptionsForDisplay();
-                EndView.printAllProductOptions(productOptions);
+            while (true) {
+                int optionNumber = CartMenuView.askUserInput("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> "); // 원하는 옵션을 선택
+                if (optionNumber == 0) break; // 0 -> no more option
 
-                while(true) {
-                    int optionNumber = CartMenuView.askUserInput("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> "); // 원하는 옵션을 선택
-                    if(optionNumber == 0) break; // 0 -> no more option
-
-                    try {
-                        cartService.addOption(optionNumber);
-                    } catch (SQLException e) {
-                        FailView.errorMessage(e.getMessage());
+//                    cartService.addOption(optionNumber);
+                boolean found = false;
+                for (ProductOption productOption : productOptions) {
+                    if (productOption.getOptionNumber() == optionNumber) {
+                        cartProduct.getOptionList().add(productOption);
+                        found = true;
+                        break;
                     }
                 }
-                //productOptions -> cartProduct
-                cartService.addOptionsToCartProduct();
+                if (!found) {
+                    FailView.errorMessage("not found option");
+                }
+            }
+        } // end of product options
 
-            } // end of product options
-
-        }else {
-            FailView.errorMessage("선택하신 상품을 장바구니에 담지 못하였습니다.");
-        }
-        //at the end, cartProduct -> cartProducts
-        cartService.addCartProductToCartProducts();
+        // 마지막에만 장바구니 아이템을 담는다
+        cartService.addCartProductToCartProducts(cartProduct);
+        //3.
+        SuccessView.messagePrint("선택하신 상품을 장바구니에 담았습니다.\n");
     }
 
     // 주문을 userCart 로 체크아웃
@@ -84,29 +93,31 @@ public class CartController {
         EndView.printCartProducts(cartProducts);
     }
 
-    public static void increaseUserCartQuantity(int quantity){
-        boolean result = cartService.increaseUserCartQuantity(quantity);
-        if(result) {
+    public static void increaseUserCartQuantity() {
+        int index = CartMenuView.askUserInput("원하시는 장바구니 내역의 번호를 입력해주세요 >> ");
+        boolean result = cartService.increaseUserCartQuantity(index - 1);
+        if (result) {
             SuccessView.messagePrint("장바구니 업데이트가 정상적으로 진행 되었습니다.");
-        }else {
+        } else {
             FailView.errorMessage("장바구니 업데이트가 정상적으로 진행되지 않았습니다.");
         }
     }
 
-    public static void decreaseUserCartQuantity(int quantity){
-        boolean result = cartService.decreaseUserCartQuantity(quantity);
-        if(result) {
+    public static void decreaseUserCartQuantity() {
+        int index = CartMenuView.askUserInput("원하시는 장바구니 내역의 번호를 입력해주세요 >> ");
+        boolean result = cartService.decreaseUserCartQuantity(index - 1);
+        if (result) {
             SuccessView.messagePrint("장바구니 업데이트가 정상적으로 진행 되었습니다.");
-        }else {
+        } else {
             FailView.errorMessage("장바구니 업데이트가 정상적으로 진행되지 않았습니다.");
         }
     }
 
     public static void clearUserCart() {
         boolean result = cartService.clearUserCart();
-        if(result) {
+        if (result) {
             SuccessView.messagePrint("장바구니 비우기가 정상적으로 진행 되었습니다.");
-        }else {
+        } else {
             FailView.errorMessage("장바구니 비우기가 정상적으로 진행되지 않았습니다.");
         }
     }
