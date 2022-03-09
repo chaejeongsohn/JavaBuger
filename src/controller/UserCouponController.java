@@ -45,12 +45,15 @@ public class UserCouponController {
     		
     }
 
-    public static void selectUserCouponByNumber(String userId, int couponNumber) {
+ 
+    public static UserCoupon selectUserCouponByNumber(String userId, int couponNumber) {
+    	UserCoupon usercoupon = null;
     	try{
-    		UserCoupon usercoupon = userCouponService.selectUSerCouponByNumber(userId, couponNumber);
+    		usercoupon= userCouponService.selectUSerCouponByNumber(userId, couponNumber);
     		EndView.printUserCoupon(usercoupon);
     	}catch(SQLException e) {
     		FailView.errorMessage(e.getMessage());
     	}
+    	return usercoupon;
     }
 }

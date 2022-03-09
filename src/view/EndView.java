@@ -45,7 +45,10 @@ public class EndView {
 	}
 
 	public static void printUserCoupon(UserCoupon usercoupon) {
-
+		System.out.print("--쿠폰번호 [ "+usercoupon.getCouponNumber()+" ] | ");
+		List<Coupon> couponlist =usercoupon.getCouponList();
+		Coupon coupon = couponlist.get(0);
+		System.out.println(coupon.getCouponDetail()+" | "+coupon.getCouponExpiration()+" 만료 | 를 선택하셨습니다.");
 	}
 
 	public static void printProductOptionList(List<ProductOption> productOptionList) {
