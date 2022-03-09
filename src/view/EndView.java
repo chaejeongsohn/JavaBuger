@@ -65,7 +65,7 @@ public class EndView {
         System.out.println(userMember.toString());
     }
 
-    //////////////////////// CartController ////////////////////////
+
     public static void printProductsByCategory(List<Product> productsByCategory) {
         System.out.println("------------ 선택하신 상품 카테고리 리스트 ------------");
         for (Product p : productsByCategory) {
@@ -113,19 +113,32 @@ public class EndView {
 
 
     public static void printCartProducts(List<CartProduct> cartProducts) {
-        //toDO: fix
-        int count = cartProducts.size();
+        int count;
+        if(cartProducts == null) {
+            System.out.println("---------- 장바구니가 비어있습니다. ----------");
+            return;
+        }else {
+            count = cartProducts.size();
+        }
+
         System.out.println("---------- 장바구니 내역: 총 " + count + " 개 ------------");
         for (int i = 0; i < count; i++) {
-            System.out.println("장바구니 " + i + " 번째 목록 :");
+            System.out.print((i + 1) + ". ");
 
             CartProduct cp = cartProducts.get(i);
-            System.out.println("상품명 : " + cp.getProduct().getProductName());
-            System.out.println("상품옵션 리스트 : " + cp.getOptionList());
-            System.out.println("장바구니 상품 현재수량 :" + cp.getQuantity());
-            System.out.println("----------");
+            System.out.print("상품명 : " + cp.getProduct().getProductName() + ", ");
+            System.out.print("상품옵션 리스트 : ");
+            if(cp.getOptionList() != null) {
+                for (ProductOption po : cp.getOptionList()) {
+                    System.out.print(po.getOptionName() + " ");
+                }
+            }
+            System.out.print(", 장바구니 상품 현재수량 :" + cp.getQuantity());
+            System.out.println();
         }
+        System.out.println();
     }
+
 
 
 }
