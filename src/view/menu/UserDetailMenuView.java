@@ -23,6 +23,7 @@ public class UserDetailMenuView {
             switch (menu) {
                 case 1: // 주문하기
                     //CartMenuView 로 이동하여 주문받기/장바구니담기/결제화면이동 까지 진행
+                    OrderMenuView.orderMenu();
                     CartMenuView.cartMenu1();
                     break;
                 case 2: // 나의정보
@@ -117,6 +118,7 @@ public class UserDetailMenuView {
     }
 
     private static void printUserPaymentMenu(){
+        String userId = UserSessionService.getUserSession().getUserId();
         PaymentController.selectPaymentByUserId(UserSessionService.getUserSession().getUserId());
         System.out.println("------------ 나의 구매내역 메뉴 ---------------");
         System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
@@ -126,7 +128,7 @@ public class UserDetailMenuView {
             case 1: // 월별 구매내역 상세조회
                 System.out.println("조회 원하시는 해당 월을 입력하세요 > ");
                 int month = Integer.parseInt(scanner.nextLine());
-                //paymentController.selectUserPaymentByMonth(month);
+                PaymentController.selectUserPaymentByMonth(userId, month);
                 break;
             case 2: // 구매날짜로 상세조회
                 System.out.println("원하시는 조회 날짜를 입력하세요 ex)2022-03-01 > ");

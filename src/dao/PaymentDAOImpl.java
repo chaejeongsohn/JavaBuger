@@ -11,7 +11,17 @@ import utils.DbUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+<<<<<<< Updated upstream
 import java.util.List;
+=======
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+>>>>>>> Stashed changes
 
 public class PaymentDAOImpl implements PaymentDAO {
 	OrderProductService orderservice = new OrderProductService();
@@ -51,7 +61,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     		
     		ps = con.prepareStatement(sql);
     		ps.setString(1, payment.getUserId());
-    		ps.setInt(2, payment.getPaymentMehtod());
+    		ps.setInt(2, payment.getPaymentMethod());
     		ps.setInt(3, getTotalPrice(payment));
     		ps.setInt(4, payment.getUserCouponNumber());
     		
@@ -75,7 +85,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     
     /*총 구매 금액 구하는 메소드*/
     public int getTotalPrice(Payment payment) throws SQLException {
-    	List<OrderProduct> orderlist = payment.getOrderlist();
+    	List<OrderProduct> orderlist = payment.getOrderList();
        	int total=0;
        	int optionprice =0;
     	

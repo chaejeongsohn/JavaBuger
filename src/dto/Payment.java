@@ -7,17 +7,17 @@ public class Payment {
     private int paymentNumber;
     private String userId;
     private String paymentDate;
-    private int paymentMehtod;
+    private int paymentMethod;
     private int paymentPrice;
     private int userCouponNumber;
     
-    List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
+    List<OrderProduct> orderList = new ArrayList<OrderProduct>();
 
-    public Payment(int paymentNumber, String userId, String paymentDate, int paymentMehtod, int paymentPrice, int userCouponNumber) {
+    public Payment(int paymentNumber, String userId, String paymentDate, int paymentMethod, int paymentPrice, int userCouponNumber) {
         this.paymentNumber = paymentNumber;
         this.userId = userId;
         this.paymentDate = paymentDate;
-        this.paymentMehtod = paymentMehtod;
+        this.paymentMethod = paymentMethod;
         this.paymentPrice = paymentPrice;
         this.userCouponNumber = userCouponNumber;
     }
@@ -46,12 +46,12 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public int getPaymentMehtod() {
-        return paymentMehtod;
+    public int getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentMehtod(int paymentMehtod) {
-        this.paymentMehtod = paymentMehtod;
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public int getPaymentPrice() {
@@ -72,12 +72,12 @@ public class Payment {
     
     
 
-    public List<OrderProduct> getOrderlist() {
-		return orderlist;
+    public List<OrderProduct> getOrderList() {
+		return orderList;
 	}
 
-	public void setOrderlist(List<OrderProduct> orderlist) {
-		this.orderlist = orderlist;
+	public void setOrderList(List<OrderProduct> orderList) {
+		this.orderList = orderList;
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class Payment {
         sb.append("paymentNumber=").append(paymentNumber);
         sb.append(", userId='").append(userId).append('\'');
         sb.append(", paymentDate='").append(paymentDate).append('\'');
-        sb.append(", paymentMehtod=").append(paymentMehtod);
+        sb.append(", paymentMethod=").append(paymentMethod);
         sb.append(", paymentPrice=").append(paymentPrice);
         sb.append(", userCouponNumber=").append(userCouponNumber);
         return sb.toString();

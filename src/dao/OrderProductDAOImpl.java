@@ -3,7 +3,6 @@ package dao;
 import dto.OrderOption;
 import dto.OrderProduct;
 import dto.Payment;
-import dto.Product;
 import service.OrderOptionService;
 import utils.DbUtils;
 
@@ -35,7 +34,7 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     	try {
     		
     		ps =con.prepareStatement(sql);
-    		for(OrderProduct order : payment.getOrderlist()) {
+    		for(OrderProduct order : payment.getOrderList()) {
     			/*이거 없어도 작동 잘 되면 삭제하기
     			 * Product product = productDAO.selectProductByProductNumber(order.getProductNumber());*/
     			
