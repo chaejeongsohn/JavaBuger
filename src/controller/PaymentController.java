@@ -6,10 +6,8 @@ import dto.Payment;
 import dto.Ranking;
 
 
-import dto.SalesDate;
-import dto.UserPaymentDetail;
-
-
+import dto.UserPaymentDetailByDate;
+import dto.UserTotalPaymentDetail;
 import service.PaymentService;
 import view.EndView;
 import view.FailView;

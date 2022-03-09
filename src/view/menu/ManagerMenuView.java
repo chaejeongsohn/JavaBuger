@@ -29,7 +29,7 @@ public class ManagerMenuView {
 					optionControl();
 					break;
 
-				case 3: // 매출관리
+				case "3": // 매출관리
 					salesControl();
 
 					break;
