@@ -35,6 +35,8 @@ public class UserMemberService {
             System.out.println(userId + "님 로그인 되었습니다.");
             UserSessionService.setUserSession(userMember);
         }
+        
+       
 
         // 로그인된 정보 저장하기
 
@@ -51,18 +53,23 @@ public class UserMemberService {
         if (!validID(userMember.getUserId()) || !validPW(userMember.getUserPw()) || !validPhoneNo(userMember.getUserPhone()) || !validBirthday(userMember.getUserBirthDay())) {
             throw new SQLException("회원가입에 실패했습니다.");
         }
+        //아이디 중복 체크
         String userId = userMember.getUserId();
-        boolean rs = checkExistUserId(userId);
+        boolean rsID = checkExistUserId(userId);
 
-        if (rs = false) {
-            int result = userMemberDAO.insertUser(userMember);
-            if (result == 0)
-                throw new SQLException("회원가입에 실패했습니다.");
-        } else {
-            userMemberDAO.insertUser(userMember);
-            return true;
-        }
-        return false;
+        if (rsID) {
+            throw new SQLException("해당 아이디는 이미 존재하는 아이디입니다.");
+        } 
+        //휴대폰 번호 중복 체크
+        int userPhone = userMember.getUserPhone();
+        boolean rsPhone = checkExistPhoneNo(userPhone);
+
+        if (rsPhone) {
+            throw new SQLException("이미 해당 번호로 가입한 이력이 있습니다.");
+        } 
+        
+        userMemberDAO.insertUser(userMember);
+        return true;
     }
 
     /**
@@ -104,8 +111,22 @@ public class UserMemberService {
     public boolean checkExistUserId(String userId) throws SQLException, NotFoundException {
         UserMember usermember = userMemberDAO.selectUserInfo(userId);
         if (usermember != null) {
-
-            throw new NotFoundException(userId + " 는 이미 존재하는 아이디입니다.");
+        	return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 휴대폰 번호 중복체크
+     *
+     * @param userPhone
+     * @return
+     */
+    public boolean checkExistPhoneNo(int userPhone) throws SQLException, NotFoundException {
+        UserMember usermember = userMemberDAO.selectUserInfo(userPhone);
+        if (usermember != null) {
+        	return true;
         } else {
             return false;
         }
@@ -148,14 +169,27 @@ public class UserMemberService {
      * @return
      */
     public boolean validID(String userID) {
-        Pattern pattern = Pattern.compile("^[a-z0-9]{5,10}$");
-        Matcher matcher = pattern.matcher(userID);
+    	boolean hasDigit = false;
+        boolean hasLower = false;
+    //    boolean hasUpper = false;
+        boolean islength = false;
+        
+        for(int i = 0; i <userID.length();i++) {
+        	char c = userID.charAt(i);
+        	if(c >= '0' && c <='9') {
+        		hasDigit = true;
+        	} else if(c >= 'a' && c<='z') {
+        		hasLower = true;
+        //	} else if(c >= 'A' && c<='Z') {
+      //  		hasUpper = true;
+        	} else if(userID.length() >=6 && userID.length()<=10)
+            	islength = true;
+        }
 
-        if (!matcher.matches()) {
-            System.out.println("유효하지 않는 아이디 형식입니다. 영소문자와 숫자를 포함하여 6~11글자 내외로 입력해주세요.");
+        if(!hasDigit || !hasLower) {
+        	System.out.println("유효하지 않는 아이디 형식입니다. 영어 소문자와 숫자를 포함하여 6~10글자 내외로 입력해주세요.");
             return false;
         }
-        System.out.println("성공");
         return true;
     }
 
@@ -166,15 +200,28 @@ public class UserMemberService {
      * @return
      */
     public boolean validPW(String userPw) {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9]{8,15}$");
-        Matcher matcher = pattern.matcher(userPw);
+        boolean hasDigit = false;
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean islength = false;
+        
+        for(int i = 0; i <userPw.length();i++) {
+        	char c = userPw.charAt(i);
+        	if(c >= '0' && c <='9') {
+        		hasDigit = true;
+        	} else if(c >= 'a' && c<='z') {
+        		hasLower = true;
+        	} else if(c >= 'A' && c<='Z') {
+        		hasUpper = true;
+        	} else if(userPw.length() >=8 && userPw.length()<=15)
+        		islength = true;
+        }
 
-        if (matcher.matches()) {
-            return true;
-        } else {
-            System.out.println("유효하지 않는 비밀번호 형식입니다. 영어와 숫자를 포함하여 8~15글자 내외로 입력해주세요.");
+        if(!hasDigit || !hasLower || !hasUpper) {
+        	System.out.println("유효하지 않는 비밀번호 형식입니다. 영어 대소문자와 숫자를 포함하여 8~15글자 내외로 입력해주세요.");
             return false;
         }
+        return true;
     }
 
     /**

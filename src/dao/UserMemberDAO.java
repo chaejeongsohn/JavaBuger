@@ -15,6 +15,15 @@ public interface UserMemberDAO {
      * @throws SQLException
      */
     UserMember selectUserInfo(String userId) throws SQLException;
+    
+    /**
+     * userPhone을 통해 UserMemeber 정보찾기
+     *
+     * @param userPhone
+     * @return
+     * @throws SQLException
+     */
+    UserMember selectUserInfo(int userPhone) throws SQLException;
 
     /**
      * 회원 추가
