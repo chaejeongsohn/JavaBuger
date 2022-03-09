@@ -20,7 +20,6 @@ public class CartService {
     private List<Product> allProducts;
     private List<ProductOption> allProductOptions;
     //메뉴 장바구니 입력을 위한 임시 객체 및 객체리스트
-    private CartProduct cartProduct;
     private List<ProductOption> productOptions = new ArrayList<>();
     private List<CartProduct> cartProducts = new ArrayList<>();
     //장바구니 객체 -> 후에 구매 파트에서 가져가 주문정보와 구매를 진행
@@ -45,13 +44,7 @@ public class CartService {
         allProductOptions = productOptionService.selectProductOptions();
     }
 
-    // 상품번호를 받아 해당 상품번호에 맞는 상품을 userCart 에 집어 넣는다
-    public boolean addProduct(int productNumber) throws SQLException, NotFoundException {
-        cartProduct = new CartProduct();
 
-        cartProduct.setQuantity(1);
-        return addProductToCartProduct(productNumber, cartProduct);
-    }
 
     // 상품옵션번호만 받아도 됌.
     public boolean addOption(int productOptionNumber) throws SQLException {
@@ -62,12 +55,12 @@ public class CartService {
     /*
         methods to fill up temp lists
      */
-    public void addOptionsToCartProduct() {
-        this.cartProduct.setOptionList(this.productOptions);
+    public void addOptionsToCartProduct(CartProduct cartProduct) {
+        cartProduct.setOptionList(this.productOptions);
     }
 
-    public void addCartProductToCartProducts() {
-        this.cartProducts.add(this.cartProduct);
+    public void addCartProductToCartProducts(CartProduct cartProduct) {
+        this.cartProducts.add(cartProduct);
     }
 
     public void addCartProductsToUserCart() {
@@ -91,7 +84,6 @@ public class CartService {
         if(cartItem == null) return false;
 
         int quantity = cartItem.getQuantity();
-
         if(quantity > 0) {
             cartItem.setQuantity( quantity - 1 );
         }

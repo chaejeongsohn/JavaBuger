@@ -20,28 +20,33 @@ public class CartMenuView {
                 C: 사이드
                 D: 음료
              */
-            //1. 버거 주문   2. 음료 주문   3. 사이드 주문   4. 세트 주문   5. 장바구니 보기
-            System.out.println("메뉴를 선택해주세요 > ");
-            int menu = Integer.parseInt(scanner.nextLine());
+            //1. 버거 주문   2. 음료 주문   3. 사이드 주문   4. 세트 주문   5. 장바구니 보기  6. 이전으로 돌아가기  7. 프로그램 종료
+            System.out.println("원하시는 기능의 번호를 입력해주세요 > ");
+            String menu = scanner.nextLine();
             switch(menu) {
-                case 1:
+                case "1":
                     CartController.handleProductOrder("B");
                     break;
-                case 2:
+                case "2":
                     CartController.handleProductOrder("D");
                     break;
-                case 3:
+                case "3":
                     CartController.handleProductOrder("C");
                     break;
-                case 4:
+                case "4":
                     CartController.handleProductOrder("A");
                     break;
-                case 5:
+                case "5":
                     // 상품주문을 하고 넘어갈때 주문정보를 장바구니에 다 담고 장바구니확인/주문이동 화면으로 넘어간다
                     CartController.saveOrderInfo();
                     CartMenuView.cartMenu2();
+                case "6":
+                	return;
+                case "7":
+                	System.out.println("프로그램을 종료합니다.");
+                	System.exit(0);
                 default:
-                    System.out.println("NOO");
+                    System.out.println("번호를 다시 입력해주세요");
             }
         }
     }
@@ -55,26 +60,26 @@ public class CartMenuView {
             CartController.getAllCartProductsForDisplay();
             printCartMenu2();
             //1. 수량 플러스   2. 수량 마이너스    3. 전체 삭제   4. 상품목록으로 돌아가기   5. 주문하기
-            System.out.println("메뉴를 선택해주세요 > ");
-            int menu = Integer.parseInt(scanner.nextLine());
+            System.out.println("원하시는 기능의 번호를 입력해주세요 > ");
+            String menu = scanner.nextLine();
             switch(menu) {
-                case 1:
-                    CartController.increaseUserCartQuantity(0);
+                case "1":
+                    CartController.increaseUserCartQuantity();
                     break;
-                case 2:
-                    CartController.decreaseUserCartQuantity(0);
+                case "2":
+                    CartController.decreaseUserCartQuantity();
                     break;
-                case 3:
+                case "3":
                     CartController.clearUserCart();
                     break;
-                case 4:
+                case "4":
                     CartMenuView.cartMenu1();
                     break;
-                case 5:
+                case "5":
                     //toDO: 채정님 구매 메뉴로 가는 뷰를 여기다 입력
                     break;
                 default:
-                    System.out.println("NOO");
+                    System.out.println("번호를 다시 입력해주세요");
             }
         }
     }
@@ -94,7 +99,7 @@ public class CartMenuView {
      */
     private static void printCartMenu1() {
         System.out.println("상품을 검색하고 주문하여 장바구니에 담는 화면 입니다.");
-        System.out.println(" 1. 버거 주문   2. 음료 주문   3. 사이드 주문   4. 세트 주문   5. 장바구니 보기");
+        System.out.println(" 1. 버거 주문   2. 음료 주문   3. 사이드 주문   4. 세트 주문   5. 장바구니 보기  6. 이전으로 돌아가기  7. 프로그램 종료");
     }
 
     /*
