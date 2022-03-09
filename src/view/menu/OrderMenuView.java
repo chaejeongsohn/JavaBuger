@@ -1,5 +1,8 @@
 package view.menu;
 
+import exception.NotFoundException;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class OrderMenuView {

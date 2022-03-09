@@ -3,18 +3,25 @@ package view.menu;
 import controller.PaymentController;
 import controller.UserCouponController;
 import controller.UserMemberController;
+<<<<<<< HEAD
+import exception.NotFoundException;
+import service.UserSessionService;
+
+import java.sql.SQLException;
+=======
 import dto.Payment;
 import dto.UserMember;
 import service.UserSessionService;
 
 import java.time.LocalDate;
 import java.util.List;
+>>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 import java.util.Scanner;
 
 public class UserDetailMenuView {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void memberMenu() {
+    public static void memberMenu() throws SQLException, NotFoundException {
         while (true) {
             System.out.println("------------ 회원 전용 메뉴 ---------------");
             System.out.println("1. 주문하기   2. 나의정보  3. 구매내역  4. 쿠폰조회 5.이전으로 돌아가기 6. 프로그램종료");
