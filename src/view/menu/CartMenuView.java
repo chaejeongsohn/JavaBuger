@@ -82,15 +82,8 @@ public class CartMenuView {
     /*
     CartController 에서 유저의 상품선택을 위해 사용하는 호출용.. (후에 고칠 수 있음 고쳐보기)
      */
-    public static int askUserInput1() {
-        System.out.print("\n원하시는 상품의 번호를 입력하세요 >> ");
-        int userInput = Integer.parseInt(scanner.nextLine());
-
-        return userInput;
-    }
-
-    public static int askUserInput2() {
-        System.out.println("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> ");
+    public static int askUserInput(String message) {
+        System.out.print(message);
         int userInput = Integer.parseInt(scanner.nextLine());
 
         return userInput;

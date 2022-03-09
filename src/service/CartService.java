@@ -45,15 +45,16 @@ public class CartService {
         allProductOptions = productOptionService.selectProductOptions();
     }
 
-    // 상품번호를 받아 해당 상품번호에 맞는 상품을 userCart 에 집어 넣는다 (단, cartController 만들 것)
-    public boolean handleProductOrder(int productNumber) throws SQLException, NotFoundException {
+    // 상품번호를 받아 해당 상품번호에 맞는 상품을 userCart 에 집어 넣는다
+    public boolean addProduct(int productNumber) throws SQLException, NotFoundException {
         cartProduct = new CartProduct();
 
+        cartProduct.setQuantity(1);
         return addProductToCartProduct(productNumber, cartProduct);
     }
 
-    // 상품옵션번호만 받아도 됌. but requires cartProduct from handleProductOrder()
-    public boolean handleProductOptionOrder(int productOptionNumber) throws SQLException {
+    // 상품옵션번호만 받아도 됌.
+    public boolean addOption(int productOptionNumber) throws SQLException {
 
         return addOptionToOptions(productOptionNumber);
     }
@@ -74,16 +75,28 @@ public class CartService {
     }
 
 
-    public boolean increaseUserCartQuantity(int quantity){
-        //toDo
+    public boolean increaseUserCartQuantity(int index){
+        List<CartProduct> cartProductList = userCart.get(userId);
+        CartProduct cartItem = cartProductList.get(index);
+        if(cartItem == null) return false;
 
-        return false;
+        cartItem.setQuantity( cartItem.getQuantity() + 1 );
+
+        return true;
     }
 
-    public boolean decreaseUserCartQuantity(int quantity){
-        //toDo
+    public boolean decreaseUserCartQuantity(int index){
+        List<CartProduct> cartProductList = userCart.get(userId);
+        CartProduct cartItem = cartProductList.get(index);
+        if(cartItem == null) return false;
 
-        return false;
+        int quantity = cartItem.getQuantity();
+
+        if(quantity > 0) {
+            cartItem.setQuantity( quantity - 1 );
+        }
+
+        return true;
     }
 
     public Map<String,List<CartProduct>> getUserCart() {
@@ -91,12 +104,14 @@ public class CartService {
     }
 
     public boolean clearUserCart() {
-        //toDo
         boolean result = false;
+        List<CartProduct> removed = userCart.remove(userId);
+        if(removed != null) {
+            result = true;
+        }
 
         return result;
     }
-
 
 
     ///////////////methods for display (to use in CartController)///////////////
@@ -119,7 +134,6 @@ public class CartService {
     public List<ProductOption> getAllProductOptionsForDisplay(){
         return this.allProductOptions;
     }
-
 
 
     ////////////// private method for userCart //////////////
