@@ -28,22 +28,6 @@ public class PaymentService {
     	int result = paymentDAO.insertPayment(payment);
     	if(result==0) throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
     }
-<<<<<<< Updated upstream
-=======
-
-    /**
-     *
-     * @param userId
-     * @param month
-     * @throws SQLException
-     */
-    public void selectUserPaymentByMonth(String userId, int month) throws SQLException{
-
-    }
-    public static void selectPayments() {
-    	
-    }
->>>>>>> Stashed changes
 
     public void deletePayment(int paymentNumber) {
     }

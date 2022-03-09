@@ -11,17 +11,7 @@ import utils.DbUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-<<<<<<< Updated upstream
 import java.util.List;
-=======
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
->>>>>>> Stashed changes
 
 public class PaymentDAOImpl implements PaymentDAO {
 	OrderProductService orderservice = new OrderProductService();

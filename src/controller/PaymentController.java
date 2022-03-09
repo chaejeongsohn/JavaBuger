@@ -5,15 +5,14 @@ import java.sql.SQLException;
 import dto.Payment;
 import exception.NotFoundException;
 import service.PaymentService;
+import view.EndView;
 import view.FailView;
 import view.SuccessView;
 
 
 public class PaymentController {
     static PaymentService paymentService = new PaymentService();
-<<<<<<< Updated upstream
-=======
-    
+
     /*카테고리 총 매출순위*/
     public static void selectSalesrankingAll() {
     	selectSalesranking("A");
@@ -24,22 +23,22 @@ public class PaymentController {
     
     /*메뉴별 매출순위*/
     public static void selectSalesranking(String category) {
-    	try{
-    		List<Ranking> ranklist =  paymentService.selectSalesranking(category);
-    		EndView.printSalesRanking(ranklist);
-    	}catch(SQLException e) {
-    		FailView.errorMessage(e.getMessage());
-    	}
+//    	try{
+//    		List<Ranking> ranklist =  paymentService.selectSalesranking(category);
+//    		EndView.printSalesRanking(ranklist);
+//    	}catch(SQLException e) {
+//    		FailView.errorMessage(e.getMessage());
+//    	}
     }
     
     /*일별 매출순위*/
     public static void selectSalseByDate() {
-    	try{
-    		List<SalesDate> saleslist =paymentService.selectSalseByDate();
-    		EndView.printDateSales(saleslist);
-    	}catch(SQLException e) {
-    		FailView.errorMessage(e.getMessage());
-    	}
+//    	try{
+//    		List<SalesDate> saleslist =paymentService.selectSalseByDate();
+//    		EndView.printDateSales(saleslist);
+//    	}catch(SQLException e) {
+//    		FailView.errorMessage(e.getMessage());
+//    	}
     }
     
     
@@ -57,14 +56,13 @@ public class PaymentController {
      * @param month
      */
     public static void selectUserPaymentByMonth(String userId, int month){
-        try{
-            paymentService.selectUserPaymentByMonth(userId, month);
-            SuccessView.messagePrint("");
-        }catch(SQLException e){
-            FailView.errorMessage(e.getMessage());
-        }
+//        try{
+//            paymentService.selectUserPaymentByMonth(userId, month);
+//            SuccessView.messagePrint("");
+//        }catch(SQLException e){
+//            FailView.errorMessage(e.getMessage());
+//        }
     }
->>>>>>> Stashed changes
 
     public static void selectPayments() {
     }
@@ -79,14 +77,6 @@ public class PaymentController {
     public static void selectPaymentByPaymentDate(String paymentDate) {
     }
 
-    public static void insertPayment(Payment payment) {
-    	try{
-    		paymentService.insertPayment(payment);
-    		SuccessView.messagePrint("[주문 완료!]"+payment.getPaymentMehtod()+"로 결제완료되었습니다.");
-    	}catch(SQLException e) {
-    		FailView.errorMessage(e.getMessage());
-    	}
-    }
 
     public static void deletePayment(int paymentNumber) {
     }
