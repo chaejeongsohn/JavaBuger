@@ -119,6 +119,7 @@ public class EndView {
 		for(SalesDate sales : saleslist) {		
 		System.out.println(sales.getDate()+" | "+sales.getTotalsales()+"원");
 		}
+		System.out.println();
 	}
 
 
