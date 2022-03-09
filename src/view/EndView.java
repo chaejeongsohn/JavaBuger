@@ -1,10 +1,20 @@
 package view;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import dto.Coupon;
 import dto.Product;
+import dto.ProductCategory;
 import dto.ProductOption;
+import dto.Ranking;
+import dto.SalesDate;
 import dto.UserCoupon;
 import dto.UserMember;
 
@@ -91,6 +101,26 @@ public class EndView {
 
 	public static void printProductOption(ProductOption productOption) {
 		System.out.println(productOption);
+	}
+
+	public static void printSalesRanking(List<Ranking> ranking) {
+		int rankno =1;
+		Ranking rank = ranking.get(0);
+		System.out.println("---[ "+rank.getCategoryName()+" ] 매출 순위 ---");
+		for(Ranking ranklist : ranking) {
+			System.out.println(rankno +". [ "+ ranklist.getProductName()+" ] 총 매출액: "+ranklist.getTotalPrice()+"원" );
+			rankno= rankno+1;
+		}
+		System.out.println();
+		
+	}
+
+	public static void printDateSales(List<SalesDate> saleslist) {//NullPointerException 오류남
+		System.out.println("---[ 일별 매출 현황 ]---");	
+		for(SalesDate sales: saleslist) {
+			System.out.println(sales.getDate());
+				System.out.println(sales);
+		}
 	}
 
 }
