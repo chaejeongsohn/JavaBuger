@@ -117,9 +117,9 @@ public class UserDetailMenuView {
 
     private static void printUserPaymentMenu() {
         System.out.println("---- 전체 구매내역 ---");
-        PaymentController.selectPaymentByUserId(UserSessionService.getUserSession().getUserId());
+        String userId = UserSessionService.getUserSession().getUserId();
         System.out.println("------------ 나의 구매내역 메뉴 ---------------");
-        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
+        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 전체 구매내역 조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
         System.out.println("메뉴를 선택하세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
         switch (menu) {
@@ -131,10 +131,10 @@ public class UserDetailMenuView {
             case 2: // 구매날짜로 상세조회
                 System.out.println("원하시는 조회 날짜를 입력하세요 ex)2022-03-01 > ");
                 String paymentDate = scanner.nextLine();
-                //PaymentController.selectUserPaymentByPaymentDate(paymentDate);
+                PaymentController.selectUserPaymentByPaymentDate(userId, paymentDate);
                 break;
-            case 3: // 가장 최근 구매내역 조회
-                //paymentController.selectLastUserPayment;
+            case 3: // 전체 구매내역 조회
+                PaymentController.selectPaymentByUserId(userId);
                 break;
             case 4:
                 System.out.println("이전으로 돌아갑니다.");

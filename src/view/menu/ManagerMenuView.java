@@ -28,6 +28,7 @@ public class ManagerMenuView {
 					optionControl();
 					break;
 				case 3: // 매출관리
+
 					break;
 				case 4: // 매점관리
 					storeControl();
