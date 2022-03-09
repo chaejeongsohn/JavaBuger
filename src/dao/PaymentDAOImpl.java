@@ -121,41 +121,60 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 
     @Override
-    public List<SalesDate> selectSalseByDate() throws SQLException {
-        List<SalesDate> saleslist = new ArrayList<SalesDate>();
-        List<Date> paylist = selectDateAll();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy년 mm월 dd일");
 
-        for (Date salesdate : paylist) {
-            int totalSales = selectSalesAllByDate(salesdate);
-            String strDate = dateFormat.format(salesdate);
-            SalesDate sales = new SalesDate(strDate, totalSales);
-            saleslist.add(sales);
-        }
+    public List<SalesDate> selectSalseByDate() throws SQLException, NullPointerException{
+    	List<SalesDate> saleslist = new ArrayList<SalesDate>();
+    	List<Date> paylist = selectDateAll();	
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+    	
+    	for(Date salesdate: paylist) {
+    		int totalSales = selectSalesAllByDate(salesdate);
+    		String strDate= dateFormat.format(salesdate);
+    		if(!strDate.isEmpty()) {
+    		SalesDate sales = new SalesDate(strDate, totalSales);
+    		saleslist.add(sales);
+    		}
+    	}
+
+
+
         return saleslist;
     }
 
     /*전체 결제일 조회*/
-    public List<Date> selectDateAll() throws SQLException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String sql = "select pay_date from payment";
-        List<Date> paylist = new ArrayList<>();
 
-        try {
-            con = DbUtils.getConnection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
+    public List<Date> selectDateAll() throws SQLException, NullPointerException {
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	String sql = "select pay_date from payment";
+    	List<Date> originlist = new ArrayList<>();
+    	List<Date> resultlist = new ArrayList<>();
+    	
+    	try {
+    		con=DbUtils.getConnection();
+    		ps=con.prepareStatement(sql);
+    		rs=ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			Date date =rs.getDate(1);
+    			if(date!=null) {
+    				originlist.add(date);
+    			}
+    		
+    	int originsize =originlist.size();
+    	for (int i=0;i<originsize;i++) {
+    		if(!resultlist.contains(originlist.get(i))) {
+    			resultlist.add(originlist.get(i));
+    		}
+    	Collections.sort(resultlist);
+    	}	
+    		}
+    	}finally{
+    		DbUtils.close(con, ps, rs);
+    	}
+    	return resultlist;
 
-            while (rs.next()) {
-                Date date = rs.getDate(1);
-                paylist.add(date);
-            }
-        } finally {
-            DbUtils.close(con, ps, rs);
-        }
-        return paylist;
     }
 
     /*결제일별 결제 금액 조회*/

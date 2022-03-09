@@ -3,6 +3,7 @@ package view.menu;
 import java.util.Scanner;
 
 import controller.ManagementController;
+import controller.PaymentController;
 import controller.ProductController;
 import controller.ProductOptionController;
 import dto.Product;
@@ -27,7 +28,10 @@ public class ManagerMenuView {
 				case "2": // 옵션관리
 					optionControl();
 					break;
-				case "3": // 매출관리
+
+				case 3: // 매출관리
+					salesControl();
+
 					break;
 				case "4": // 매점관리
 					storeControl();
@@ -250,6 +254,30 @@ public class ManagerMenuView {
 			ProductOptionController.deleteProductOption(optionNumber);
 		}
 	}
+	
+	private static void salesControl() {
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("|    1. 일별 매출 현황   2. 메뉴별 매출 순위  3. 매니저메뉴로 돌아가기 |");
+		System.out.println("------------------------------------------------------------");
+		System.out.println("원하는 매출관리를 선택해 주세요>");
+		int menu = Integer.parseInt(scanner.nextLine());
+		while(true) {
+			switch(menu) {
+				case 1 :
+					PaymentController.selectSalseByDate();
+					salesControl();
+				case 2 :
+					PaymentController.selectSalesrankingAll();
+					salesControl();
+				case 3:
+					break;
+			}
+			break;
+		}
+		
+	}
+	
+	
 
 	private static void storeControl() {
 
