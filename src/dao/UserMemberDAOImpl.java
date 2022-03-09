@@ -34,7 +34,30 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         }
         return usermember;
     }
+    
+	@Override
+	public UserMember selectUserInfo(int userPhone) throws SQLException {
+	       Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        UserMember usermember = null;
 
+	        try {
+	            con = DbUtils.getConnection();
+	            ps = con.prepareStatement("select * from usermember where user_phone=?");
+	            ps.setInt(1, userPhone);
+	            rs = ps.executeQuery();
+
+	            if (rs.next()) {
+	                usermember = new UserMember(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+
+	            }
+	        } finally {
+	            DbUtils.close(con, ps, rs);
+	        }
+	        return usermember;
+	}
+	
     @Override
     public int insertUser(UserMember userMember) throws SQLException {
         String userId;

@@ -66,9 +66,9 @@ public class UserMenuView {
     	int inputBirthday = 0;
     	
     	try {
-	    	System.out.print("사용하실 아이디를 입력하세요(영소문자와 숫자를 포함하여 6~11글자 내외로 입력) > ");
+	    	System.out.print("사용하실 아이디를 입력하세요(영소문자와 숫자를 포함하여 6~10글자 내외로 입력) > ");
 	    	inputId = scanner.nextLine();
-	    	System.out.print("사용하실 비밀번호를 입력하세요(영어와 숫자를 포함하여 8~15글자 내외로 입력) > ");
+	    	System.out.print("사용하실 비밀번호를 입력하세요(영어 대,소문자와 숫자를 포함하여 8~15글자 내외로 입력) > ");
 	    	inputPw = scanner.nextLine();
 	    	System.out.print("이름을 입력하세요 > ");
 	    	inputName = scanner.nextLine();
