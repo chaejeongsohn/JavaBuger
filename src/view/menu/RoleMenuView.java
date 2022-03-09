@@ -11,20 +11,22 @@ public class RoleMenuView {
     public static void roleMenu()  {
         while (true){
             RoleMenuView.printMenu();
-            int menu = Integer.parseInt(sc.nextLine());
+            String menu = sc.nextLine();
             switch (menu){
-                case 1: // 회원
+                case "1": // 회원
                     UserMenuView.userMenu();
                     break;
-                case 2: // 비회원
+                case "2": // 비회원
                     OrderMenuView.orderMenu();
                     break;
-                case 3: // 매니저
+                case "3": // 매니저
                     ManagerMenuView.managerMenu();
                     break;
-                case 4: // 프로그램종료
+                case "4": // 프로그램종료
                 	System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
+                default:
+ 				   System.out.println("번호를 다시 입력해주세요");
             }
         }
     }

@@ -16,26 +16,28 @@ public class UserMenuView {
     public static void userMenu() {
         while (true) {
             printUserMenu();
-            System.out.println("메뉴를 골라주세요 > ");
-            int menu = Integer.parseInt(scanner.nextLine());
+            System.out.println("원하시는 기능의 번호를 입력해주세요 > ");
+            String menu = scanner.nextLine();
             switch (menu) {
-                case 1: // 로그인
+                case "1": // 로그인
                     printLogin();
                     break;
-                case 2: // 회원가입
+                case "2": // 회원가입
                 	printJoin(); 
                     break;
-                case 3: // 아이디찾기
+                case "3": // 아이디찾기
                 	printUserID();
                     break;
-                case 4: // 비밀번호찾기
+                case "4": // 비밀번호찾기
                 	printUserPW();
                     break;
-                case 5: //이전으로 돌아가기
+                case "5": //이전으로 돌아가기
                 	return;
-                case 6: // 프로그램 종료
+                case "6": // 프로그램 종료
                 	System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
+                default:
+  				   System.out.println("번호를 다시 입력해주세요");
             }
         }
     }
