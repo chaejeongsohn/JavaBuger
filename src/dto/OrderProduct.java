@@ -11,8 +11,7 @@ public class OrderProduct {
     
     List<OrderOption> orderoptionlist = new ArrayList<OrderOption>();
 
-    public OrderProduct(int orderProductNo, int paymentNumber, int productNumber, int orderProductAmount) {
-        this.orderProductNo = orderProductNo;
+    public OrderProduct(int paymentNumber, int productNumber, int orderProductAmount) {
         this.paymentNumber = paymentNumber;
         this.productNumber = productNumber;
         this.orderProductAmount = orderProductAmount;

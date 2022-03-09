@@ -194,50 +194,30 @@ public class PaymentDAOImpl implements PaymentDAO {
             con = DbUtils.getConnection();
             con.setAutoCommit(false);
 
-            ps = con.prepareStatement(sql);
+            String returnCols[] = {"PAY_NO"};
+            ps = con.prepareStatement(sql, returnCols);
             ps.setString(1, payment.getUserId());
-            ps.setInt(2, payment.getPaymentMehtod());
-            ps.setInt(3, getTotalPrice(payment));
+            ps.setInt(2, payment.getPaymentMethod());
+            ps.setInt(3, payment.getPaymentPrice());
             ps.setInt(4, payment.getUserCouponNumber());
 
-            result = ps.executeUpdate();
-            if (result == 0) {
+//    		result=ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
                 con.rollback();
                 throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
             } else {
-                if ((orderservice.insertOrderProduct(con, payment)) == false) {
-                    con.rollback();
-                }
+//    			if((orderservice.insertOrderProduct(con, payment))==false) {
+//    				con.rollback();
+//    			}
                 con.commit();
+                return rs.getInt(1);
             }
 
         } finally {
             con.commit();
             DbUtils.close(con, ps, null);
         }
-        return result;
-    }
-
-    /*총 구매 금액 구하는 메소드*/
-    public int getTotalPrice(Payment payment) throws SQLException {
-        List<OrderProduct> orderlist = payment.getOrderlist();
-        int total = 0;
-        int optionprice = 0;
-
-        for (OrderProduct order : orderlist) {
-            Product products = productDAO.selectProductByProductNumber(order.getOrderProductNo());
-            if (products == null) throw new SQLException("[주문 실패] 상품번호 오류입니다.");
-            optionprice = this.getOptionPrice(order);
-
-            System.out.println(optionprice);
-            System.out.println(products.getProductName());
-            System.out.println(products.getProductPrice());// 오류??null
-            System.out.println(order.getOrderProductAmount());
-
-            total += order.getOrderProductAmount() * (products.getProductPrice() + optionprice);
-        }
-
-        return total;
     }
 
     /*해당 물건 옵션 금액 구하는 메소드*/
@@ -265,7 +245,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     @Override
     public List<UserTotalPaymentDetail> selectPaymentByUserId(String userId) throws SQLException {
         List<UserTotalPaymentDetail> userTotalPaymentDetailList = new ArrayList<>();
-		Connection con = null;
+        Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select pay_date, pay_price, prd_name, order_prd_amount\n" +
@@ -279,14 +259,14 @@ public class PaymentDAOImpl implements PaymentDAO {
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
-			ps.setString(1, userId);
+            ps.setString(1, userId);
             rs = ps.executeQuery();
 
 
             while (rs.next()) {
                 UserTotalPaymentDetail userTotalPaymentDetail = new UserTotalPaymentDetail(rs.getString(1), rs.getInt(2)
                         , rs.getString(3), rs.getInt(4));
-				userTotalPaymentDetailList.add(userTotalPaymentDetail);
+                userTotalPaymentDetailList.add(userTotalPaymentDetail);
             }
         } finally {
             DbUtils.close(con, ps, rs);
@@ -294,7 +274,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         return userTotalPaymentDetailList;
     }
 
-    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException{
+    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException {
         List<UserPaymentDetailByDate> userPaymentDetailByDateList = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
@@ -320,8 +300,8 @@ public class PaymentDAOImpl implements PaymentDAO {
 
             while (rs.next()) {
                 UserPaymentDetailByDate userPaymentDetailByDate = new UserPaymentDetailByDate(
-                        rs.getInt(1),rs.getInt(2),
-                rs.getString(3),rs.getInt(4),rs.getString(5));
+                        rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getInt(4), rs.getString(5));
                 userPaymentDetailByDateList.add(userPaymentDetailByDate);
             }
         } finally {

@@ -28,11 +28,11 @@ public interface OrderProductDAO {
     /**
      * 제품 구매내역 추가
      *
-     * @param orderProduct
+     * @param orderProductList
      * @return
      * @throws SQLException
      */
-    int[] insertOrderProduct(Connection con ,Payment payment) throws SQLException;
+    int[] insertOrderProduct(Connection con ,List<OrderProduct> orderProductList) throws SQLException;
 
     /**
      * 해당 제품 구매내역 삭제 (orderProductNo 이용)
