@@ -3,19 +3,11 @@ package view.menu;
 import controller.PaymentController;
 import controller.UserCouponController;
 import controller.UserMemberController;
-<<<<<<< HEAD
+import dto.UserMember;
 import exception.NotFoundException;
 import service.UserSessionService;
 
 import java.sql.SQLException;
-=======
-import dto.Payment;
-import dto.UserMember;
-import service.UserSessionService;
-
-import java.time.LocalDate;
-import java.util.List;
->>>>>>> daf0bac73c8ceee4034972b9f6fa8d11d911b296
 import java.util.Scanner;
 
 public class UserDetailMenuView {
@@ -44,13 +36,13 @@ public class UserDetailMenuView {
                 case 5: //이전으로 돌아가기
                     return;
                 case 6: // 프로그램 종료
-                	System.out.println("프로그램을 종료합니다.");
+                    System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
             }
         }
     }
 
-    
+
     private static void printUserInfoMenu() {
         System.out.println("------------ 나의 정보 메뉴 ---------------");
         System.out.println("1. 나의상세정보   2. 정보수정  3. 회원탈퇴  4. 이전으로 돌아가기 5. 프로그램 종료 ");
@@ -68,9 +60,9 @@ public class UserDetailMenuView {
             case 3: // 회원탈퇴
                 System.out.println("정말로 탈퇴하시겠습니까? (Y/N) ");
                 String answer = scanner.nextLine();
-                if(answer.equalsIgnoreCase("Y")){
+                if (answer.equalsIgnoreCase("Y")) {
                     UserMemberController.deleteUser();
-                }else{
+                } else {
                     System.out.println("이전으로 돌아갑니다.");
                     return;
                 }
@@ -79,14 +71,14 @@ public class UserDetailMenuView {
                 return;
 
             case 5: // 프로그램 종료
-            	System.out.println("프로그램을 종료합니다.");
+                System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
 
         }
     }
 
 
-    private static void printUpdateUserMenu(UserMember updateUserMember){
+    private static void printUpdateUserMenu(UserMember updateUserMember) {
         System.out.println("---------정보 수정 메뉴 -----------");
         System.out.println("1.이름변경 2.폰번호변경 3.비밀번호변경 4.이전으로 돌아가기 5. 프로그램 종료");
         System.out.println("메뉴를 선택하세요 > ");
@@ -119,11 +111,11 @@ public class UserDetailMenuView {
         }
     }
 
-    private static void printUserCouponMenu(){
+    private static void printUserCouponMenu() {
         UserCouponController.selectUserCoupons(UserSessionService.getUserSession().getUserId());
     }
 
-    private static void printUserPaymentMenu(){
+    private static void printUserPaymentMenu() {
         PaymentController.selectPaymentByUserId(UserSessionService.getUserSession().getUserId());
         System.out.println("------------ 나의 구매내역 메뉴 ---------------");
         System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
