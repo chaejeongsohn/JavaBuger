@@ -2,6 +2,8 @@ package controller;
 
 import dto.OrderOption;
 import service.OrderOptionService;
+import utils.DbUtils;
+import view.FailView;
 
 import java.sql.SQLException;
 
@@ -15,7 +17,11 @@ public class OrderOptionController {
     }
 
     public static void insertOrderOption(OrderOption orderOption) throws SQLException {
-        //추가 필요
+        try {
+            orderOptionService.insertOrderOption(DbUtils.getConnection(), orderOption);
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        }
     }
 
     public static void deleteOrderOption(int orderOptionNo) throws SQLException {

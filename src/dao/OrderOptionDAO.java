@@ -33,7 +33,7 @@ public interface OrderOptionDAO {
      * @return
      * @throws SQLException
      */
-    int[] insertOrderOption(Connection con, OrderProduct orderproduct) throws SQLException;
+    int insertOrderOption(Connection con, OrderOption orderOption) throws SQLException;
 
 
     /**

@@ -108,7 +108,7 @@ public class OrderMenuView {
                         int optionNumber = po.getOptionNumber();
 
                         //OrderOption DTO 생성 및 DB insert
-                        OrderOption orderOption = new OrderOption(optionNumber);
+                        OrderOption orderOption = new OrderOption(cp.getProduct().getProductNumber(), optionNumber);
                         try {
                             OrderOptionController.insertOrderOption(orderOption);
                         } catch (SQLException e) {
