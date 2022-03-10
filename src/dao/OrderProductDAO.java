@@ -1,7 +1,6 @@
 package dao;
 
 import dto.OrderProduct;
-import dto.Payment;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,6 +15,6 @@ public interface OrderProductDAO {
      * @return
      * @throws SQLException
      */
-    int[] insertOrderProduct(Connection con ,Payment payment) throws SQLException;
+    int[] insertOrderProduct(Connection con, List<OrderProduct> orderProductList) throws SQLException;
 
 }

@@ -10,8 +10,8 @@ public class Payment {
     private int paymentMethod;
     private int paymentPrice;
     private int userCouponNumber;
-    
-    List<OrderProduct> orderlist = new ArrayList<>();
+    private List<OrderProduct> orderList = new ArrayList<>();
+
     public Payment(String userId, int paymentMethod, int paymentPrice, int userCouponNumber) {
         this.userId = userId;
         this.paymentMethod = paymentMethod;
@@ -19,18 +19,18 @@ public class Payment {
         this.userCouponNumber = userCouponNumber;
     }
 
-    
-    public List<OrderProduct> getOrderlist() {
-		return orderlist;
-	}
+
+    public List<OrderProduct> getOrderList() {
+        return orderList;
+    }
 
 
-	public void setOrderlist(List<OrderProduct> orderlist) {
-		this.orderlist = orderlist;
-	}
+    public void setOrderList(List<OrderProduct> orderList) {
+        this.orderList = orderList;
+    }
 
 
-	public int getPaymentNumber() {
+    public int getPaymentNumber() {
         return paymentNumber;
     }
 
