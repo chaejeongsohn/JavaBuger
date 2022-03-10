@@ -64,7 +64,7 @@ public class OrderMenuView {
             case 1:
                 // 쿠폰 적용
                 couponNumber = userchoiceCoupon(userId);
-                break;
+                orderMenu();
 
             case 2:
                 int paymentPrice = totalPrice;
@@ -88,8 +88,8 @@ public class OrderMenuView {
 
                 try {
                     // 위에서 적용된 Payment 객체를 Payment 테이블에 Insert
-   
-                    
+                	int paymentNumber = PaymentController.insertPayment(payment);
+
                     List<OrderProduct> orderProductList = new ArrayList<>();
                     for (CartProduct cartProduct : cartProducts) {
                         orderProductList.add(new OrderProduct(paymentNumber, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity()));
@@ -100,7 +100,7 @@ public class OrderMenuView {
                 }/////////////////////////////////////////////////////////////////
                 
                 
-                int paymentNumber = PaymentController.insertPayment(payment);
+               /* int paymentNumber = PaymentController.insertPayment(payment);
                 Payment pay = new Payment(0, paymentMethod, 0, couponNumber);
                 
                 
@@ -127,7 +127,7 @@ public class OrderMenuView {
                OrderProduct order= new OrderProduct(0, 상품번호, 상품수량);
                OrderOption orderOption = new OrderOption(0, 0, 옵션번호);
                
-               order.getOrderoptionlist().add(orderOption);
+               order.getOrderoptionlist().add(orderOption);*/
 
                 //장바구니 내역 중 옵션리스트를 OrderOption 객체로 만들고 OrderOption 테이블에 Insert
                 /*
@@ -189,5 +189,6 @@ public class OrderMenuView {
             break;
         }
         return couponNumber;
+        
     }
 }

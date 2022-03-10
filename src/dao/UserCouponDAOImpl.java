@@ -96,6 +96,53 @@ public class UserCouponDAOImpl implements UserCouponDAO {
         return result;
     }
 
+    /*한장 사용하는거 */
+    @Override
+    public int deleteUserCoupon2(Connection con, int usercouponnumber) throws SQLException {
+    	PreparedStatement ps = null;
+    	String sql = "update usercoupon set coupon_amount = coupon_amount-1 where user_coupon_no = ?";
+    	int result =0;
+    	try {
+    		con.setAutoCommit(false);
+    		
+    		ps = con.prepareStatement(sql);
+    		ps.setInt(1, usercouponnumber);
+    		result = ps.executeUpdate();
+    		
+    		UserCoupon usercoupon  = selectUserCouponByUserCoupon(con, usercouponnumber);
+    		if(usercoupon.getCouponAmount()==0) {
+    			con.rollback();
+    			throw new SQLException("사용 가능한 쿠폰 수량이 없습니다.");
+    		}else {
+			con.commit();
+    		}	
+    	}finally {
+    		DbUtils.close(null, ps);
+    	}
+    	return result;
+    }
+    
+    /*usercoupon_no 정보 가져오기*/
+    public UserCoupon selectUserCouponByUserCoupon(Connection con, int usercouponnumber) throws SQLException{
+    	PreparedStatement ps= null;
+    	ResultSet rs = null;
+    	String sql = "select*from usercoupon where user_coupon_no = ?";
+    	UserCoupon usercoupon = null;
+    	try {
+    		ps =con.prepareStatement(sql);
+    		ps.setInt(1, usercouponnumber);
+    		rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+    		}
+    				
+    	}finally {
+    		DbUtils.close(null, ps, rs);
+    	}
+    	return usercoupon;
+    }
+
     @Override
     public List<UserCoupon> selectUserCoupons(String userId) throws SQLException {
     	Connection con = null;
@@ -110,7 +157,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		ps = con.prepareStatement(sql);
     		ps.setString(1, userId);
     		
-    		rs = ps.executeQuery();
+    		rs = ps.executeQuery();//쿠폰 조회하고 만료날짜 체크해야 하는데 없어짐
     		while(rs.next()) {
     			UserCoupon userCoupons = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     			userCouponList.add(userCoupons);
@@ -125,7 +172,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     
 
     @Override
-    public UserCoupon selectUserCouponByNumber(String userId, int couponNumber) throws SQLException {
+    public UserCoupon selectUserCouponByNumber(String userId, int couponNumber) throws SQLException { //어디서도 쓰지 않는 코드 같음
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs= null;
@@ -145,7 +192,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     		}
     		//쿠폰번호에 해당하는 쿠폰정보 가져오기
-    		Coupon coupon = couponService.selectCouponByNumber(couponNumber);
+    		Coupon coupon = couponService.selectCouponByNumber(couponNumber); //connection도 넘겨받아야 하지 않나???
     		couponlist.add(coupon);
     		
     	}finally {
