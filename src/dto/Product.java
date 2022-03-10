@@ -78,11 +78,12 @@ public class Product {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
-		sb.append("productNumber=").append(productNumber);
-		sb.append(", categoryNumber=").append(categoryNumber);
-		sb.append(", productName='").append(productName).append('\'');
-		sb.append(", productPrice=").append(productPrice);
-		sb.append(", productDetail='").append(productDetail).append('\'');
+		sb.append("상품번호 = ").append(productNumber);
+		sb.append(" | | 카테고리번호 = ").append(categoryNumber);
+		sb.append(" | | 상품이름 = '").append(productName).append('\'');
+		sb.append(" | | 상품가격 = ").append(productPrice);
+		sb.append(" | | 상품설명 = '").append(productDetail).append('\'');
+		System.out.println();
 		return sb.toString();
 	}
 }

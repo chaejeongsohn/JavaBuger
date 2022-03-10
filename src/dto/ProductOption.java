@@ -63,10 +63,11 @@ public class ProductOption {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("");
-		sb.append("optionNumber=").append(optionNumber);
-		sb.append(", categoryNumber=").append(categoryNumber);
-		sb.append(", optionName='").append(optionName).append('\'');
-		sb.append(", optionPrice=").append(optionPrice);
+		sb.append("옵션번호 = ").append(optionNumber);
+		sb.append(" | | 카테고리번호 = ").append(categoryNumber);
+		sb.append(" | | 옵션이름 = '").append(optionName).append('\'');
+		sb.append(" | | 상품가격 = ").append(optionPrice);
+		System.out.println();
 		return sb.toString();
 	}
 }
