@@ -2,6 +2,7 @@ package view.menu;
 
 import controller.*;
 import dto.*;
+import service.CartService;
 import service.UserCouponService;
 import service.UserSessionService;
 import view.EndView;
@@ -20,7 +21,6 @@ public class OrderMenuView {
     private static String userId = UserSessionService.getUserSession().getUserId();
     private static Map<String, List<CartProduct>> cart = CartController.getUserCart();
     private static List<CartProduct> cartlist = cart.get(userId);
-    private static CartController cartcontroller = new CartController();
 
     public static void orderMenu() {
         System.out.println("\n---------- 구매 화면 --------------------");
@@ -29,7 +29,7 @@ public class OrderMenuView {
      // 주문/결제 메뉴
         UserCoupon usingUserCoupon = null;
         System.out.println("-------------------------------------------------");
-        System.out.println("|  1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기  |");
+        System.out.println("|  1. 쿠폰적용    2. 결제하기    3. 장바구니로 돌아가기  |");
         System.out.println("-------------------------------------------------");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
@@ -63,7 +63,7 @@ public class OrderMenuView {
                     break;
             }
   
-            break;
+           return;
 
         case 3:
             // 장바구니로 돌아가기
@@ -95,7 +95,11 @@ public class OrderMenuView {
                  }
          }
          PaymentController.insertPayment(pay);
-         cartcontroller.clearUserCart();
+         //cart.clear();
+         /*if(cartservice.clearUserCart2(cart)) {
+                 	FailView.errorMessage("장바구니 비우기 오류가 생겼습니다.");
+                 }*/
+
 		
 	}
 
@@ -115,7 +119,11 @@ public class OrderMenuView {
                   }
           }
           PaymentController.insertPayment(pay);
-          cartcontroller.clearUserCart();
+          //cart.clear();
+          /*if(cartservice.clearUserCart2(cart)) {
+                  	FailView.errorMessage("장바구니 비우기 오류가 생겼습니다.");
+                  }*/
+
     }
     
     public static void viewCart(String userId) {
