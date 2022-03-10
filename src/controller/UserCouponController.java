@@ -61,7 +61,7 @@ public class UserCouponController {
     	UserCoupon usercoupon = null;
     	try{
     		usercoupon= userCouponService.selectUSerCouponByNumber(userId, couponNumber);
-    		EndView.printUserCoupon(usercoupon);
+			System.out.println(usercoupon);
     	}catch(SQLException e) {
     		FailView.errorMessage(e.getMessage());
     	}

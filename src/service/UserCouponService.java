@@ -46,7 +46,7 @@ public class UserCouponService {
         if (userCoupon == null) {
             throw new SQLException("쿠폰[ " + couponNumber + " ]을 가지고 있지 않습니다.");
         }
-        return null;
+        return userCoupon;
     }
 
     public List<UserCoupon> selectUserCoupons(String userId) throws SQLException {
