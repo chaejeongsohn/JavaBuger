@@ -12,7 +12,7 @@ public class DbUtils {
     static {
         try {
             proFile.load(new FileInputStream("src/resources/dbInfo.properties"));
-            //proFile.load(new FileInputStream("board.properties"));
+            proFile.load(new FileInputStream("resources/sql.properties"));
 
             Class.forName(proFile.getProperty("driverName"));
 
@@ -27,7 +27,7 @@ public class DbUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
+         return DriverManager.getConnection(
                 proFile.getProperty("url"),
                 proFile.getProperty("userName"),
                 proFile.getProperty("userPass"));

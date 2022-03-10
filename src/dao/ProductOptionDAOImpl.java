@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class ProductOptionDAOImpl {
+	private Properties proFile = DbUtils.getProFile();
 
 	// @Override
 	public List<ProductOption> selectProductOptions() throws SQLException {
@@ -18,8 +20,7 @@ public class ProductOptionDAOImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ProductOption> productOptionList = new ArrayList<>();
-		// toDO: sql 은 resources/sql.properties 파일에 집어넣기
-		String sql = "select * from productoption";
+		String sql = proFile.getProperty("productoption.select");
 
 		try {
 			con = DbUtils.getConnection();
@@ -44,8 +45,7 @@ public class ProductOptionDAOImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ProductOption productOption = null;
-		// toDO: sql 은 resources/sql.properties 파일에 집어넣기
-		String sql = "select * from productoption where opt_no=?";
+		String sql = proFile.getProperty("productoption.selectOpNo");
 
 		try {
 			con = DbUtils.getConnection();
@@ -67,8 +67,7 @@ public class ProductOptionDAOImpl {
 	public int insertProductOption(ProductOption productOption) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		// toDO: sql 은 resources/sql.properties 파일에 집어넣기
-		String sql = "insert into productoption(opt_no, category_no, opt_name, opt_price) values(opt_no_seq.nextval, ?, ?, ?)";
+		String sql = proFile.getProperty("productoption.insertPO");
 		int result = 0;
 		try {
 			con = DbUtils.getConnection();
@@ -103,8 +102,7 @@ public class ProductOptionDAOImpl {
 	public int updateProductOption(ProductOption productOption) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		// toDO: sql 은 resources/sql.properties 파일에 집어넣기
-		String sql = "update productoption set category_no=?, opt_name=?, opt_price=? where opt_no=?";
+		String sql = proFile.getProperty("productoption.update");
 		int result = 0;
 
 		try {
@@ -135,8 +133,7 @@ public class ProductOptionDAOImpl {
 	public int deleteProductOption(int productOptionNumber) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		// toDO: sql 은 resources/sql.properties 파일에 집어넣기
-		String sql = "delete from productoption where opt_no=?";
+		String sql = proFile.getProperty("productoption.delete");
 		int result = 0;
 
 		try {

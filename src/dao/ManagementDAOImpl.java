@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import utils.DbUtils;
 
 public class ManagementDAOImpl implements ManagementDAO {
+	private Properties proFile = DbUtils.getProFile();
 	// private Properties proFile = DbUtils.getProFile();
 	@Override
 	public int updatePassword(String managerPw) throws SQLException {
@@ -15,11 +17,12 @@ public class ManagementDAOImpl implements ManagementDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		// String sql = proFile.getProperty("management.updateManagerPWD"); //update
+		 String sql = proFile.getProperty("management.updatePW"); //update
 		// management set Manager_PWD = ?
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement("update management set Manager_PWD = ?");
+			//ps = con.prepareStatement("update management set Manager_PWD = ?");
+			ps= con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, managerPw);
 
@@ -36,11 +39,11 @@ public class ManagementDAOImpl implements ManagementDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		// String sql = proFile.getProperty("management.updateManagerPWD"); //update
+		String sql = proFile.getProperty("management.updateManagerPWD"); //update
 		// management set Store_Name = ?
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement("update management set Store_Name = ?");
+			ps = con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			ps.setString(1, storeName);
 
@@ -58,11 +61,11 @@ public class ManagementDAOImpl implements ManagementDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String result = "";
-		// String sql = proFile.getProperty("management.checkManagerPWD"); //"select
+		String sql = proFile.getProperty("management.checkManagerPWD"); //"select
 		// manager_pwd from management"
 		try {
 			con = DbUtils.getConnection();
-			ps = con.prepareStatement("select manager_pwd from management");
+			ps = con.prepareStatement(sql);
 			// ?의 개수만큼 순서대로 setXxxx설정 필요
 			rs = ps.executeQuery();
 			while (rs.next()) {

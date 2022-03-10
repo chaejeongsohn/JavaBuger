@@ -10,18 +10,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class UserMemberDAOImpl implements UserMemberDAO {
+	private Properties proFile = DbUtils.getProFile();
     @Override
     public UserMember selectUserInfo(String userId) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         UserMember usermember = null;
+        String sql = proFile.getProperty("usermember.selectID");
 
         try {
             con = DbUtils.getConnection();
-            ps = con.prepareStatement("select * from usermember where user_id=?");
+            ps = con.prepareStatement(sql);
             ps.setString(1, userId);
             rs = ps.executeQuery();
 
@@ -41,10 +44,11 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 	        PreparedStatement ps = null;
 	        ResultSet rs = null;
 	        UserMember usermember = null;
+	        String sql = proFile.getProperty("usermember.selectPhone");
 
 	        try {
 	            con = DbUtils.getConnection();
-	            ps = con.prepareStatement("select * from usermember where user_phone=?");
+	            ps = con.prepareStatement(sql);
 	            ps.setInt(1, userPhone);
 	            rs = ps.executeQuery();
 
@@ -62,6 +66,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     public int insertUser(UserMember userMember) throws SQLException {
         String userId;
         int result = 0;
+        String sql = proFile.getProperty("usermember.insert");
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -69,7 +74,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 
         try {
             con = DbUtils.getConnection();
-            ps = con.prepareStatement("insert into usermember (user_id, user_pw, user_name, user_phone, user_birthday, user_joindate) values (?, ?, ?, ?, ?, sysdate)");
+            ps = con.prepareStatement(sql);
 
             ps.setString(1, userMember.getUserId());
             ps.setString(2, userMember.getUserPw());
@@ -97,9 +102,8 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        String sql = proFile.getProperty("usermember.select");
 
-
-        String sql = "select user_id from usermember where user_name = ? and user_phone = ? ";
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -127,8 +131,8 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     	Connection con = null;
     	PreparedStatement ps = null;
     	ResultSet rs = null;
+    	String sql = proFile.getProperty("usermember.selectPW");
 
-    	String sql = "select user_pw from usermember where user_id = ? and user_birthday = ? ";
     	try {
     		con = DbUtils.getConnection();
     		ps = con.prepareStatement(sql);
@@ -154,7 +158,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select userId from UserMember where user_birthdaty = ? ";
+        String sql = proFile.getProperty("usermember.selectBday");
         try{
             con=DbUtils.getConnection();
             ps=con.prepareStatement(sql);
@@ -178,7 +182,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     public int updateUser(UserMember userMember) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "update UserMember set user_name =?, user_Phone=?, user_pw=? where user_id =?";
+        String sql = proFile.getProperty("usermember.update");
         int result = 0;
         try {
             con = DbUtils.getConnection();
@@ -200,7 +204,7 @@ public class UserMemberDAOImpl implements UserMemberDAO {
     public int deleteUser(String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps= null;
-		String sql = "delete from UserMember where User_ID=?";
+		String sql = proFile.getProperty("usermember.delete");
 		int result = 0;
 
 		try{
