@@ -8,12 +8,11 @@ public class OrderProduct {
     private int paymentNumber;
     private int productNumber;
     private int orderProductAmount;
-    
-    List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
-    
-    List<OrderOption> orderoptionlist = new ArrayList<OrderOption>();
-    public OrderProduct () {}
-    
+    private List<OrderOption> orderOptionList = new ArrayList<OrderOption>();
+
+    public OrderProduct() {
+    }
+
     public OrderProduct(int paymentNumber, int productNumber, int orderProductAmount) {
         this.paymentNumber = paymentNumber;
         this.productNumber = productNumber;
@@ -51,18 +50,17 @@ public class OrderProduct {
     public void setOrderProductAmount(int orderProductAmount) {
         this.orderProductAmount = orderProductAmount;
     }
-    
-    
 
-    public List<OrderOption> getOrderoptionlist() {
-		return orderoptionlist;
-	}
 
-	public void setOrderoptionlist(List<OrderOption> orderoptionlist) {
-		this.orderoptionlist = orderoptionlist;
-	}
+    public List<OrderOption> getOrderOptionList() {
+        return orderOptionList;
+    }
 
-	@Override
+    public void setOrderOptionList(List<OrderOption> orderOptionList) {
+        this.orderOptionList = orderOptionList;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("");
         sb.append("orderProductNo=").append(orderProductNo);

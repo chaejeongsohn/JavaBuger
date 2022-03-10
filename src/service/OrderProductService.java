@@ -3,7 +3,6 @@ package service;
 import dao.OrderProductDAO;
 import dao.OrderProductDAOImpl;
 import dto.OrderProduct;
-import dto.Payment;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,14 +19,14 @@ public class OrderProductService {
         return null;
     }
 
-    public boolean insertOrderProduct(Connection con , Payment payment) throws SQLException {
-    	int result [] = orderProductDAO.insertOrderProduct(con, payment);
-    	for(int i :result) {
-    		if(i !=1) {
-    			throw new SQLException("[주문 실패] 주문등록에 실패했습니다.");
-    		}
-    	}
-    	return true;
+    public boolean insertOrderProduct(Connection con, List<OrderProduct> orderProductList) throws SQLException {
+        int result[] = orderProductDAO.insertOrderProduct(con, orderProductList);
+        for (int i : result) {
+            if (i != 1) {
+                throw new SQLException("[주문 실패] 주문등록에 실패했습니다.");
+            }
+        }
+        return true;
     }
 
     public void deleteOrderProduct(int orderProductNo) throws SQLException {

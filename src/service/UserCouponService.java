@@ -35,7 +35,10 @@ public class UserCouponService {
 
     /*한장 사용하는거 */
     public int deleteUserCoupon2(Connection con, int couponNumber) throws SQLException {
-        int result=userCouponDAO.deleteUserCoupon2(con,couponNumber);
+        if (couponNumber == 0) {
+            return 1;
+        }
+        int result = userCouponDAO.deleteUserCoupon2(con, couponNumber);
         //if (result == 0) throw new SQLException("쿠폰이 삭제되지 않았습니다.");
         return result;
     }
@@ -51,7 +54,7 @@ public class UserCouponService {
 
     public List<UserCoupon> selectUserCoupons(String userId) throws SQLException {
         List<UserCoupon> userCouponList = checkCouponListExpiration(userCouponDAO.selectUserCoupons(userId));
-        if(userCouponList.isEmpty() || userCouponList.size()==0){
+        if (userCouponList.isEmpty() || userCouponList.size() == 0) {
             throw new SQLException("적용할 쿠폰이 없습니다.");
         }
         return userCouponList;
@@ -59,6 +62,7 @@ public class UserCouponService {
 
     /**
      * 쿠폰List 기한만료 체크
+     *
      * @param userCouponList
      * @return
      * @throws SQLException
@@ -76,6 +80,7 @@ public class UserCouponService {
 
     /**
      * 쿠폰 하나당 기한만료 체크
+     *
      * @param userCoupon
      * @return
      * @throws SQLException
