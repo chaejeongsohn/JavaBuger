@@ -211,20 +211,34 @@ public class PaymentDAOImpl implements PaymentDAO {
             con.setAutoCommit(false);
 
             String returnCols[] = {"PAY_NO"};
+            
+           int ucunom =payment.getUserCouponNumber();
+           if(ucunom!=0) {
             ps = con.prepareStatement(sql, returnCols);
             ps.setString(1, payment.getUserId());
             ps.setInt(2, payment.getPaymentMethod());
             ps.setInt(3, payment.getPaymentPrice());
-            ps.setInt(4, payment.getUserCouponNumber());
-            
+            ps.setInt(4, ucunom);
+           
            int couponresult =usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
            if(couponresult==0) {
         	   con.rollback();
            }
+           
+           }else {
+        	   ps = con.prepareStatement(sql, returnCols);
+               ps.setString(1, payment.getUserId());
+               ps.setInt(2, payment.getPaymentMethod());
+               ps.setInt(3, payment.getPaymentPrice());
+               //ps.setInt(4, 0);
+        	   
+           }
+           
 
-//    		result=ps.executeUpdate();
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) {
+           result=ps.executeUpdate();
+           con.commit();
+            //ResultSet rs = ps.executeQuery();
+            /*if (!rs.next()) {
                 con.rollback();
                 throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
             } else {
@@ -233,12 +247,14 @@ public class PaymentDAOImpl implements PaymentDAO {
 //    			}
                 con.commit();
                 return rs.getInt(1);
-            }
+            }*/
+           
 
         } finally {
             con.commit();
             DbUtils.close(con, ps, null);
         }
+        return result;
     }
 
     /*해당 물건 옵션 금액 구하는 메소드*/
