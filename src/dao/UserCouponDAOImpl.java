@@ -191,9 +191,9 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		if(rs.next()) {
     			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     		}
-    		//쿠폰번호에 해당하는 쿠폰정보 가져오기
-    		Coupon coupon = couponService.selectCouponByNumber(couponNumber); //connection도 넘겨받아야 하지 않나???
-    		couponlist.add(coupon);
+//    		//쿠폰번호에 해당하는 쿠폰정보 가져오기
+//    		Coupon coupon = couponService.selectCouponByNumber(couponNumber); //connection도 넘겨받아야 하지 않나???
+//    		couponlist.add(coupon);
     		
     	}finally {
     		DbUtils.close(con, ps, rs);
