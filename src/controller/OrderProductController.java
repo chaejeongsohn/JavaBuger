@@ -30,6 +30,7 @@ public class OrderProductController {
         try {
             orderProductService.insertOrderProduct(DbUtils.getConnection(), orderProductList);
         } catch (SQLException e) {
+            e.printStackTrace();
             FailView.errorMessage(e.getMessage());
         }
     }

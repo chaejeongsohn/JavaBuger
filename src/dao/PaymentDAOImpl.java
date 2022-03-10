@@ -203,6 +203,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         String sql = proFile.getProperty("payment.insert");
+        //"insert into payment() values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,?)"
         int result = 0;
 
         try {
@@ -213,30 +214,38 @@ public class PaymentDAOImpl implements PaymentDAO {
             String returnCols[] = {"PAY_NO"};
             
            int ucunom =payment.getUserCouponNumber();
-           if(ucunom!=0) {
-            ps = con.prepareStatement(sql, returnCols);
-            ps.setString(1, payment.getUserId());
-            ps.setInt(2, payment.getPaymentMethod());
-            ps.setInt(3, payment.getPaymentPrice());
-            ps.setInt(4, ucunom);
+           if(ucunom!=0) {//쿠폰있다...
+	           
+	           int couponresult =usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
+	           if(couponresult==0) {
+	        	   con.rollback();
+	           }else {
            
-           int couponresult =usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
-           if(couponresult==0) {
-        	   con.rollback();
-           }
-           
-           }else {
-        	   ps = con.prepareStatement(sql, returnCols);
-               ps.setString(1, payment.getUserId());
+		            ps = con.prepareStatement(sql, returnCols);
+		            ps.setString(1, payment.getUserId());
+		            ps.setInt(2, payment.getPaymentMethod());
+		            ps.setInt(3, payment.getPaymentPrice());
+		            ps.setInt(4, ucunom);
+		            result=ps.executeUpdate();
+		            
+		            con.commit();
+	           }
+	            
+           }else {//쿺헌없다.
+        	   sql="insert into payment values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,null)";
+        	   ps = con.prepareStatement(sql, returnCols); //
+               ps.setString(1, payment.getUserId()); //fk
                ps.setInt(2, payment.getPaymentMethod());
                ps.setInt(3, payment.getPaymentPrice());
-               //ps.setInt(4, 0);
+             
+               
+               result=ps.executeUpdate();
+               con.commit();
         	   
            }
            
 
-           result=ps.executeUpdate();
-           con.commit();
+          
             //ResultSet rs = ps.executeQuery();
             /*if (!rs.next()) {
                 con.rollback();
