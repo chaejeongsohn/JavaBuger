@@ -20,8 +20,8 @@ public class OrderProductService {
         return null;
     }
 
-    public boolean insertOrderProduct(Connection con , List<OrderProduct> orderProductList) throws SQLException {
-    	int result [] = orderProductDAO.insertOrderProduct(con, orderProductList);
+    public boolean insertOrderProduct(Connection con , Payment payment) throws SQLException {
+    	int result [] = orderProductDAO.insertOrderProduct(con, payment);
     	for(int i :result) {
     		if(i !=1) {
     			throw new SQLException("[주문 실패] 주문등록에 실패했습니다.");

@@ -19,7 +19,18 @@ public class Payment {
         this.userCouponNumber = userCouponNumber;
     }
 
-    public int getPaymentNumber() {
+    
+    public List<OrderProduct> getOrderlist() {
+		return orderlist;
+	}
+
+
+	public void setOrderlist(List<OrderProduct> orderlist) {
+		this.orderlist = orderlist;
+	}
+
+
+	public int getPaymentNumber() {
         return paymentNumber;
     }
 

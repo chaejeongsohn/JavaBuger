@@ -1,63 +1,36 @@
 package view.menu;
 
 import controller.*;
-import dao.UserCouponDAO;
 import dto.*;
+import service.UserCouponService;
 import service.UserSessionService;
+import view.EndView;
+import view.FailView;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class OrderMenuView {
+	private static UserCouponService usercouponservice = new UserCouponService();
 
     //시간 관계로 일단 MVC 구조 적용 X
     private static Scanner scanner = new Scanner(System.in);
+    private static String userId = UserSessionService.getUserSession().getUserId();
+    private static Map<String, List<CartProduct>> cart = CartController.getUserCart();
+    private static List<CartProduct> cartlist = cart.get(userId);
+    private static CartController cartcontroller = new CartController();
 
     public static void orderMenu() {
         System.out.println("\n---------- 구매 화면 --------------------");
+        viewCart(userId);
 
-        Map<String, List<CartProduct>> userCart = CartController.getUserCart();
-        String userId = UserSessionService.getUserSession().getUserId();
-        List<CartProduct> cartProducts = userCart.get(userId);
-
-
-        // 장바구니 내역 출력
-        //cartcontroller.Viewcart(String userId)
-        //checkTotal
-        int count = cartProducts.size();
-        int totalPrice = 0;
-        System.out.println("---------- 구매 예정 목록: 총 " + count + " 개 ------------");
-        for (int i = 0; i < count; i++) {
-            System.out.print((i + 1) + ". ");
-
-            CartProduct cp = cartProducts.get(i);
-            Product product = cp.getProduct();
-            int priceByProduct = product.getProductPrice();
-            System.out.print("상품명 : " + cp.getProduct().getProductName() + ", ");
-            System.out.print("상품옵션 리스트 : ");
-            if (cp.getOptionList() != null) {
-                for (ProductOption po : cp.getOptionList()) {
-                    System.out.print(po.getOptionName() + " ");
-                    priceByProduct += po.getOptionPrice();
-                }
-            }
-            priceByProduct *= cp.getQuantity();
-            totalPrice += priceByProduct;
-            System.out.print(", 장바구니 상품 현재수량 :" + cp.getQuantity());
-            System.out.print(", 장바구니 상품 가격 :" + priceByProduct);
-            System.out.println();
-        }
-        System.out.print("장바구니 상품 총 가격 :" + totalPrice);
-        System.out.println();
-        // end of 장바구니 내역 출력
-
-
-        // 주문/결제 메뉴
+     // 주문/결제 메뉴
         UserCoupon usingUserCoupon = null;
-        System.out.println("1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기");
+        System.out.println("-------------------------------------------------");
+        System.out.println("|  1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기  |");
+        System.out.println("-------------------------------------------------");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
 
@@ -65,127 +38,138 @@ public class OrderMenuView {
             case 1:
                 // 쿠폰 적용
                 usingUserCoupon = printCouponMenu(userId);
-//                usingCoupon = getCouponDiscountRate();
 
             case 2:
-                int paymentPrice = totalPrice;
-
-                // 결제 방법 선택
-                System.out.println("1. 카드. 2. 계좌이체. 3. 현장결제");
+            	System.out.println("----------------------------------");
+            	System.out.println("|  1. 카드. 2. 계좌이체. 3. 현장결제  |");
+            	System.out.println("----------------------------------");
                 System.out.print("원하시는 수단을 선택해주세요 >");
                 int paymentMethod = Integer.parseInt(scanner.nextLine());
-
-                //주문내역 : (피클제거, 치즈추가) 새우버거 3개, 콜라 1개을 카드로 결재하시겠습니까? (Y/N)
-                System.out.println("주문내역 : ");
-
-                // 위 선택된 couponNumber 에 해당하는 쿠폰의 couponDiscountRate()
-                if (usingUserCoupon != null) {
-                    int discountRate = CouponController.selectCouponByNumber(usingUserCoupon.getCouponNumber()).getCouponDiscountRate();
-//                    int discountRate = CouponController.selectCouponByNumber(couponNumber).getCouponDiscountRate();
-                    paymentPrice = (totalPrice * (100 - discountRate)) / 100;
-                }
-
-                // Payment 테이블에 결제방법 / 쿠폰 할인률 적용
-                Payment payment = new Payment(userId, paymentMethod, paymentPrice, usingUserCoupon.getUserCouponNumber());
-
-                try {
-                    // 위에서 적용된 Payment 객체를 Payment 테이블에 Insert
-                    int paymentNumber = PaymentController.insertPayment(payment);
-
-                    List<OrderProduct> orderProductList = new ArrayList<>();
-                    for (CartProduct cartProduct : cartProducts) {
-                        orderProductList.add(new OrderProduct(paymentNumber, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity()));
-                    }
-                    OrderProductController.insertOrderProductList(orderProductList);
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }/////////////////////////////////////////////////////////////////
-                
-                
-               /* int paymentNumber = PaymentController.insertPayment(payment);
-                Payment pay = new Payment(0, paymentMethod, 0, couponNumber);
-                
-                
-                List<OrderProduct> orderProductList = new ArrayList<>();
-                for (CartProduct cartProduct : cartProducts) {
-                	pay.getOrderlist().add(new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity()));
-                }
-                
-                for(CartProduct cp : cartProducts) {
-                    for(ProductOption po : cp.getOptionList()) {
-                        int optionNumber = po.getOptionNumber();
-
-                        //OrderOption DTO 생성 및 DB insert
-                        OrderOption orderOption = new OrderOption(optionNumber);
-                        try {
-                            OrderOptionController.insertOrderOption(orderOption);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                
-               
-                		
-               
-               OrderProduct order= new OrderProduct(0, 상품번호, 상품수량);
-               OrderOption orderOption = new OrderOption(0, 0, 옵션번호);
-               
-               order.getOrderoptionlist().add(orderOption);*/
-
-                //장바구니 내역 중 옵션리스트를 OrderOption 객체로 만들고 OrderOption 테이블에 Insert
-                /*
-                              ******************* 여기서 문제사항 *******************
-                              ******************** 여기서 문제사항 *******************
-                       OrderOptionController, OrderOptionService, OrderOptionDAOImpl 에서
-                       insertOrderOption() 메소드를 수정 및 완성 해야 될 듯 합니다..
-                 */
-                for (CartProduct cp : cartProducts) {
-                    for (ProductOption po : cp.getOptionList()) {
-                        int optionNumber = po.getOptionNumber();
-
-                        //OrderOption DTO 생성 및 DB insert
-                        OrderOption orderOption = new OrderOption(cp.getProduct().getProductNumber(), optionNumber);
-                        try {
-                            OrderOptionController.insertOrderOption(orderOption);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if(usingUserCoupon!=null) {
+                	startPay(paymentMethod, usingUserCoupon);
+                }else {
+                	startPay2(paymentMethod);
                 }
 
                 switch (paymentMethod) {
-                    case 1:
-                        System.out.println("카드로 결제가 완료되었습니다.");
-                        break;
-                    case 2:
-                        System.out.println("계좌이체로 결제가 완료되었습니다.");
-                        break;
-                    case 3:
-                        System.out.println("현장결제로 결제가 완료되었습니다.");
-                        break;
-                }
+                case 1:
+                    System.out.println("카드로 결제가 완료되었습니다.");
+                    break;
+                case 2:
+                    System.out.println("계좌이체로 결제가 완료되었습니다.");
+                    break;
+                case 3:
+                    System.out.println("현장결제로 결제가 완료되었습니다.");
+                    break;
+            }
+  
+            break;
 
+        case 3:
+            // 장바구니로 돌아가기
 
-                //toDO: 결제 다 되면 UserCoupon 테이블에서 위 (1)에서 적용된 쿠폰 지우기? 채정님 확인 필요 ex) deleteCoupon(couponNumber)
+            CartMenuView.cartMenu2();
+            
+            break;
 
-                break;
-
-            case 3:
-                // 장바구니로 돌아가기
-
-                CartMenuView.cartMenu2();
-                break;
-
-            default:
-                System.out.println("default");
+        default:
+            System.out.println("default");
+  
+            	
         }
     }
+    
+    private static void startPay2(int paymentMethod) {//쿠폰이 null인경우 (쿠폰선택 안한경우)
+    	Payment pay = new Payment(userId, paymentMethod, 0, 0);
+   	 //System.out.println("startpayd임");
+         for (CartProduct cartProduct : cartlist) {
+         	 OrderProduct order = new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity());
+         	pay.getOrderlist().add(order);
+         	
+         	
+                 for(ProductOption po : cartProduct.getOptionList()) {
+                     int optionNumber = po.getOptionNumber();                      
+                     OrderOption orderoption = new OrderOption(0,0,optionNumber);
+                     order.getOrderoptionlist().add(orderoption);
+                     //System.out.println("startpayd임");
+                 }
+         }
+         PaymentController.insertPayment(pay);
+         cartcontroller.clearUserCart();
+		
+	}
 
+	public static void startPay(int paymentmethod, UserCoupon usingUserCoupon) {
+    	
+    	 Payment pay = new Payment(userId, paymentmethod, 0, usingUserCoupon.getUserCouponNumber());
+    	
+          for (CartProduct cartProduct : cartlist) {
+          	 OrderProduct order = new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity());
+          	pay.getOrderlist().add(order);
+          	
+          	
+                  for(ProductOption po : cartProduct.getOptionList()) {
+                      int optionNumber = po.getOptionNumber();                      
+                      OrderOption orderoption = new OrderOption(0,0,optionNumber);
+                      order.getOrderoptionlist().add(orderoption);
+                  }
+          }
+          PaymentController.insertPayment(pay);
+          cartcontroller.clearUserCart();
+    }
+    
+    public static void viewCart(String userId) {
+
+        int count = cartlist.size();
+        int totalPrice = 0;
+        System.out.println("---------- 구매 예정 목록: 총 " + count + " 개 ------------");
+        for (int i = 0; i < count; i++) {
+            System.out.print((i + 1) + ". ");
+
+            CartProduct cp = cartlist.get(i);
+            Product product = cp.getProduct();
+            int priceByProduct = product.getProductPrice();
+            System.out.print("[상품명] : " + cp.getProduct().getProductName() + " | ");
+            System.out.print("[옵션] : ");
+            if (cp.getOptionList() != null) {
+                for (ProductOption po : cp.getOptionList()) {
+                    System.out.print(po.getOptionName() + " ");
+                    priceByProduct += po.getOptionPrice();
+                }
+            }
+            System.out.print("(옵션선택 안함) | ");
+            priceByProduct *= cp.getQuantity();
+            totalPrice += priceByProduct;
+            System.out.print("[수량] :" + cp.getQuantity()+" | ");
+            System.out.print("[상품 가격] :" + priceByProduct);
+            System.out.println();
+        }
+        System.out.print(" [총 가격] :" + totalPrice);
+        System.out.println();
+
+    }
+    
+    
     public static UserCoupon printCouponMenu(String userId) {
-        UserCouponController.selectUserCoupons(userId);
-        System.out.println("사용하실 쿠폰 번호를 입력해주세요 >");
-        int couponNumber = Integer.parseInt(scanner.nextLine());
+        int couponNumber =0;
+    	try {
+    		List<UserCoupon> usercouponlist= usercouponservice.selectUserCoupons(userId);
+    		System.out.println("사용하실 쿠폰 번호를 입력해주세요 >");
+            couponNumber = Integer.parseInt(scanner.nextLine());
+    		EndView.printUserCouponlist(userId,usercouponlist);
+    		
+    	}catch(SQLException e) {
+    		//e.printStackTrace();
+    		FailView.errorMessage(e.getMessage());
+    	}
+    	return UserCouponController.selectUserCouponByNumber(userId, couponNumber);
 
-        return UserCouponController.selectUserCouponByNumber(userId, couponNumber);
+        
     }
 
 }
+    	
+
+                
+
+
