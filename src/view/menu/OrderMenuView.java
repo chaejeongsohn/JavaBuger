@@ -1,6 +1,7 @@
 package view.menu;
 
 import controller.*;
+import dao.UserCouponDAO;
 import dto.*;
 import service.UserSessionService;
 
@@ -55,7 +56,7 @@ public class OrderMenuView {
 
 
         // 주문/결제 메뉴
-        Coupon usingCoupon = null;
+        UserCoupon usingUserCoupon = null;
         System.out.println("1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
@@ -63,8 +64,8 @@ public class OrderMenuView {
         switch (menu) {
             case 1:
                 // 쿠폰 적용
-                usingCoupon = getCouponDiscountRate();
-                orderMenu();
+                usingUserCoupon = printCouponMenu(userId);
+//                usingCoupon = getCouponDiscountRate();
 
             case 2:
                 int paymentPrice = totalPrice;
@@ -78,15 +79,14 @@ public class OrderMenuView {
                 System.out.println("주문내역 : ");
 
                 // 위 선택된 couponNumber 에 해당하는 쿠폰의 couponDiscountRate()
-                if (usingCoupon != null) {
-                    int discountRate = usingCoupon.getCouponDiscountRate();
+                if (usingUserCoupon != null) {
+                    int discountRate = CouponController.selectCouponByNumber(usingUserCoupon.getCouponNumber()).getCouponDiscountRate();
 //                    int discountRate = CouponController.selectCouponByNumber(couponNumber).getCouponDiscountRate();
                     paymentPrice = (totalPrice * (100 - discountRate)) / 100;
                 }
-                UserCoupon userCoupon = userchoiceCoupon(userId,usingCoupon.getCouponNumber());
 
                 // Payment 테이블에 결제방법 / 쿠폰 할인률 적용
-                Payment payment = new Payment(userId, paymentMethod, paymentPrice, userCoupon.getUserCouponNumber());
+                Payment payment = new Payment(userId, paymentMethod, paymentPrice, usingUserCoupon.getUserCouponNumber());
 
                 try {
                     // 위에서 적용된 Payment 객체를 Payment 테이블에 Insert
@@ -171,6 +171,7 @@ public class OrderMenuView {
 
             case 3:
                 // 장바구니로 돌아가기
+
                 CartMenuView.cartMenu2();
                 break;
 
@@ -179,29 +180,12 @@ public class OrderMenuView {
         }
     }
 
-    public static UserCoupon userchoiceCoupon(String userId, int couponNumber) {
-        UserCoupon usercoupon =null;
-        while (true) {
-            int conum = Integer.parseInt(scanner.nextLine());
-            usercoupon = UserCouponController.selectUserCouponByNumber(userId, couponNumber);
-            //couponNumber = usercoupon.getUserCouponNumber();
-            break;
-        }
-        return usercoupon;
+    public static UserCoupon printCouponMenu(String userId) {
+        UserCouponController.selectUserCoupons(userId);
+        System.out.println("사용하실 쿠폰 번호를 입력해주세요 >");
+        int couponNumber = Integer.parseInt(scanner.nextLine());
+
+        return UserCouponController.selectUserCouponByNumber(userId, couponNumber);
     }
 
-    // 1번 메뉴 : 유저가 보유한 쿠폰들 출력, 유저선택 쿠폰 반환
-    public static Coupon getCouponDiscountRate() {
-        Coupon coupon = null;
-        System.out.print("사용하실 쿠폰 번호를 입력해주세요 > ");
-
-        while (true) {
-            int conum = Integer.parseInt(scanner.nextLine());
-            coupon = CouponController.selectCouponByNumber(conum);
-//            UserCoupon usercoupon = UserCouponController.selectUserCouponByNumber(userId, conum);
-//            couponNumber = usercoupon.getCouponNumber();
-            break;
-        }
-        return coupon;
-    }
 }
