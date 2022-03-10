@@ -25,7 +25,6 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     	int result []=null;
 
     	try {
-    		//System.out.println("오더프로덕트");
     		ps =con.prepareStatement(sql);
     		for(OrderProduct order : payment.getOrderlist()) {
     			ps.setInt(1, order.getProductNumber());

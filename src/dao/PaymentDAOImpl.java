@@ -203,7 +203,6 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         String sql = proFile.getProperty("payment.insert");
-        //"insert into payment() values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,?)"
         int result = 0;
 
         try {
@@ -218,7 +217,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 	           if(couponresult==0) {
 	        	   con.rollback();
 	           }else {
-	        	   //System.out.println("--페이옴--");
            
 		            ps = con.prepareStatement(sql);
 		            ps.setString(1, payment.getUserId());

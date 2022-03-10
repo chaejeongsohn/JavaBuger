@@ -50,13 +50,17 @@ public class ManagerMenuView {
 	}// managerMenu 메소드
 
 	private static void printManagerMenu() {
-		System.out.println("---------------------");
-		System.out.println("1. 상품관리  2. 옵션관리  3. 매출관리  4. 매점관리  5. 이전으로 돌아가기  6. 프로그램 종료");
+		System.out.println("-------------------------------------------------------------------------------");
+		System.out.println("| 1. 상품관리  2. 옵션관리  3. 매출관리  4. 매점관리  5. 이전으로 돌아가기  6. 프로그램 종료 |");
+		System.out.println("-------------------------------------------------------------------------------");
 	}
 
 	private static void productControl() {
+		
+		System.out.println("--------------------------------------------------------------------------------");
+		System.out.println("| 1. 상품수정  2. 상품등록  3. 상품삭제  4. 품절등록  5. 이전으로 돌아가기  6. 프로그램 종료  |");
+		System.out.println("--------------------------------------------------------------------------------");
 		System.out.println("원하시는 상품관리를 선택해주세요 >");
-		System.out.println("1. 상품수정  2. 상품등록  3. 상품삭제  4. 품절등록  5. 이전으로 돌아가기  6. 프로그램 종료");
 		while (true) {
 			String menu = scanner.nextLine();
 			switch (menu) {
@@ -77,7 +81,7 @@ public class ManagerMenuView {
 			case "5": //돌아가기
 				return;
 			case "6": // 프로그램 종료
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("=============프로그램을 종료합니다.==================");
 				System.exit(0);
 		     default:
 				System.out.println("번호를 다시 입력해주세요");
@@ -96,7 +100,9 @@ public class ManagerMenuView {
 		Product selectProduct = ProductController.selectProductByProductNumber(productNumber);
 
 		while (true) {
-			System.out.println("1. 상품이름 변경   2. 상품가격 변경  3. 상품설명 변경  4. 이전으로 돌아가기  5. 프로그램 종료");
+			System.out.println("---------------------------------------------------------------------------------");
+			System.out.println("|  1. 상품이름 변경   2. 상품가격 변경  3. 상품설명 변경  4. 이전으로 돌아가기  5. 프로그램 종료 |");
+			System.out.println("---------------------------------------------------------------------------------");
 			System.out.println("메뉴 선택해주세요 > ");
 			String menu = scanner.nextLine();
 			switch (menu) {
@@ -124,7 +130,7 @@ public class ManagerMenuView {
 			case "4": //돌아가기
 				return;
 			case "5": // 프로그램 종료
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("=============프로그램을 종료합니다.==================");
 				System.exit(0);
 		     default:
 				System.out.println("번호를 다시 입력해주세요");
@@ -168,8 +174,11 @@ public class ManagerMenuView {
 	}// printDeleteProductMenu 메소드
 
 	private static void optionControl() {
+		
+		System.out.println("------------------------------------------------------------------------");
+		System.out.println("|   1. 옵션수정  2. 옵션등록  3. 옵션삭제  4. 이전으로 돌아가기  5. 프로그램 종료   |");
+		System.out.println("------------------------------------------------------------------------");
 		System.out.println("원하는 옵션관리를 선택해주세요 >");
-		System.out.println("1. 옵션수정  2. 옵션등록  3. 옵션삭제  4. 이전으로 돌아가기  5. 프로그램 종료");
 		while (true) {
 			String menu = scanner.nextLine();
 			switch (menu) {
@@ -185,7 +194,7 @@ public class ManagerMenuView {
 			case "4": //돌아가기
 				return;
 			case "5": // 프로그램 종료
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("=============프로그램을 종료합니다.==================");
 				System.exit(0);
 		     default:
 				System.out.println("번호를 다시 입력해주세요");
@@ -201,7 +210,9 @@ public class ManagerMenuView {
 		ProductOption selectOption = ProductOptionController.selectProductOptionByOptionNumber(optionNumber);
 
 		while (true) {
-			System.out.println("1. 옵션 이름 변경   2. 옵션가격 변경  3. 이전으로 돌아가기  4. 프로그램 종료");
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("|   1. 옵션 이름 변경   2. 옵션가격 변경  3. 이전으로 돌아가기  4. 프로그램 종료   |");
+			System.out.println("----------------------------------------------------------------------");
 			System.out.println("메뉴 선택해주세요 > ");
 			String menu = scanner.nextLine();
 			switch (menu) {
@@ -221,7 +232,7 @@ public class ManagerMenuView {
 			case "3": //돌아가기
 				return;
 			case "4": // 프로그램 종료
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("=============프로그램을 종료합니다.==================");
 				System.exit(0);
 		     default:
 				System.out.println("번호를 다시 입력해주세요");
@@ -280,9 +291,10 @@ public class ManagerMenuView {
 	
 
 	private static void storeControl() {
-
+		System.out.println("--------------------------------------------------------------------------");
+		System.out.println("|   1. 매니저 비밀번호 변경   2. 가게이름 변경  3. 이전으로 돌아가기  4. 프로그램 종료   |");
+		System.out.println("--------------------------------------------------------------------------");
 		System.out.println("수정할 항목을 선택해주세요. >");
-		System.out.println("1. 매니저 비밀번호 변경   2. 가게이름 변경  3. 이전으로 돌아가기  4. 프로그램 종료");
 		String menu = scanner.nextLine();
 		while (true) {
 			switch (menu) {
@@ -302,7 +314,7 @@ public class ManagerMenuView {
 				return;
 				
 			case "4": // 프로그램 종료
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("=============프로그램을 종료합니다.==================");
 				System.exit(0);
 		     default:
 				System.out.println("번호를 다시 입력해주세요");
