@@ -11,6 +11,7 @@ import view.SuccessView;
 import view.menu.CartMenuView;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,13 @@ public class CartController {
         //add product options to "Burger" Product
         if (category.equals("B")) {
             List<ProductOption> productOptions = cartService.getAllProductOptionsForDisplay();
-            EndView.printAllProductOptions(productOptions);
+            List<ProductOption> productoptions2  = new ArrayList<>();
+            for(ProductOption option : productOptions) {
+            	if(option.getCategoryNumber().equals("B")) {
+            		productoptions2.add(option);
+            	}
+            }
+            EndView.printAllProductOptions(productoptions2);
 
             while (true) {
                 int optionNumber = CartMenuView.askUserInput("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> "); // 원하는 옵션을 선택
@@ -76,7 +83,36 @@ public class CartController {
                 }
             }
         } // end of product options
+        
+        if (category.equals("C")) {
+            List<ProductOption> productOptions = cartService.getAllProductOptionsForDisplay();
+            List<ProductOption> productoptions2  = new ArrayList<>();
+            for(ProductOption option : productOptions) {
+            	if(option.getCategoryNumber().equals("C")) {
+            		productoptions2.add(option);
+            	}
+            }
+        
+            EndView.printAllProductOptions(productoptions2);
 
+            while (true) {
+                int optionNumber = CartMenuView.askUserInput("\n원하시는 옵션의 번호를 입력하세요 (더 필요 없을 시 0 입력) >> "); // 원하는 옵션을 선택
+                if (optionNumber == 0) break; // 0 -> no more option
+
+//                    cartService.addOption(optionNumber);
+                boolean found = false;
+                for (ProductOption productOption : productOptions) {
+                    if (productOption.getOptionNumber() == optionNumber) {
+                        cartProduct.getOptionList().add(productOption);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    FailView.errorMessage("not found option");
+                }
+            }
+        }
         // 마지막에만 장바구니 아이템을 담는다
         cartService.addCartProductToCartProducts(cartProduct);
         //3.

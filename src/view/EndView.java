@@ -70,21 +70,26 @@ public class EndView {
     public static void printProductsByCategory(List<Product> productsByCategory) {
         System.out.println("------------ 선택하신 상품 카테고리 리스트 ------------");
         for (Product p : productsByCategory) {
-            System.out.println("상품번호\t상품이름\t상품가격");
-            System.out.println("----------------------------------------------------");
-            System.out.println(p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice());
+        	System.out.println("----------------------------");
+            System.out.println("| 상품번호 | 상품이름 | 상품가격 |");
+            System.out.println("---------------------- ----");
+            System.out.println(" "+p.getProductNumber() + "\t" + p.getProductName() + "\t" + p.getProductPrice());
 
             System.out.print("상품정보: ");
             System.out.println(p.getProductDetail());
+            System.out.println();
+            
         }
     }
 
     public static void printAllProductOptions(List<ProductOption> productOptions) {
         System.out.println("------------ 상품에 추가 할 상품옵션 리스트 ------------");
         for (ProductOption po : productOptions) {
-            System.out.println("상품옵션번호\t상품옵션이름\t상품가격");
-            System.out.println("----------------------------------------------------");
-            System.out.println(po.getOptionNumber() + "\t" + po.getOptionName() + "\t" + po.getOptionPrice() + "\n");
+        	System.out.println("--------------------------------");
+            System.out.println("| 상품옵션번호 | 상품옵션이름 | 상품가격 |");
+            System.out.println("--------------------------------");
+            System.out.println("  "+po.getOptionNumber() + "  \t  " + po.getOptionName() + "      " + po.getOptionPrice() + "\n");
+            System.out.println();
         }
     }
 
