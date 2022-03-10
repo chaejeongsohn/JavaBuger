@@ -47,6 +47,7 @@ public class OrderProductDAOImpl implements OrderProductDAO {
 //    			List<OrderOption> orderop= order.getOrderoptionlist();
 //    			if(orderop!=null) {
 //    				orderOptionService.insertOrderOption(con,order);
+    			 
 //    			}
     			ps.clearParameters();
     		}

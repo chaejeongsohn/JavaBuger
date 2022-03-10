@@ -9,6 +9,8 @@ public class OrderProduct {
     private int productNumber;
     private int orderProductAmount;
     
+    List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
+    
     List<OrderOption> orderoptionlist = new ArrayList<OrderOption>();
 
     public OrderProduct(int paymentNumber, int productNumber, int orderProductAmount) {

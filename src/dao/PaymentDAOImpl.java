@@ -219,7 +219,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                 con.rollback();
                 throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
             } else {
-//    			if((orderservice.insertOrderProduct(con, payment))==false) {
+//    			if(!(orderservice.insertOrderProduct(con, payment))) {
 //    				con.rollback();
 //    			}
                 con.commit();
