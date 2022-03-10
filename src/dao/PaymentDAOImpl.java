@@ -221,7 +221,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 		            ps = con.prepareStatement(sql);
 		            ps.setString(1, payment.getUserId());
 		            ps.setInt(2, payment.getPaymentMethod());
-		            ps.setInt(3, payment.getPaymentPrice());
+		            ps.setInt(3, getTotalPrice(payment));
 		            ps.setInt(4, ucunom);
 		            
 		            result=ps.executeUpdate();
@@ -270,9 +270,28 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
         return result;
     }
+    /*상품 총 구매금액 구하기*/
+    public int getTotalPrice(Payment payment) throws SQLException {
+    	
+    	int total=0;
+    	List<OrderProduct> orderlist = payment.getOrderlist();
+    	for(OrderProduct order: orderlist) {
+    		Product products = productDAO.selectProductByProductNumber(order.getOrderProductNo());
+    		if(products ==null) throw new SQLException("[주문 실패] 상품번호 오류입니다.");
+    		List<OrderOption> orderoptionlist = order.getOrderoptionlist();
+    		int optionprice =0;
+    		for(OrderOption orderoption : orderoptionlist) {
+    			ProductOption options = productoptionDAO.selectProductOptionByOptionNumber(orderoption.getOptionNumber());
+                optionprice += options.getOptionPrice();
+    			}
+    		
+    		total += (order.getOrderProductAmount()*products.getProductPrice())+optionprice;
+    	}
+    	return total;
+    }
 
     /*해당 물건 옵션 금액 구하는 메소드*/
-    public int getOptionPrice(OrderProduct order) throws SQLException {
+    /*public int getOptionPrice(OrderProduct order) throws SQLException {
         List<OrderOption> orderoptionlist = order.getOrderoptionlist();
         int optionprice = 0;
         for (OrderOption orderoption : orderoptionlist) {
@@ -280,7 +299,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             optionprice += options.getOptionPrice();
         }
         return optionprice;
-    }
+    }*/
 
     @Override
     public Payment selectPaymentByPayNo(int PaymentNumber) throws SQLException {
@@ -344,6 +363,9 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
         return userPaymentDetailByDateList;
     }
+    
+    
+    
 
     public List<UserPaymentDetail> selectUserPayments(String userId) throws SQLException {
         List<UserPaymentDetail> userPaymentDetailByDateList = new ArrayList<>();
