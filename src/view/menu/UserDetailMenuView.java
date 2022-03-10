@@ -122,25 +122,23 @@ public class UserDetailMenuView {
     }
 
     private static void printUserPaymentMenu() {
-        System.out.println("---- 전체 구매내역 ---");
         String userId = UserSessionService.getUserSession().getUserId();
         System.out.println("------------ 나의 구매내역 메뉴 ---------------");
-        System.out.println("1. 월별 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장 최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
+        System.out.println("1. 전체 구매내역 상세조회   2. 구매날짜로 상세조회  3. 가장 최근 구매내역조회 4. 이전으로 돌아가기 5. 프로그램 종료 ");
         System.out.println("메뉴를 선택하세요 > ");
         String menu = scanner.nextLine();
         switch (menu) {
-            case "1": // 월별 구매내역 상세조회
-                System.out.println("조회 원하시는 해당 월을 입력하세요 > ");
-                int month = Integer.parseInt(scanner.nextLine());
-                //PaymentController.selectUserPaymentByMonth(month);
+            case "1": // 전체 구매내역 상세조회
+                PaymentController.selectUserPayments(userId);
                 break;
             case "2": // 구매날짜로 상세조회
-                System.out.println("원하시는 조회 날짜를 입력하세요 ex)2022-03-01 > ");
+                System.out.println("원하시는 조회 날짜를 입력하세요 ex)20220301 > ");
                 String paymentDate = scanner.nextLine();
                 PaymentController.selectUserPaymentByPaymentDate(userId, paymentDate);
                 break;
             case "3": // 가장 최근 구매내역 조회
-                //paymentController.selectLastUserPayment;
+                String date = PaymentController.selectUserPaymentLastOrderDate(userId);
+                PaymentController.selectUserPaymentByPaymentDate(userId, date);
                 break;
             case "4":
                 System.out.println("이전으로 돌아갑니다.");

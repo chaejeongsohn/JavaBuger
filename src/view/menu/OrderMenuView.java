@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class OrderMenuView {
-	
 
 
     private static Scanner scanner = new Scanner(System.in);
@@ -57,13 +56,17 @@ public class OrderMenuView {
         int menu = Integer.parseInt(scanner.nextLine());
         switch (menu) {
             case 1:
-                couponNumber =userchoiceCoupon(userId);
+                couponNumber = userchoiceCoupon(userId);
                 break;
             case 2:
                 // 결제 방법 선택
-                PaymentController.selectPayments();
+//                PaymentController.selectPayments();
                 int paymentMethod = 0;
-                Payment payment = new Payment(userId, paymentMethod, totalPrice,couponNumber);
+                Payment payment = new Payment(userId, paymentMethod, totalPrice, couponNumber);
+                // 쿠폰 나열
+                // CouponController.displayCoupons();
+                // 쿠폰 선택 및 적용
+                // CouponController.applyCoupon();
                 try {
                     int paymentNumber = PaymentController.insertPayment(payment);
                     List<OrderProduct> orderProductList = new ArrayList<>();
@@ -78,21 +81,22 @@ public class OrderMenuView {
             case 3:
                 // 장바구니로 돌아가기
                 CartMenuView.cartMenu2();
+                break;
             default:
                 System.out.println("default");
         }
     }
-    
+
     public static int userchoiceCoupon(String userId) {
-    	int couponNumber =0;
-    	UserCouponController.selectUserCoupons(userId);
-    	System.out.println("사용하실 쿠폰 번호를 입력해주세요.");
-    	while(true) {
-    		int conum = Integer.parseInt(scanner.nextLine());
-    		UserCoupon usercoupon = UserCouponController.selectUserCouponByNumber(userId, conum);
-    		couponNumber=usercoupon.getUserCouponNumber();
-    		break;
-    	}
-    	return couponNumber;
+        int couponNumber = 0;
+        UserCouponController.selectUserCoupons(userId);
+        System.out.println("사용하실 쿠폰 번호를 입력해주세요.");
+        while (true) {
+            int conum = Integer.parseInt(scanner.nextLine());
+            UserCoupon usercoupon = UserCouponController.selectUserCouponByNumber(userId, conum);
+            couponNumber = usercoupon.getUserCouponNumber();
+            break;
+        }
+        return couponNumber;
     }
 }

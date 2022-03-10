@@ -119,63 +119,56 @@ public class PaymentDAOImpl implements PaymentDAO {
         return categoryName;
     }
 
-
     @Override
-
-    public List<SalesDate> selectSalseByDate() throws SQLException, NullPointerException{
-    	List<SalesDate> saleslist = new ArrayList<SalesDate>();
-    	List<Date> paylist = selectDateAll();	
-    	DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-    	
-    	for(Date salesdate: paylist) {
-    		int totalSales = selectSalesAllByDate(salesdate);
-    		String strDate= dateFormat.format(salesdate);
-    		if(!strDate.isEmpty()) {
-    		SalesDate sales = new SalesDate(strDate, totalSales);
-    		saleslist.add(sales);
-    		}
-    	}
-
-
-
+    public List<SalesDate> selectSalseByDate() throws SQLException, NullPointerException {
+        List<SalesDate> saleslist = new ArrayList<SalesDate>();
+        List<Date> paylist = selectDateAll();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        for (Date salesdate : paylist) {
+            int totalSales = selectSalesAllByDate(salesdate);
+            String strDate = dateFormat.format(salesdate);
+            if (!strDate.isEmpty()) {
+                SalesDate sales = new SalesDate(strDate, totalSales);
+                saleslist.add(sales);
+            }
+        }
         return saleslist;
     }
 
     /*전체 결제일 조회*/
-
     public List<Date> selectDateAll() throws SQLException, NullPointerException {
-    	Connection con = null;
-    	PreparedStatement ps = null;
-    	ResultSet rs = null;
-    	String sql = "select pay_date from payment";
-    	List<Date> originlist = new ArrayList<>();
-    	List<Date> resultlist = new ArrayList<>();
-    	
-    	try {
-    		con=DbUtils.getConnection();
-    		ps=con.prepareStatement(sql);
-    		rs=ps.executeQuery();
-    		
-    		while(rs.next()) {
-    			Date date =rs.getDate(1);
-    			if(date!=null) {
-    				originlist.add(date);
-    			}
-    		
-    	int originsize =originlist.size();
-    	for (int i=0;i<originsize;i++) {
-    		if(!resultlist.contains(originlist.get(i))) {
-    			resultlist.add(originlist.get(i));
-    		}
-    	Collections.sort(resultlist);
-    	}	
-    		}
-    	}finally{
-    		DbUtils.close(con, ps, rs);
-    	}
-    	return resultlist;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select pay_date from payment";
+        List<Date> originlist = new ArrayList<>();
+        List<Date> resultlist = new ArrayList<>();
 
+        try {
+            con = DbUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Date date = rs.getDate(1);
+                if (date != null) {
+                    originlist.add(date);
+                }
+
+                int originsize = originlist.size();
+                for (int i = 0; i < originsize; i++) {
+                    if (!resultlist.contains(originlist.get(i))) {
+                        resultlist.add(originlist.get(i));
+                    }
+                    Collections.sort(resultlist);
+                }
+            }
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return resultlist;
     }
+
 
     /*결제일별 결제 금액 조회*/
     public int selectSalesAllByDate(Date date) throws SQLException {
@@ -293,8 +286,9 @@ public class PaymentDAOImpl implements PaymentDAO {
         return userTotalPaymentDetailList;
     }
 
-    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException {
-        List<UserPaymentDetailByDate> userPaymentDetailByDateList = new ArrayList<>();
+    public List<UserPaymentDetail> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws
+            SQLException {
+        List<UserPaymentDetail> userPaymentDetailByDateList = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -307,8 +301,8 @@ public class PaymentDAOImpl implements PaymentDAO {
                 "on orderproduct.prd_no = product.prd_no\n" +
                 "Left outer join productOption\n" +
                 "on orderOption.opt_no = productOption.opt_no\n" +
-                "where payment.user_id = ?" +
-                "and payment.pay_date = ?";
+                "where payment.user_id = ?\n" +
+                "and TO_CHAR(pay_DATE, 'YYYYMMDD') = ?";
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -318,7 +312,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 
             while (rs.next()) {
-                UserPaymentDetailByDate userPaymentDetailByDate = new UserPaymentDetailByDate(
+                UserPaymentDetail userPaymentDetailByDate = new UserPaymentDetail(
                         rs.getInt(1), rs.getInt(2),
                         rs.getString(3), rs.getInt(4), rs.getString(5));
                 userPaymentDetailByDateList.add(userPaymentDetailByDate);
@@ -327,6 +321,62 @@ public class PaymentDAOImpl implements PaymentDAO {
             DbUtils.close(con, ps, rs);
         }
         return userPaymentDetailByDateList;
+    }
+
+    public List<UserPaymentDetail> selectUserPayments(String userId) throws SQLException {
+        List<UserPaymentDetail> userPaymentDetailByDateList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select payment.pay_price, payment.pay_no, product.prd_name, orderOption.order_prd_no, productOption.opt_name, paymet.pay_date\n" +
+                "from payment Left outer join orderproduct\n" +
+                "on payment.pay_no = orderproduct.pay_no\n" +
+                "Left outer join orderoption\n" +
+                "on orderproduct.order_prd_no = orderoption.order_prd_no\n" +
+                "Left outer join product\n" +
+                "on orderproduct.prd_no = product.prd_no\n" +
+                "Left outer join productOption\n" +
+                "on orderOption.opt_no = productOption.opt_no\n" +
+                "where payment.user_id = ?";
+        try {
+            con = DbUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+
+
+            while (rs.next()) {
+                UserPaymentDetail userPaymentDetailByDate = new UserPaymentDetail(
+                        rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6));
+                userPaymentDetailByDateList.add(userPaymentDetailByDate);
+            }
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return userPaymentDetailByDateList;
+    }
+
+    public String selectUserPaymentLastOrderDate(String userId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select pay_date from payment where user_Id =? order By pay_date DESC";
+        String date = null;
+
+        try {
+            con = DbUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                date = rs.getString(1);
+            }
+        } finally {
+            DbUtils.close(con, ps, rs);
+        }
+        return date;
     }
 
 }
