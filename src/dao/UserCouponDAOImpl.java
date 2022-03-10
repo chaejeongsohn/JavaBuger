@@ -26,8 +26,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	Connection con =null;
     	PreparedStatement ps = null;
     	int addNo =1;
-		String sql = "insert into usercoupon values(USER_COUPON_NO_SEQ.NEXTVAL,?,?,?)";
-    	//String sql = proFile.getProperty("usercoupon.insert");
+    	String sql = proFile.getProperty("usercoupon.insert");
     	int result = 0;
     	
     	try {
@@ -59,8 +58,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     /*user쿠폰 수량 늘리기*/
     public int addUserCoupon(Connection con, UserCoupon usercoupon, int addNo) throws SQLException{
     	PreparedStatement ps =null;
-		String sql = "update usercoupon set coupon_amount=coupon_amount+? where user_id=? and coupon_no=?";
-    	//String sql = proFile.getProperty("usercoupon.updateadd");
+    	String sql = proFile.getProperty("usercoupon.updateadd");
     	int result = 0;
     	try {
     		ps =con.prepareStatement(sql);
@@ -80,8 +78,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     public int deleteUserCoupon(int couponNumber) throws SQLException {
     	Connection con = null;
     	PreparedStatement ps = null;
-		String sql = "delete from usercoupon where coupon_no = ?";
-    	//String sql = proFile.getProperty("usercoupon.delete");
+    	String sql = proFile.getProperty("usercoupon.delete");
     	int result =0;
     	try {
     		con = DbUtils.getConnection();
@@ -100,7 +97,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     @Override
     public int deleteUserCoupon2(Connection con, int usercouponnumber) throws SQLException {
     	PreparedStatement ps = null;
-    	String sql = "update usercoupon set coupon_amount = coupon_amount-1 where user_coupon_no = ?";
+    	String sql = proFile.getProperty("usercoupon.delete2");
     	int result =0;
     	try {
     		con.setAutoCommit(false);
@@ -126,7 +123,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     public UserCoupon selectUserCouponByUserCoupon(Connection con, int usercouponnumber) throws SQLException{
     	PreparedStatement ps= null;
     	ResultSet rs = null;
-    	String sql = "select*from usercoupon where user_coupon_no = ?";
+    	String sql = proFile.getProperty("usercoupon.selectNo");
     	UserCoupon usercoupon = null;
     	try {
     		ps =con.prepareStatement(sql);
@@ -149,8 +146,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	PreparedStatement ps= null;
     	ResultSet rs =null;
     	List<UserCoupon> userCouponList = new ArrayList<>();
-		String sql =  "select * from usercoupon where user_id= ? order by coupon_no";
-    	//String sql = proFile.getProperty("usercoupon.selectAll");
+    	String sql = proFile.getProperty("usercoupon.selectAll");
 
     	try {
     		con= DbUtils.getConnection();
@@ -177,8 +173,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	PreparedStatement ps = null;
     	ResultSet rs= null;
     	UserCoupon usercoupon = null;
-		String sql = "select*from usercoupon where user_id = ? and coupon_no =?";
-    	//String sql = proFile.getProperty("usercoupon.selectByNo");
+    	String sql = proFile.getProperty("usercoupon.selectByNo");
     	List<Coupon> couponlist = new ArrayList<>();
     	
     	try {

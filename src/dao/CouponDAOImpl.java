@@ -22,8 +22,7 @@ public class CouponDAOImpl implements CouponDAO {
     public int insertCoupon(Coupon coupon) throws SQLException, AddException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into coupon values(?,?,?,?)";
-        //String sql = proFile.getProperty("coupon.insert");
+        String sql = proFile.getProperty("coupon.insert");
         int result = 0;
         try {
             con = DbUtils.getConnection();
@@ -46,8 +45,7 @@ public class CouponDAOImpl implements CouponDAO {
     public int deleteCoupon(int couponNumber) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "delete from coupon where coupon_no = ?";
-        //String sql = proFile.getProperty("coupon.delete");
+        String sql = proFile.getProperty("coupon.delete");
         int result = 0;
 
         try {
@@ -68,8 +66,7 @@ public class CouponDAOImpl implements CouponDAO {
     public int updateCoupon(Coupon coupon) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "update coupon set coupon_detail=?, coupon_dc_rate=?,coupon_exp=? where coupon_no =? ";
-        // String sql = proFile.getProperty("coupon.update");
+        String sql = proFile.getProperty("coupon.update");
         int result = 0;
 
         try {
@@ -95,8 +92,7 @@ public class CouponDAOImpl implements CouponDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Coupon> couponList = new ArrayList<Coupon>();
-        String sql = "select*from coupon order by coupon_no";
-        //String sql = proFile.getProperty("coupon.selectAll");
+        String sql = proFile.getProperty("coupon.selectAll");
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -121,8 +117,7 @@ public class CouponDAOImpl implements CouponDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Coupon coupon = null;
-        String sql = "select*from coupon where coupon_no =?";
-        //String sql = proFile.getProperty("coupon.selectByNo");
+        String sql = proFile.getProperty("coupon.selectByNo");
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);

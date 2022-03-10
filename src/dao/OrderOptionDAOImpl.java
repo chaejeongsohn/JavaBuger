@@ -7,9 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 public class OrderOptionDAOImpl implements OrderOptionDAO {
     ProductOptionDAOImpl productoptionDAO = new ProductOptionDAOImpl();
+    private Properties proFile = DbUtils.getProFile();
 
     @Override
     public List<OrderOption> selectOrderOptions() throws SQLException {
@@ -24,7 +26,7 @@ public class OrderOptionDAOImpl implements OrderOptionDAO {
     @Override
     public int insertOrderOption(Connection con, OrderOption orderOption) throws SQLException {
         PreparedStatement ps = null;
-        String sql = "insert into orderoption values (ORDER_OPT_NO_SEQ.nextval, ?,?)";
+        String sql = proFile.getProperty("orderoption.insert");
         int result = 0;
 
         try {

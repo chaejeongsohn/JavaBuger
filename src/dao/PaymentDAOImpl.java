@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 
 public class PaymentDAOImpl implements PaymentDAO {
+	private Properties proFile = DbUtils.getProFile();
     OrderProductService orderservice = new OrderProductService();
     ProductDAO productDAO = new ProductDAOImpl();
     ProductOptionDAOImpl productoptionDAO = new ProductOptionDAOImpl();
@@ -49,7 +51,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select prd_no,prd_name,prd_price from product where category_no =?";
+        String sql = proFile.getProperty("payment.select");
         List<Product> productlist = new ArrayList<>();
 
         try {
@@ -78,7 +80,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select order_prd_amount from orderproduct where prd_no =?";
+        String sql = proFile.getProperty("payment.selectorderAmount");
         int totalamount = 0;
         try {
             con = DbUtils.getConnection();
@@ -102,7 +104,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select category_name from productcategory where category_no =?";
+        String sql = proFile.getProperty("payment.getCategoryname");
         String categoryName = null;
 
         try {
@@ -142,7 +144,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select pay_date from payment";
+        String sql = proFile.getProperty("payment.selectDateAll");
         List<Date> originlist = new ArrayList<>();
         List<Date> resultlist = new ArrayList<>();
 
@@ -177,7 +179,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select pay_price from payment where pay_date =?";
+        String sql = proFile.getProperty("payment.selectSalesAllByDate");
         int totalSalses = 0;
 
         try {
@@ -200,7 +202,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     public int insertPayment(Payment payment) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into payment values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,?)";
+        String sql = proFile.getProperty("payment.insert");
         int result = 0;
 
         try {
@@ -267,14 +269,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select pay_date, pay_price, prd_name, order_prd_amount\n" +
-                "from payment Left outer join orderproduct\n" +
-                "on payment.pay_no = orderproduct.pay_no\n" +
-                "Left outer join orderoption\n" +
-                "on orderproduct.order_prd_no = orderoption.order_prd_no\n" +
-                "Left outer join product\n" +
-                "on orderproduct.prd_no = product.prd_no\n" +
-                "where payment.user_id = ?";
+        String sql = proFile.getProperty("payment.selectByUserId");
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -299,17 +294,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select payment.pay_price, payment.pay_no, product.prd_name, orderOption.order_prd_no, productOption.opt_name\n" +
-                "from payment Left outer join orderproduct\n" +
-                "on payment.pay_no = orderproduct.pay_no\n" +
-                "Left outer join orderoption\n" +
-                "on orderproduct.order_prd_no = orderoption.order_prd_no\n" +
-                "Left outer join product\n" +
-                "on orderproduct.prd_no = product.prd_no\n" +
-                "Left outer join productOption\n" +
-                "on orderOption.opt_no = productOption.opt_no\n" +
-                "where payment.user_id = ?\n" +
-                "and TO_CHAR(pay_DATE, 'YYYYMMDD') = ?";
+        String sql = proFile.getProperty("payment.selectByPaymentDate");
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -335,16 +320,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select payment.pay_price, payment.pay_no, product.prd_name, orderOption.order_prd_no, productOption.opt_name, paymet.pay_date\n" +
-                "from payment Left outer join orderproduct\n" +
-                "on payment.pay_no = orderproduct.pay_no\n" +
-                "Left outer join orderoption\n" +
-                "on orderproduct.order_prd_no = orderoption.order_prd_no\n" +
-                "Left outer join product\n" +
-                "on orderproduct.prd_no = product.prd_no\n" +
-                "Left outer join productOption\n" +
-                "on orderOption.opt_no = productOption.opt_no\n" +
-                "where payment.user_id = ?";
+        String sql = proFile.getProperty("payment.selectUserPayments");
         try {
             con = DbUtils.getConnection();
             ps = con.prepareStatement(sql);
@@ -368,7 +344,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select pay_date from payment where user_Id =? order By pay_date DESC";
+        String sql = proFile.getProperty("payment.selectUserLastOrderDate");
         String date = null;
 
         try {
