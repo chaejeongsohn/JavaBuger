@@ -34,6 +34,17 @@ public class UserCouponController {
     			FailView.errorMessage(e.getMessage());
     		}
     }
+    
+    /*한장 사용하는거 */
+    /*public boolean deleteUserCoupon2(int couponnumber, int usercouponnumber) {
+		try{
+			userCouponService.deleteUserCoupon2(usercouponnumber);
+			SuccessView.messagePrint("쿠폰함에 있던 쿠폰[ "+couponnumber+" ] 한 장 사용하셨습니다.");
+		}catch(SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+		return true;
+}*/
 
     public static void selectUserCoupons(String userId) {
     		try{

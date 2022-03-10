@@ -3,6 +3,7 @@ package dao;
 import dto.UserCoupon;
 import exception.NotFoundException;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public interface UserCouponDAO {
      * @throws SQLException
      */
     int deleteUserCoupon(int couponNumber) throws SQLException;
+    
+    /*한장 사용하는거 */
+    int deleteUserCoupon2(Connection con, int couponNumber) throws SQLException;
 
     /**
      * 사용자의 쿠폰리스트

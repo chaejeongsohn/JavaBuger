@@ -2,6 +2,7 @@ package dao;
 
 import dto.*;
 import service.OrderProductService;
+import service.UserCouponService;
 import utils.DbUtils;
 
 import java.sql.*;
@@ -17,6 +18,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     OrderProductService orderservice = new OrderProductService();
     ProductDAO productDAO = new ProductDAOImpl();
     ProductOptionDAOImpl productoptionDAO = new ProductOptionDAOImpl();
+    UserCouponService usercouponservice = new UserCouponService();
 
     @Override
     public List<Ranking> selectSalesranking(String category) throws SQLException {
@@ -212,6 +214,11 @@ public class PaymentDAOImpl implements PaymentDAO {
             ps.setInt(2, payment.getPaymentMethod());
             ps.setInt(3, payment.getPaymentPrice());
             ps.setInt(4, payment.getUserCouponNumber());
+            
+           int couponresult =usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
+           if(couponresult==0) {
+        	   con.rollback();
+           }
 
 //    		result=ps.executeUpdate();
             ResultSet rs = ps.executeQuery();
@@ -219,7 +226,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                 con.rollback();
                 throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
             } else {
-//    			if((orderservice.insertOrderProduct(con, payment))==false) {
+//    			if(!(orderservice.insertOrderProduct(con, payment))) {
 //    				con.rollback();
 //    			}
                 con.commit();

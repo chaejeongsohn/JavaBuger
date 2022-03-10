@@ -21,9 +21,11 @@ public class OrderMenuView {
         Map<String, List<CartProduct>> userCart = CartController.getUserCart();
         String userId = UserSessionService.getUserSession().getUserId();
         List<CartProduct> cartProducts = userCart.get(userId);
-
+      
 
         // 장바구니 내역 출력
+        //cartcontroller.Viewcart(String userId)
+        //checkTotal
         int count = cartProducts.size();
         int totalPrice = 0;
         System.out.println("---------- 구매 예정 목록: 총 " + count + " 개 ------------");
@@ -62,7 +64,7 @@ public class OrderMenuView {
             case 1:
                 // 쿠폰 적용
                 couponNumber = userchoiceCoupon(userId);
-                break;
+                orderMenu();
 
             case 2:
                 int paymentPrice = totalPrice;
@@ -86,7 +88,8 @@ public class OrderMenuView {
 
                 try {
                     // 위에서 적용된 Payment 객체를 Payment 테이블에 Insert
-                    int paymentNumber = PaymentController.insertPayment(payment);
+                	int paymentNumber = PaymentController.insertPayment(payment);
+
                     List<OrderProduct> orderProductList = new ArrayList<>();
                     for (CartProduct cartProduct : cartProducts) {
                         orderProductList.add(new OrderProduct(paymentNumber, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity()));
@@ -94,7 +97,37 @@ public class OrderMenuView {
                     OrderProductController.insertOrderProductList(orderProductList);
                 } catch (SQLException e) {
                     System.out.println(e);
+                }/////////////////////////////////////////////////////////////////
+                
+                
+               /* int paymentNumber = PaymentController.insertPayment(payment);
+                Payment pay = new Payment(0, paymentMethod, 0, couponNumber);
+                
+                
+                List<OrderProduct> orderProductList = new ArrayList<>();
+                for (CartProduct cartProduct : cartProducts) {
+                	pay.getOrderlist().add(new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity()));
                 }
+                
+                for(CartProduct cp : cartProducts) {
+                    for(ProductOption po : cp.getOptionList()) {
+                        int optionNumber = po.getOptionNumber();
+
+                        //OrderOption DTO 생성 및 DB insert
+                        OrderOption orderOption = new OrderOption(optionNumber);
+                        try {
+                            OrderOptionController.insertOrderOption(orderOption);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                
+               
+                		
+               
+               OrderProduct order= new OrderProduct(0, 상품번호, 상품수량);
+               OrderOption orderOption = new OrderOption(0, 0, 옵션번호);
+               
+               order.getOrderoptionlist().add(orderOption);*/
 
                 //장바구니 내역 중 옵션리스트를 OrderOption 객체로 만들고 OrderOption 테이블에 Insert
                 /*
@@ -156,5 +189,6 @@ public class OrderMenuView {
             break;
         }
         return couponNumber;
+        
     }
 }

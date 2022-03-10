@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Payment {
     private int paymentNumber;
     private String userId;
@@ -7,7 +10,8 @@ public class Payment {
     private int paymentMethod;
     private int paymentPrice;
     private int userCouponNumber;
-
+    
+    List<OrderProduct> orderlist = new ArrayList<>();
     public Payment(String userId, int paymentMethod, int paymentPrice, int userCouponNumber) {
         this.userId = userId;
         this.paymentMethod = paymentMethod;
