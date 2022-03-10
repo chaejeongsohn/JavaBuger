@@ -17,6 +17,6 @@ public interface OrderOptionDAO {
      * @return
      * @throws SQLException
      */
-	int[] insertOrderOption(Connection con, OrderProduct orderproduct) throws SQLException;
+	int[] insertOrderOption(Connection con, List<OrderOption> orderOptionList) throws SQLException;
 
 }

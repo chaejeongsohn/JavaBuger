@@ -16,6 +16,6 @@ public interface OrderProductDAO {
      * @return
      * @throws SQLException
      */
-    int[] insertOrderProduct(Connection con ,Payment payment) throws SQLException;
+    int[] insertOrderProduct(Connection con ,List<OrderProduct> orderProductList) throws SQLException;
 
 }

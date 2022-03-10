@@ -18,15 +18,43 @@ public class OrderProductDAOImpl implements OrderProductDAO {
 	ProductDAOImpl productDAO = new ProductDAOImpl();
 
     @Override
-    public int[] insertOrderProduct(Connection con , Payment payment) throws SQLException {
+    public int[] insertOrderProduct(Connection con , List<OrderProduct> orderProductList) throws SQLException {
         PreparedStatement ps = null;
         String sql = proFile.getProperty("orderproduct.insert");
-        //insert into orderproduct values (ORDER_PRD_NO_SEQ.nextval, PAY_NO_SEQ.currval,?,?)
-    	int result []=null;
-
+    	//int result []=null;
+    	
+    	try {
+            //System.out.println("오더프로덕트");
+            ps = con.prepareStatement(sql);
+            for (OrderProduct order : orderProductList) {
+                ps.setInt(1, order.getProductNumber());
+                ps.setInt(2, order.getOrderProductAmount());
+                if(ps.executeUpdate() == 0){
+                    con.rollback();
+                    throw new SQLException("[주문 실패] 옵션 주문에 오류가 있습니다. 주문하지 못 했습니다.");
+                }
+                List<OrderOption> orderop = order.getOrderoptionlist();
+                if (orderop != null) {
+                    int[] re = orderoptionimpl.insertOrderOption(con, order.getOrderoptionlist());
+                    for (int j : re) {
+                        if (j != 1) {
+                            con.rollback();
+                            throw new SQLException("[주문 실패] 옵션 주문에 오류가 있습니다. 주문하지 못 했습니다.");
+                        }
+                    }
+                }
+                ps.clearParameters();
+            }
+        } finally {
+            DbUtils.close(null, ps, null);
+        }
+        return new int[]{1};
+    }
+}
+/*
     	try {
     		ps =con.prepareStatement(sql);
-    		for(OrderProduct order : payment.getOrderlist()) {
+    		for(OrderProduct order : orderProductList) {
     			ps.setInt(1, order.getProductNumber());
     			ps.setInt(2, order.getOrderProductAmount());
     			ps.addBatch();
@@ -40,7 +68,7 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     				}else {
     					List<OrderOption> orderop= order.getOrderoptionlist();
     	    			if(orderop!=null) {
-    	    				int re[] = orderoptionimpl.insertOrderOption(con,order);
+    	    				int re[] = orderoptionimpl.insertOrderOption(con,order.getOrderoptionlist());
     	    				for(int j :re) {
     	    					if(j!=1) {
     	    						con.rollback();
@@ -60,5 +88,5 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     	}
     	return result;
     }
-}
+}*/
     	

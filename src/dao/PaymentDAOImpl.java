@@ -229,7 +229,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 		    			con.rollback();
 		    			throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
 		    		}else {
-		    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment);
+		    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment.getOrderlist());
 		    			for(int i :re) {
 		    				if(i!=1) {
 		    					con.rollback();
@@ -253,7 +253,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 	    			con.rollback();
 	    			throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
 	    		}else {
-	    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment);
+	    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment.getOrderlist());
 	    			for(int i :re) {
 	    				if(i!=1) {
 	    					con.rollback();
@@ -278,7 +278,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     	for(OrderProduct order: orderlist) {
     		Product products = productDAO.selectProductByProductNumber(order.getOrderProductNo());
     		if(products ==null) throw new SQLException("[주문 실패] 상품번호 오류입니다.");
-    		List<OrderOption> orderoptionlist = order.getOrderoptionlist();
+    		List<OrderOption> orderoptionlist = 
+    		//List<OrderOption> orderoptionlist = order.getOrderoptionlist();
     		int optionprice =0;
     		for(OrderOption orderoption : orderoptionlist) {
     			ProductOption options = productoptionDAO.selectProductOptionByOptionNumber(orderoption.getOptionNumber());

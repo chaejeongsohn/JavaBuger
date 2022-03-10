@@ -6,6 +6,7 @@ import utils.DbUtils;
 import view.FailView;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class OrderOptionController {
     static OrderOptionService orderOptionService = new OrderOptionService();
@@ -16,9 +17,9 @@ public class OrderOptionController {
     public static void selectOrderOptionByNumber(int orderOptionNo) throws SQLException {
     }
 
-    public static void insertOrderOption(OrderOption orderOption) throws SQLException {
+    public static void insertOrderOption(List<OrderOption> orderOptionList) throws SQLException {
         try {
-            orderOptionService.insertOrderOption(DbUtils.getConnection(), orderOption);
+            orderOptionService.insertOrderOption(DbUtils.getConnection(), orderOptionList);
         } catch (SQLException e) {
             FailView.errorMessage(e.getMessage());
         }

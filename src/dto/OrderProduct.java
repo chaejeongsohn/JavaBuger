@@ -9,7 +9,7 @@ public class OrderProduct {
     private int productNumber;
     private int orderProductAmount;
     
-    List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
+    private List<OrderProduct> orderlist = new ArrayList<OrderProduct>();
     
     List<OrderOption> orderoptionlist = new ArrayList<OrderOption>();
     public OrderProduct () {}
@@ -53,8 +53,17 @@ public class OrderProduct {
     }
     
     
+    
 
-    public List<OrderOption> getOrderoptionlist() {
+    public List<OrderProduct> getOrderlist() {
+		return orderlist;
+	}
+
+	public void setOrderlist(List<OrderProduct> orderlist) {
+		this.orderlist = orderlist;
+	}
+
+	public List<OrderOption> getOrderoptionlist() {
 		return orderoptionlist;
 	}
 
