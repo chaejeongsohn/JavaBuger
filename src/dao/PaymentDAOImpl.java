@@ -1,7 +1,6 @@
 package dao;
 
 import dto.*;
-import service.OrderProductService;
 import service.UserCouponService;
 import utils.DbUtils;
 
@@ -17,11 +16,12 @@ import java.util.Properties;
 
 public class PaymentDAOImpl implements PaymentDAO {
 	private Properties proFile = DbUtils.getProFile();
-    OrderProductService orderservice = new OrderProductService();
+    
     ProductDAO productDAO = new ProductDAOImpl();
     ProductOptionDAOImpl productoptionDAO = new ProductOptionDAOImpl();
     UserCouponService usercouponservice = new UserCouponService();
-
+   // OrderProductService orderproductService = new OrderProductService();
+    OrderProductDAOImpl orderproductDAOimpl = new OrderProductDAOImpl();
     @Override
     public List<Ranking> selectSalesranking(String category) throws SQLException {
         List<Product> productlist = selectProduct(category);
@@ -210,8 +210,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 
             con = DbUtils.getConnection();
             con.setAutoCommit(false);
-
-            String returnCols[] = {"PAY_NO"};
             
            int ucunom =payment.getUserCouponNumber();
            if(ucunom!=0) {//쿠폰있다...
@@ -220,45 +218,54 @@ public class PaymentDAOImpl implements PaymentDAO {
 	           if(couponresult==0) {
 	        	   con.rollback();
 	           }else {
+	        	   //System.out.println("--페이옴--");
            
-		            ps = con.prepareStatement(sql, returnCols);
+		            ps = con.prepareStatement(sql);
 		            ps.setString(1, payment.getUserId());
 		            ps.setInt(2, payment.getPaymentMethod());
 		            ps.setInt(3, payment.getPaymentPrice());
 		            ps.setInt(4, ucunom);
-		            result=ps.executeUpdate();
 		            
+		            result=ps.executeUpdate();
+		            if(result==0) {
+		    			con.rollback();
+		    			throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+		    		}else {
+		    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment);
+		    			for(int i :re) {
+		    				if(i!=1) {
+		    					con.rollback();
+		    					throw new SQLException("[주문 실패] 상품 주문에 오류가 있습니다. 주문하지 못 했습니다.");
+		    				}
+		    			}
+		    		}  
 		            con.commit();
 	           }
 	            
-           }else {//쿺헌없다.
+           }else {//쿠폰없다...
         	   sql="insert into payment values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,null)";
-        	   ps = con.prepareStatement(sql, returnCols); //
+        	   ps = con.prepareStatement(sql); //
                ps.setString(1, payment.getUserId()); //fk
                ps.setInt(2, payment.getPaymentMethod());
                ps.setInt(3, payment.getPaymentPrice());
              
                
                result=ps.executeUpdate();
-               con.commit();
-        	   
+	            if(result==0) {
+	    			con.rollback();
+	    			throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+	    		}else {
+	    			int re []= orderproductDAOimpl.insertOrderProduct(con, payment);
+	    			for(int i :re) {
+	    				if(i!=1) {
+	    					con.rollback();
+	    					throw new SQLException("[주문 실패] 주문상품을 정확히 입력해주세요. 주문하지 못 했습니다.");
+	    				}
+	    			}
+	    		}  
+	            con.commit();
            }
            
-
-          
-            //ResultSet rs = ps.executeQuery();
-            /*if (!rs.next()) {
-                con.rollback();
-                throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
-            } else {
-//    			if(!(orderservice.insertOrderProduct(con, payment))) {
-//    				con.rollback();
-//    			}
-                con.commit();
-                return rs.getInt(1);
-            }*/
-           
-
         } finally {
             con.commit();
             DbUtils.close(con, ps, null);
