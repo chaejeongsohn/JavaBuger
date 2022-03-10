@@ -1,15 +1,8 @@
 package controller;
 
 
-
 import dto.Payment;
 import dto.Ranking;
-
-
-
-import dto.SalesDate;
-
-import dto.UserPaymentDetailByDate;
 import dto.UserTotalPaymentDetail;
 import service.PaymentService;
 import view.EndView;
@@ -17,7 +10,6 @@ import view.FailView;
 import view.SuccessView;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,34 +34,34 @@ public class PaymentController {
         }
     }
 
-    
+
     /*일별 매출 내역*/
     public static void selectSalseByDate() {
-    	try{
-    		paymentService.selectSalseByDate();
-    	}catch(SQLException e) {
-    		FailView.errorMessage(e.getMessage());
-    	}catch(NullPointerException ex) {
-    		FailView.errorMessage("NullPointerException이 발생했습니다.");
-    	}
+        try {
+            paymentService.selectSalseByDate();
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        } catch (NullPointerException ex) {
+            FailView.errorMessage("NullPointerException이 발생했습니다.");
+        }
 
     }
-    
+
     public static int insertPayment(Payment payment) throws SQLException {
-    	try{
-    		int result = paymentService.insertPayment(payment);
-    		SuccessView.messagePrint("[주문 완료!]"+payment.getPaymentMethod()+"로 결제완료되었습니다.");
+        try {
+            int result = paymentService.insertPayment(payment);
+            SuccessView.messagePrint("[주문 완료!]" + payment.getPaymentMethod() + "로 결제완료되었습니다.");
             return result;
-    	}catch(SQLException e) {
-    		FailView.errorMessage(e.getMessage());
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
             throw e;
-    	}
+        }
     }
 
     public static void selectPaymentByUserId(String userId) {
         try {
             List<UserTotalPaymentDetail> userTotalPaymentDetailList = paymentService.selectPaymentByUserId(userId);
-            for(UserTotalPaymentDetail userTotalPaymentDetail : userTotalPaymentDetailList){
+            for (UserTotalPaymentDetail userTotalPaymentDetail : userTotalPaymentDetailList) {
                 System.out.println(userTotalPaymentDetail);
             }
         } catch (SQLException e) {
@@ -78,47 +70,33 @@ public class PaymentController {
     }
 
 
-    public static void selectUserPaymentByPaymentDate(String userId, String paymentDate){
-        try{
-            List<UserPaymentDetailByDate> userPaymentDetailByDateList = paymentService.selectUserPaymentByPaymentDate(userId, paymentDate);
-            List<UserPaymentDetailByDate> paymentList = new ArrayList<>();
+    public static void selectUserPaymentByPaymentDate(String userId, String paymentDate) {
+        try {
+            paymentService.selectUserPaymentByPaymentDate(userId, paymentDate);
 
-            for(UserPaymentDetailByDate userPaymentDetailByDate : userPaymentDetailByDateList){
-                UserPaymentDetailByDate payment = new UserPaymentDetailByDate(0,null, null);
-                int lastPayNumber = 0;
-                int lastOrderProductNumber = 0;
-                List<String> optionList = null;
-                if(userPaymentDetailByDate.getPayNumber() != lastPayNumber){
-                    payment.setPayPrice(userPaymentDetailByDate.getPayPrice());
-                    payment.setProductName(userPaymentDetailByDate.getProductName());
-                    lastPayNumber = userPaymentDetailByDate.getPayNumber();
-                    if(userPaymentDetailByDate.getOrderProductNumber() != lastOrderProductNumber){
-                        optionList.add(userPaymentDetailByDate.getProductOptionName());
-                        lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
-                    }
-                }
-                payment.setProductOptionNameList(optionList);
-                System.out.println(userPaymentDetailByDate);
-            }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             FailView.errorMessage(e.getMessage());
         }
     }
 
-    public static void selectPayments() {
+    public static void selectUserPayments(String userId) {
+        try {
+            paymentService.selectUserPayments(userId);
 
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        }
     }
 
-
-    public static void selectPaymentByPayNo(int PaymentNumber) {
-
+    public static String selectUserPaymentLastOrderDate(String userId) {
+        String lastDate = null;
+        try {
+            lastDate = paymentService.selectUserPaymentLastOrderDate(userId);
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        }
+        return lastDate;
     }
 
-
-    public static void deletePayment(int paymentNumber) {
-    }
-
-    public static void updatePayment(Payment payment) {
-    }
 
 }

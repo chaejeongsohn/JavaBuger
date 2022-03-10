@@ -9,6 +9,16 @@ import java.util.List;
 
 public interface PaymentDAO {
 
+    /*메뉴별 매출순위*/
+    List<Ranking> selectSalesranking(String category)throws SQLException;
+
+
+    /*일별 매출순위*/
+    List<SalesDate> selectSalseByDate()throws SQLException, NullPointerException;
+
+
+    /*사용자 구매내역 추가*/
+    int insertPayment(Payment payment) throws SQLException;
 
     /**
      * 전체 구매내역 조회
@@ -27,9 +37,9 @@ public interface PaymentDAO {
      */
     Payment selectPaymentByPayNo(int PaymentNumber) throws SQLException;
 
-    public List<UserPaymentDetailByDate> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException;
+    public List<UserPaymentDetail> selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException;
 
-
+    public List<UserPaymentDetail> selectUserPayments(String userId) throws SQLException;
     /**
      * 아이디로 구매내역 조회
      *
@@ -39,4 +49,5 @@ public interface PaymentDAO {
      */
     List<UserTotalPaymentDetail> selectPaymentByUserId(String userId) throws SQLException;
 
+    String selectUserPaymentLastOrderDate(String userId) throws SQLException;
 }

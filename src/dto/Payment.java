@@ -1,8 +1,5 @@
 package dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Payment {
     private int paymentNumber;
     private String userId;
@@ -65,8 +62,8 @@ public class Payment {
     public void setUserCouponNumber(int userCouponNumber) {
         this.userCouponNumber = userCouponNumber;
     }
-    
-	@Override
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("");
         sb.append("paymentNumber=").append(paymentNumber);

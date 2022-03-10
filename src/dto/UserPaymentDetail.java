@@ -2,15 +2,16 @@ package dto;
 
 import java.util.List;
 
-public class UserPaymentDetailByDate {
+public class UserPaymentDetail {
     private int payPrice;
     private int payNumber;
     private String productName;
     private int orderProductNumber;
     private String productOptionName;
     private List<String> productOptionNameList;
+    private String paymentDate;
 
-    public UserPaymentDetailByDate(int payPrice, int payNumber, String productName, int orderProductNumber, String productOptionName) {
+    public UserPaymentDetail(int payPrice, int payNumber, String productName, int orderProductNumber, String productOptionName) {
         this.payPrice = payPrice;
         this.payNumber = payNumber;
         this.productName = productName;
@@ -18,10 +19,27 @@ public class UserPaymentDetailByDate {
         this.productOptionName = productOptionName;
     }
 
-    public UserPaymentDetailByDate(int payPrice, String productName, List<String> productOptionNameList) {
+    public UserPaymentDetail(int payPrice, String productName, List<String> productOptionNameList) {
         this.payPrice = payPrice;
         this.productName = productName;
         this.productOptionNameList = productOptionNameList;
+    }
+
+    public UserPaymentDetail(int payPrice, int payNumber, String productName, int orderProductNumber, String productOptionName, String paymentDate) {
+        this.payPrice = payPrice;
+        this.payNumber = payNumber;
+        this.productName = productName;
+        this.orderProductNumber = orderProductNumber;
+        this.productOptionName = productOptionName;
+        this.paymentDate = paymentDate;
+    }
+
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
     public List<String> getProductOptionNameList() {
