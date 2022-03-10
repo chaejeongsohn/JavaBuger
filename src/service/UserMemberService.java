@@ -7,10 +7,7 @@ import exception.NotFoundException;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserMemberService {
     UserMemberDAO userMemberDAO = new UserMemberDAOImpl();
@@ -35,8 +32,7 @@ public class UserMemberService {
             System.out.println(userId + "님 로그인 되었습니다.");
             UserSessionService.setUserSession(userMember);
         }
-        
-       
+
 
         // 로그인된 정보 저장하기
 
@@ -49,25 +45,25 @@ public class UserMemberService {
      * @param userMember
      */
     public boolean join(UserMember userMember) throws NotFoundException, SQLException {
-
-        if (!validID(userMember.getUserId()) || !validPW(userMember.getUserPw()) || !validPhoneNo(userMember.getUserPhone()) || !validBirthday(userMember.getUserBirthDay())) {
-            throw new SQLException("회원가입에 실패했습니다.");
-        }
         //아이디 중복 체크
         String userId = userMember.getUserId();
         boolean rsID = checkExistUserId(userId);
 
         if (rsID) {
             throw new SQLException("해당 아이디는 이미 존재하는 아이디입니다.");
-        } 
+        }
         //휴대폰 번호 중복 체크
         int userPhone = userMember.getUserPhone();
         boolean rsPhone = checkExistPhoneNo(userPhone);
 
         if (rsPhone) {
             throw new SQLException("이미 해당 번호로 가입한 이력이 있습니다.");
-        } 
-        
+        }
+
+        if (!validID(userMember.getUserId()) || !validPW(userMember.getUserPw()) || !validPhoneNo(userMember.getUserPhone()) || !validBirthday(userMember.getUserBirthDay())) {
+            throw new SQLException("회원가입에 실패했습니다.");
+        }
+
         userMemberDAO.insertUser(userMember);
         return true;
     }
@@ -111,12 +107,12 @@ public class UserMemberService {
     public boolean checkExistUserId(String userId) throws SQLException, NotFoundException {
         UserMember usermember = userMemberDAO.selectUserInfo(userId);
         if (usermember != null) {
-        	return true;
+            return true;
         } else {
             return false;
         }
     }
-    
+
     /**
      * 휴대폰 번호 중복체크
      *
@@ -126,7 +122,7 @@ public class UserMemberService {
     public boolean checkExistPhoneNo(int userPhone) throws SQLException, NotFoundException {
         UserMember usermember = userMemberDAO.selectUserInfo(userPhone);
         if (usermember != null) {
-        	return true;
+            return true;
         } else {
             return false;
         }
@@ -135,8 +131,8 @@ public class UserMemberService {
 
     public List<String> checkByBirthDay(int userBirthDay) throws SQLException {
         List<String> birthDayUserIdList = userMemberDAO.selectByBirthday(userBirthDay);
-        if(birthDayUserIdList == null){
-            throw new SQLException("생일이 "+ userBirthDay + " 인 고객이 없습니다.");
+        if (birthDayUserIdList == null) {
+            throw new SQLException("생일이 " + userBirthDay + " 인 고객이 없습니다.");
         }
         return birthDayUserIdList;
     }
@@ -169,25 +165,23 @@ public class UserMemberService {
      * @return
      */
     public boolean validID(String userID) {
-    	boolean hasDigit = false;
+        boolean hasDigit = false;
         boolean hasLower = false;
-    //    boolean hasUpper = false;
-        boolean islength = false;
-        
-        for(int i = 0; i <userID.length();i++) {
-        	char c = userID.charAt(i);
-        	if(c >= '0' && c <='9') {
-        		hasDigit = true;
-        	} else if(c >= 'a' && c<='z') {
-        		hasLower = true;
-        //	} else if(c >= 'A' && c<='Z') {
-      //  		hasUpper = true;
-        	} else if(userID.length() >=6 && userID.length()<=10)
-            	islength = true;
-        }
+        //    boolean hasUpper = false;
+        boolean islength = userID.length() >= 5 && userID.length() <= 10;
 
-        if(!hasDigit || !hasLower) {
-        	System.out.println("유효하지 않는 아이디 형식입니다. 영어 소문자와 숫자를 포함하여 6~10글자 내외로 입력해주세요.");
+        for (int i = 0; i < userID.length(); i++) {
+            char c = userID.charAt(i);
+            if (c >= '0' && c <= '9') {
+                hasDigit = true;
+            } else if (c >= 'a' && c <= 'z') {
+                hasLower = true;
+                //	} else if(c >= 'A' && c<='Z') {
+                //  		hasUpper = true;
+            }
+        }
+        if (!hasDigit || !hasLower || !islength) {
+            System.out.println("유효하지 않는 아이디 형식입니다. 영어 소문자와 숫자를 포함하여 5~10글자 내외로 입력해주세요.");
             return false;
         }
         return true;
@@ -203,22 +197,21 @@ public class UserMemberService {
         boolean hasDigit = false;
         boolean hasLower = false;
         boolean hasUpper = false;
-        boolean islength = false;
-        
-        for(int i = 0; i <userPw.length();i++) {
-        	char c = userPw.charAt(i);
-        	if(c >= '0' && c <='9') {
-        		hasDigit = true;
-        	} else if(c >= 'a' && c<='z') {
-        		hasLower = true;
-        	} else if(c >= 'A' && c<='Z') {
-        		hasUpper = true;
-        	} else if(userPw.length() >=8 && userPw.length()<=15)
-        		islength = true;
+        boolean islength = userPw.length() >= 8 && userPw.length() <= 15;
+
+        for (int i = 0; i < userPw.length(); i++) {
+            char c = userPw.charAt(i);
+            if (c >= '0' && c <= '9') {
+                hasDigit = true;
+            } else if (c >= 'a' && c <= 'z') {
+                hasLower = true;
+//        	} else if(c >= 'A' && c<='Z') {
+//        		hasUpper = true;
+            }
         }
 
-        if(!hasDigit || !hasLower || !hasUpper) {
-        	System.out.println("유효하지 않는 비밀번호 형식입니다. 영어 대소문자와 숫자를 포함하여 8~15글자 내외로 입력해주세요.");
+        if (!hasDigit || !hasLower || !islength) {
+            System.out.println("유효하지 않는 비밀번호 형식입니다. 영어 대소문자와 숫자를 포함하여 8~15글자 내외로 입력해주세요.");
             return false;
         }
         return true;
