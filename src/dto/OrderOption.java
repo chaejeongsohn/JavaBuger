@@ -11,6 +11,15 @@ public class OrderOption {
         this.optionNumber = optionNumber;
     }
 
+    /*
+        추가한 이유:
+            DB 에 insert 할 때 orderOptionNo 는 seq로 자동생성
+                             orderProductNo 또한 OrderProduct 테이블에서 seq 로 자동생성
+     */
+    public OrderOption(int optionNumber) {
+        this.optionNumber = optionNumber;
+    }
+
     public int getOrderOptionNo() {
         return orderOptionNo;
     }
