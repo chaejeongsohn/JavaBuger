@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import controller.CouponController;
+
 
 public class PaymentDAOImpl implements PaymentDAO {
     private Properties proFile = DbUtils.getProFile();
@@ -20,6 +22,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     // OrderProductService orderproductService = new OrderProductService();
     OrderProductDAOImpl orderproductDAOimpl = new OrderProductDAOImpl();
     OrderOptionDAOImpl orderOptionDAOimpl = new OrderOptionDAOImpl();
+    UserCouponDAOImpl usercouponimpl = new UserCouponDAOImpl();
 
     @Override
     public List<Ranking> selectSalesranking(String category) throws SQLException {
@@ -206,37 +209,59 @@ public class PaymentDAOImpl implements PaymentDAO {
         int result = 0;
 
         try {
-            con = DbUtils.getConnection();
+        	con = DbUtils.getConnection();
             con.setAutoCommit(false);
-            //System.out.println("--페이옴--");
-
-            ps = con.prepareStatement(sql);
-            ps.setString(1, payment.getUserId());
-            ps.setInt(2, payment.getPaymentMethod());
-            ps.setInt(3, payment.getPaymentPrice());
-            if (payment.getUserCouponNumber() != 0) {
-                int couponresult = usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
-                if (couponresult == 0) {
-                    con.rollback();
+            System.out.println("--페이옴--");
+            int ucunom =payment.getUserCouponNumber();
+            int totoalpp =getTotalPrice(payment);
+            
+            if(ucunom!=0) {//쿠폰있다...
+            int couponresult = usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
+            	if (couponresult == 0) {
+            		con.rollback();
+            		throw new SQLException("[주문 실패] 해당 쿠폰은 유효하지 않은 쿠폰입니다. 주문하지 못 했습니다.");
+            	}
+            	ps = con.prepareStatement(sql);
+            	ps.setString(1, payment.getUserId());
+            	ps.setInt(2, payment.getPaymentMethod());
+            	ps.setInt(3, totoalpp);
+            	ps.setInt(4, ucunom);
+            	result = ps.executeUpdate();
+            	
+            	if (result == 0) {
                     throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
-                }
-                ps.setInt(4, payment.getUserCouponNumber());
-            } else {
-                ps.setString(4, null);
+                } else {
+                    int[] re = orderproductDAOimpl.insertOrderProduct(con, payment.getOrderList());
+                    for (int i : re) {
+                        if (i != 1) {
+                            throw new SQLException("[주문 실패] 상품 주문에 오류가 있습니다. 주문하지 못 했습니다.");
+                        	}	
+                    	}
+                	}	
+                con.commit();
+            } else {//쿠폰없다..
+            	sql="insert into payment values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,null)";
+            	ps = con.prepareStatement(sql);
+            	ps.setString(1, payment.getUserId());
+            	ps.setInt(2, payment.getPaymentMethod());
+            	ps.setInt(3, totoalpp);
+            	result = ps.executeUpdate();
+	
+            	if (result == 0) {
+                    throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+                } else {
+                    int[] re = orderproductDAOimpl.insertOrderProduct(con, payment.getOrderList());
+                    for (int i : re) {
+                        if (i != 1) {
+                            throw new SQLException("[주문 실패] 상품 주문에 오류가 있습니다. 주문하지 못 했습니다.");
+                        	}	
+                    	}
+                	}	
+                con.commit();
+                
             }
 
-            result = ps.executeUpdate();
-            if (result == 0) {
-                throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
-            } else {
-                int[] re = orderproductDAOimpl.insertOrderProduct(con, payment.getOrderList());
-                for (int i : re) {
-                    if (i != 1) {
-                        throw new SQLException("[주문 실패] 상품 주문에 오류가 있습니다. 주문하지 못 했습니다.");
-                    }
-                }
-            }
-            con.commit();
+        	
         } catch (Exception e) {
             con.rollback();
             throw e;
@@ -245,9 +270,46 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
         return result;
     }
+    /*상품 총 구매금액 구하기*/
+    public int getTotalPrice(Payment payment) throws SQLException {
+    	System.out.println("구매금액옴");
+    	int total=0;
+    	int optionprice =0;
+    	int discountrate =1;
+    	List<OrderProduct> orderProductList = payment.getOrderList();
+    	for(OrderProduct order: orderProductList) {
+    		Product products = productDAO.selectProductByProductNumber(order.getProductNumber());
+    		if(products ==null) {throw new SQLException("[주문 실패] 상품번호 오류입니다.");
+    		}else {
+    		List<OrderOption> orderoptionlist = order.getOrderOptionList();
+    		for(OrderOption orderoption : orderoptionlist) {
+    			ProductOption options = productoptionDAO.selectProductOptionByOptionNumber(orderoption.getOptionNumber());
+                optionprice += options.getOptionPrice();
+    			}
+    		}
+
+    		total += (order.getOrderProductAmount()*products.getProductPrice())+optionprice;
+    	}
+    	if(payment.getUserCouponNumber()!=0) {
+    	discountrate =getCouponDC(payment.getUserCouponNumber());
+    	total =  total*((100-discountrate)/100);
+    	}else {
+    	total =  total*discountrate;}
+    	return total;
+    }
+    /*쿠폰 할인율 구하기*/
+    public int getCouponDC(int usercouponNumber) throws SQLException{
+    	System.out.println("쿠폰할인율옴");
+    	int rate =1;
+    	UserCoupon usercoupon =usercouponimpl.selectUsercouponByUCN(usercouponNumber);
+    	Coupon coupon =CouponController.selectCouponByNumber(usercoupon.getCouponNumber());
+    	rate=coupon.getCouponDiscountRate();
+    	return rate;
+    	
+    }
 
     /*해당 물건 옵션 금액 구하는 메소드*/
-    public int getOptionPrice(OrderProduct order) throws SQLException {
+   /* public int getOptionPrice(OrderProduct order) throws SQLException {
         List<OrderOption> orderoptionlist = order.getOrderOptionList();
         int optionprice = 0;
         for (OrderOption orderoption : orderoptionlist) {
@@ -255,7 +317,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             optionprice += options.getOptionPrice();
         }
         return optionprice;
-    }
+    }*/
 
     @Override
     public Payment selectPaymentByPayNo(int PaymentNumber) throws SQLException {
