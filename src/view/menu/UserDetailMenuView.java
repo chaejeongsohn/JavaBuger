@@ -4,10 +4,8 @@ import controller.PaymentController;
 import controller.UserCouponController;
 import controller.UserMemberController;
 import dto.UserMember;
-import exception.NotFoundException;
 import service.UserSessionService;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserDetailMenuView {
@@ -39,7 +37,7 @@ public class UserDetailMenuView {
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
-  				   System.out.println("번호를 다시 입력해주세요");
+                    System.out.println("번호를 다시 입력해주세요");
             }
         }
     }
@@ -76,7 +74,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				   System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
         }
     }
@@ -115,7 +113,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
         }
     }
@@ -141,7 +139,9 @@ public class UserDetailMenuView {
                 break;
             case "3": // 가장 최근 구매내역 조회
                 String date = PaymentController.selectUserPaymentLastOrderDate(userId);
-                PaymentController.selectUserPaymentByPaymentDate(userId, date);
+                if (date != null) {
+                    PaymentController.selectUserPaymentByPaymentDate(userId, date);
+                }
                 break;
             case "4":
                 System.out.println("이전으로 돌아갑니다.");
@@ -150,7 +150,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				   System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
 
         }
