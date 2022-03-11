@@ -30,7 +30,7 @@ public class OrderMenuView {
         // 주문/결제 메뉴
         UserCoupon usingUserCoupon = null;
         System.out.println("-------------------------------------------------");
-        System.out.println("|  1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기  |");
+        System.out.println("|  1. 쿠폰적용    2. 결제하기    3. 장바구니로 돌아가기  |");
         System.out.println("-------------------------------------------------");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
@@ -96,9 +96,11 @@ public class OrderMenuView {
                 order.getOrderOptionList().add(orderoption);
             }
         }
+
         result = PaymentController.insertPayment(pay);
         CartController.clearUserCart();
         return result;
+
 
     }
 
@@ -116,9 +118,11 @@ public class OrderMenuView {
                 order.getOrderOptionList().add(orderoption);
             }
         }
+
         result=PaymentController.insertPayment(pay);
         CartController.clearUserCart();
         return result;
+
     }
 
     public static int viewCart(String userId) {
@@ -139,7 +143,7 @@ public class OrderMenuView {
                     priceByProduct += po.getOptionPrice();
                 }
             }
-            System.out.print("(옵션선택 안함) | ");
+            System.out.print("   ");
             priceByProduct *= cp.getQuantity();
             totalPrice += priceByProduct;
             System.out.print("[수량] :" + cp.getQuantity() + " | ");

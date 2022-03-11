@@ -97,7 +97,11 @@ public class PaymentController {
         } catch (SQLException e) {
             FailView.errorMessage(e.getMessage());
         }
-        return lastDate;
+        String dateOfYear = lastDate.substring(0, 4);
+        String dateOfMonth = lastDate.substring(5, 7) ;
+        String dateOfDay = lastDate.substring(8,10);
+        String date = dateOfYear + dateOfMonth+ dateOfDay;
+        return date;
     }
 
 

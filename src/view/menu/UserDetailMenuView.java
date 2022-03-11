@@ -4,10 +4,8 @@ import controller.PaymentController;
 import controller.UserCouponController;
 import controller.UserMemberController;
 import dto.UserMember;
-import exception.NotFoundException;
 import service.UserSessionService;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserDetailMenuView {
@@ -39,7 +37,7 @@ public class UserDetailMenuView {
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
-  				   System.out.println("번호를 다시 입력해주세요");
+                    System.out.println("번호를 다시 입력해주세요");
             }
         }
     }
@@ -76,7 +74,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				   System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
         }
     }
@@ -87,22 +85,25 @@ public class UserDetailMenuView {
         System.out.println("1.이름 변경  2.폰번호 변경 3. 비밀번호 변경  4.이전으로 돌아가기 5. 프로그램 종료");
         System.out.println("메뉴를 선택하세요 > ");
         String menu = scanner.nextLine();
-        //UserMember updateUserMember = new UserMember(UserSessionService.getUserSession());
         switch (menu) {
             case "1": // 이름변경
                 System.out.print("새로운 이름은? > ");
                 String newName = scanner.nextLine();
-                updateUserMember.setUserName(newName);
+                UserSessionService.getUserSession().setUserName(newName);
+                UserMemberController.updateUser(UserSessionService.getUserSession());
+
                 break;
             case "2": // 폰번호변경
                 System.out.print("새로운 폰번호는? > ");
                 int newPhoneNumber = Integer.parseInt(scanner.nextLine());
-                updateUserMember.setUserPhone(newPhoneNumber);
+                UserSessionService.getUserSession().setUserPhone(newPhoneNumber);
+                UserMemberController.updateUser(UserSessionService.getUserSession());
                 break;
             case "3": // 비밀번호변경
                 System.out.print("새로운 비밀번호는? > ");
                 String newPassword = scanner.nextLine();
-                updateUserMember.setUserPw(newPassword);
+                UserSessionService.getUserSession().setUserPw(newPassword);
+                UserMemberController.updateUser(UserSessionService.getUserSession());
                 break;
             case "4":
                 System.out.println("이전으로 돌아갑니다.");
@@ -112,7 +113,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
         }
     }
@@ -138,7 +139,9 @@ public class UserDetailMenuView {
                 break;
             case "3": // 가장 최근 구매내역 조회
                 String date = PaymentController.selectUserPaymentLastOrderDate(userId);
-                PaymentController.selectUserPaymentByPaymentDate(userId, date);
+                if (date != null) {
+                    PaymentController.selectUserPaymentByPaymentDate(userId, date);
+                }
                 break;
             case "4":
                 System.out.println("이전으로 돌아갑니다.");
@@ -147,7 +150,7 @@ public class UserDetailMenuView {
                 System.out.println("프로그램을 종료합니다.");
                 System.exit(0);
             default:
-				   System.out.println("번호를 다시 입력해주세요");
+                System.out.println("번호를 다시 입력해주세요");
 
 
         }

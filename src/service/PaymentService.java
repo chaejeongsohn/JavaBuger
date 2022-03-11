@@ -43,34 +43,37 @@ public class PaymentService {
 
     public void selectUserPaymentByPaymentDate(String userId, String paymentDate) throws SQLException {
         List<UserPaymentDetail> userPaymentDetailByDateList = paymentDAO.selectUserPaymentByPaymentDate(userId, paymentDate);
-        if (userPaymentDetailByDateList.size() == 0) throw new SQLException("해당 주문내역 없습니다.");
-        String date = paymentDate.substring(0, 4) + "-" + paymentDate.substring(4, 6) + "-" + paymentDate.substring(6, 8);
-        System.out.println("--- " + userId + " 님의 " + date + " 의 구매내역 ---");
-        int lastPayNumber = 0;
-        int lastOrderProductNumber = 0;
-        for (UserPaymentDetail userPaymentDetailByDate : userPaymentDetailByDateList) {
-            UserPaymentDetail payment = new UserPaymentDetail(0, null, null);
+        if (userPaymentDetailByDateList.size() == 0) {
+            throw new SQLException("주문한 내역이 없습니다.");
+        }else {
+            String date = paymentDate.substring(0, 4) + "-" + paymentDate.substring(4, 6) + "-" + paymentDate.substring(6, 8);
+            System.out.println("--- " + userId + " 님의 " + date + " 의 구매내역 ---");
+            int lastPayNumber = 0;
+            int lastOrderProductNumber = 0;
+            for (UserPaymentDetail userPaymentDetailByDate : userPaymentDetailByDateList) {
+                UserPaymentDetail payment = new UserPaymentDetail(0, null, null);
 
 
-            if (userPaymentDetailByDate.getPayNumber() != lastPayNumber) {
-                System.out.println();
-                System.out.print("###");
-                System.out.println(" 총가격 : " + userPaymentDetailByDate.getPayPrice());
-                System.out.println(" 상품이름 : " + userPaymentDetailByDate.getProductName());
-                lastPayNumber = userPaymentDetailByDate.getPayNumber();
-                lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
-                if (userPaymentDetailByDate.getOrderProductNumber() == lastOrderProductNumber) {
+                if (userPaymentDetailByDate.getPayNumber() != lastPayNumber) {
+                    System.out.println();
+                    System.out.print("###");
+                    System.out.println(" 총가격 : " + userPaymentDetailByDate.getPayPrice());
+                    System.out.println(" 상품이름 : " + userPaymentDetailByDate.getProductName());
+                    lastPayNumber = userPaymentDetailByDate.getPayNumber();
+                    lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
+                    if (userPaymentDetailByDate.getOrderProductNumber() == lastOrderProductNumber) {
+                        if (userPaymentDetailByDate.getProductOptionName() != null) {
+                            System.out.println("           ㄴ> 옵션 : " + userPaymentDetailByDate.getProductOptionName());
+                        }
+                    }
+                } else {
+                    if (userPaymentDetailByDate.getOrderProductNumber() != lastOrderProductNumber) {
+                        System.out.println("          " + userPaymentDetailByDate.getProductName());
+                        lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
+                    }
                     if (userPaymentDetailByDate.getProductOptionName() != null) {
                         System.out.println("           ㄴ> 옵션 : " + userPaymentDetailByDate.getProductOptionName());
                     }
-                }
-            } else {
-                if (userPaymentDetailByDate.getOrderProductNumber() != lastOrderProductNumber) {
-                    System.out.println("          " + userPaymentDetailByDate.getProductName());
-                    lastOrderProductNumber = userPaymentDetailByDate.getOrderProductNumber();
-                }
-                if (userPaymentDetailByDate.getProductOptionName() != null) {
-                    System.out.println("           ㄴ> 옵션 : " + userPaymentDetailByDate.getProductOptionName());
                 }
             }
         }
@@ -84,7 +87,7 @@ public class PaymentService {
         int lastPayNumber = 0;
         int lastOrderProductNumber = 0;
         for (UserPaymentDetail userPaymentDetail : userPaymentDetailList) {
-            UserPaymentDetail payment = new UserPaymentDetail(0, null, null);
+            //UserPaymentDetail payment = new UserPaymentDetail(0, null, null);
 
 
             if (userPaymentDetail.getPayNumber() != lastPayNumber) {
@@ -114,7 +117,7 @@ public class PaymentService {
 
     public String selectUserPaymentLastOrderDate(String userId) throws SQLException {
         String lastDate = paymentDAO.selectUserPaymentLastOrderDate(userId);
-        if (lastDate == null) throw new SQLException("해당 주문내역 없습니다.");
+        if (lastDate == null) throw new SQLException("해당 내역이 없습니다.");
         return lastDate;
     }
 
