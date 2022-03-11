@@ -22,7 +22,6 @@ public class OrderMenuView {
     private static String userId = UserSessionService.getUserSession().getUserId();
     private static Map<String, List<CartProduct>> cart = CartController.getUserCart();
     private static List<CartProduct> cartlist = cart.get(userId);
-    private static CartController cartcontroller = new CartController();
 
     public static void orderMenu() {
         System.out.println("\n---------- 구매 화면 --------------------");
@@ -31,7 +30,7 @@ public class OrderMenuView {
         // 주문/결제 메뉴
         UserCoupon usingUserCoupon = null;
         System.out.println("-------------------------------------------------");
-        System.out.println("|  1. 쿠폰적용    2. 결재하기    3. 장바구니로 돌아가기  |");
+        System.out.println("|  1. 쿠폰적용    2. 결제하기    3. 장바구니로 돌아가기  |");
         System.out.println("-------------------------------------------------");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
@@ -95,7 +94,7 @@ public class OrderMenuView {
             }
         }
         PaymentController.insertPayment(pay);
-        cartcontroller.clearUserCart();
+        CartController.clearUserCart();
 
     }
 
@@ -114,7 +113,7 @@ public class OrderMenuView {
             }
         }
         PaymentController.insertPayment(pay);
-        cartcontroller.clearUserCart();
+        CartController.clearUserCart();
     }
 
     public static int viewCart(String userId) {
@@ -135,7 +134,7 @@ public class OrderMenuView {
                     priceByProduct += po.getOptionPrice();
                 }
             }
-            System.out.print("(옵션선택 안함) | ");
+            System.out.print("   ");
             priceByProduct *= cp.getQuantity();
             totalPrice += priceByProduct;
             System.out.print("[수량] :" + cp.getQuantity() + " | ");
