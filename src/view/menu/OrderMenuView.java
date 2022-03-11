@@ -22,7 +22,6 @@ public class OrderMenuView {
     private static String userId = UserSessionService.getUserSession().getUserId();
     private static Map<String, List<CartProduct>> cart = CartController.getUserCart();
     private static List<CartProduct> cartlist = cart.get(userId);
-    private static CartController cartcontroller = new CartController();
 
     public static void orderMenu() {
         System.out.println("\n---------- 구매 화면 --------------------");
@@ -35,6 +34,7 @@ public class OrderMenuView {
         System.out.println("-------------------------------------------------");
         System.out.print("메뉴를 선택해주세요 > ");
         int menu = Integer.parseInt(scanner.nextLine());
+        int payresult=0;
 
         switch (menu) {
             case 1:
@@ -48,12 +48,13 @@ public class OrderMenuView {
                 System.out.print("원하시는 수단을 선택해주세요 >");
                 int paymentMethod = Integer.parseInt(scanner.nextLine());
                 if (usingUserCoupon != null) {
-                    startPay(paymentMethod, usingUserCoupon, paymentPrice);
+                    payresult = startPay(paymentMethod, usingUserCoupon, paymentPrice);//일단 나중에 수정
                 } else {
-                    startPay2(paymentMethod, paymentPrice);
+                    payresult=startPay2(paymentMethod, paymentPrice);
                 }
-
-                switch (paymentMethod) {
+                
+                if(payresult!=0) {
+                	switch (paymentMethod) {
                     case 1:
                         System.out.println("카드로 결제가 완료되었습니다.");
                         break;
@@ -64,8 +65,8 @@ public class OrderMenuView {
                         System.out.println("현장결제로 결제가 완료되었습니다.");
                         break;
                 }
-
-                break;
+                }
+                return;
 
             case 3:
                 // 장바구니로 돌아가기
@@ -81,9 +82,10 @@ public class OrderMenuView {
         }
     }
 
-    private static void startPay2(int paymentMethod, int paymentPrice) {//쿠폰이 null인경우 (쿠폰선택 안한경우)
+    private static int startPay2(int paymentMethod, int paymentPrice) {//쿠폰이 null인경우 (쿠폰선택 안한경우)
         Payment pay = new Payment(userId, paymentMethod, paymentPrice, 0);
         //System.out.println("startpayd임");
+        int result =0;
         for (CartProduct cartProduct : cartlist) {
             OrderProduct order = new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity());
             pay.getOrderList().add(order);
@@ -94,14 +96,15 @@ public class OrderMenuView {
                 order.getOrderOptionList().add(orderoption);
             }
         }
-        PaymentController.insertPayment(pay);
-        cartcontroller.clearUserCart();
+        result = PaymentController.insertPayment(pay);
+        CartController.clearUserCart();
+        return result;
 
     }
 
-    public static void startPay(int paymentmethod, UserCoupon usingUserCoupon, int paymentPrice) {
+    public static int startPay(int paymentmethod, UserCoupon usingUserCoupon, int paymentPrice) {
         Payment pay = new Payment(userId, paymentmethod, paymentPrice, usingUserCoupon.getUserCouponNumber());
-
+        int result=0;
         for (CartProduct cartProduct : cartlist) {
             OrderProduct order = new OrderProduct(0, cartProduct.getProduct().getProductNumber(), cartProduct.getQuantity());
             pay.getOrderList().add(order);
@@ -113,8 +116,9 @@ public class OrderMenuView {
                 order.getOrderOptionList().add(orderoption);
             }
         }
-        PaymentController.insertPayment(pay);
-        cartcontroller.clearUserCart();
+        result=PaymentController.insertPayment(pay);
+        CartController.clearUserCart();
+        return result;
     }
 
     public static int viewCart(String userId) {

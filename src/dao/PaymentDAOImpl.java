@@ -206,14 +206,15 @@ public class PaymentDAOImpl implements PaymentDAO {
         int result = 0;
 
         try {
-            con = DbUtils.getConnection();
+        	con = DbUtils.getConnection();
             con.setAutoCommit(false);
-            //System.out.println("--페이옴--");
+            System.out.println("--페이옴--");
+            int totoalpp =getTotalPrice(payment);
 
             ps = con.prepareStatement(sql);
             ps.setString(1, payment.getUserId());
             ps.setInt(2, payment.getPaymentMethod());
-            ps.setInt(3, payment.getPaymentPrice());
+            ps.setInt(3, totoalpp);
             if (payment.getUserCouponNumber() != 0) {
                 int couponresult = usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
                 if (couponresult == 0) {
@@ -245,9 +246,30 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
         return result;
     }
+    /*상품 총 구매금액 구하기*/
+    public int getTotalPrice(Payment payment) throws SQLException {
+    	//System.out.println("구매금액옴");
+    	int total=0;
+    	int optionprice =0;
+    	List<OrderProduct> orderProductList = payment.getOrderList();
+    	for(OrderProduct order: orderProductList) {
+    		Product products = productDAO.selectProductByProductNumber(order.getProductNumber());
+    		if(products ==null) {throw new SQLException("[주문 실패] 상품번호 오류입니다.");
+    		}else {
+    		List<OrderOption> orderoptionlist = order.getOrderOptionList();
+    		for(OrderOption orderoption : orderoptionlist) {
+    			ProductOption options = productoptionDAO.selectProductOptionByOptionNumber(orderoption.getOptionNumber());
+                optionprice += options.getOptionPrice();
+    			}
+    		}
+
+    		total += (order.getOrderProductAmount()*products.getProductPrice())+optionprice;
+    	}
+    	return total;
+    }
 
     /*해당 물건 옵션 금액 구하는 메소드*/
-    public int getOptionPrice(OrderProduct order) throws SQLException {
+   /* public int getOptionPrice(OrderProduct order) throws SQLException {
         List<OrderOption> orderoptionlist = order.getOrderOptionList();
         int optionprice = 0;
         for (OrderOption orderoption : orderoptionlist) {
@@ -255,7 +277,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             optionprice += options.getOptionPrice();
         }
         return optionprice;
-    }
+    }*/
 
     @Override
     public Payment selectPaymentByPayNo(int PaymentNumber) throws SQLException {
