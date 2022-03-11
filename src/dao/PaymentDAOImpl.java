@@ -272,10 +272,11 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
     /*상품 총 구매금액 구하기*/
     public int getTotalPrice(Payment payment) throws SQLException {
-    	System.out.println("구매금액옴");
+    	//System.out.println("구매금액옴");
     	int total=0;
     	int optionprice =0;
-    	int discountrate =1;
+    	double discountrate =1;
+    	int discount2 =1;
     	List<OrderProduct> orderProductList = payment.getOrderList();
     	for(OrderProduct order: orderProductList) {
     		Product products = productDAO.selectProductByProductNumber(order.getProductNumber());
@@ -292,9 +293,14 @@ public class PaymentDAOImpl implements PaymentDAO {
     	}
     	if(payment.getUserCouponNumber()!=0) {
     	discountrate =getCouponDC(payment.getUserCouponNumber());
-    	total =  total*((100-discountrate)/100);
+    	System.out.println(discountrate+"할인..");
+    	System.out.println(discountrate/100+"나누기");
+    	discountrate = discountrate/100;
+    	total = (int)Math.round(total*discountrate) ;
+    	
     	}else {
-    	total =  total*discountrate;}
+    	total = total*discount2 ;
+    	}
     	return total;
     }
     /*쿠폰 할인율 구하기*/
@@ -304,6 +310,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     	UserCoupon usercoupon =usercouponimpl.selectUsercouponByUCN(usercouponNumber);
     	Coupon coupon =CouponController.selectCouponByNumber(usercoupon.getCouponNumber());
     	rate=coupon.getCouponDiscountRate();
+    	rate = (100-rate);
     	return rate;
     	
     }

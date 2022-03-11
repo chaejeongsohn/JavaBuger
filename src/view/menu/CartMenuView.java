@@ -104,7 +104,7 @@ public class CartMenuView {
      */
     private static void printCartMenu2() {
         System.out.println("장바구니 내역을 확인하고 수량을 조절하며 결제화면으로 넘어갈 수 있는 화면 입니다.");
-        System.out.println("1. 수량 플러스   2. 수량 마이너스    3. 전체 삭제   4. 상품목록으로 돌아가기   5. 주문하기");
+        System.out.println("1. 수량 플러스   2. 수량 마이너스    3. 전체 삭제   4. 상품목록으로 돌아가기   5. 결제하기");
 
     }
 
