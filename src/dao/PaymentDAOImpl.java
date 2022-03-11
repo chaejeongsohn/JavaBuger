@@ -211,7 +211,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         try {
         	con = DbUtils.getConnection();
             con.setAutoCommit(false);
-            System.out.println("--페이옴--");
+            //System.out.println("--페이옴--");
             int ucunom =payment.getUserCouponNumber();
             int totoalpp =getTotalPrice(payment);
             
@@ -293,8 +293,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     	}
     	if(payment.getUserCouponNumber()!=0) {
     	discountrate =getCouponDC(payment.getUserCouponNumber());
-    	System.out.println(discountrate+"할인..");
-    	System.out.println(discountrate/100+"나누기");
+    	//System.out.println(discountrate+"할인..");
+    	//System.out.println(discountrate/100+"나누기");
     	discountrate = discountrate/100;
     	total = (int)Math.round(total*discountrate) ;
     	
@@ -305,7 +305,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
     /*쿠폰 할인율 구하기*/
     public int getCouponDC(int usercouponNumber) throws SQLException{
-    	System.out.println("쿠폰할인율옴");
+    	//System.out.println("쿠폰할인율옴");
     	int rate =1;
     	UserCoupon usercoupon =usercouponimpl.selectUsercouponByUCN(usercouponNumber);
     	Coupon coupon =CouponController.selectCouponByNumber(usercoupon.getCouponNumber());

@@ -25,7 +25,12 @@ public class OrderMenuView {
 
     public static void orderMenu() {
         System.out.println("\n---------- 구매 화면 --------------------");
+        
         int paymentPrice = viewCart(userId);
+        if(paymentPrice <=0) {
+        	System.out.println("주문하실 상품이 없습니다. 우선 상품을 장바구니에 담아주세요.");
+        	return;
+        }
 
         // 주문/결제 메뉴
         UserCoupon usingUserCoupon = null;
