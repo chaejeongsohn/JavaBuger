@@ -74,7 +74,7 @@ public class CartMenuView {
                     break;
                 case "5":
                     OrderMenuView.orderMenu(); // 구매 화면으로 넘어간다.
-                    break;
+                    return;
                 default:
                     System.out.println("번호를 다시 입력해주세요");
             }
