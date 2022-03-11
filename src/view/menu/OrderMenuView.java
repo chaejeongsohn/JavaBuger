@@ -154,21 +154,21 @@ public class OrderMenuView {
 
     public static UserCoupon printCouponMenu(String userId) {
         int couponNumber = 0;
-        try {
-            List<UserCoupon> usercouponlist = usercouponservice.selectUserCoupons(userId);
+        
+        	UserCouponController.selectUserCoupons(userId);
             System.out.println("사용하실 쿠폰 번호를 입력해주세요 >");
             couponNumber = Integer.parseInt(scanner.nextLine());
-            EndView.printUserCouponlist(userId, usercouponlist);
 
-        } catch (SQLException e) {
+       /* } catch (SQLException e) {
             //e.printStackTrace();
             FailView.errorMessage(e.getMessage());
-        }
+        }*/
         return UserCouponController.selectUserCouponByNumber(userId, couponNumber);
 
 
-    }
+    
 
+}
 }
     	
 

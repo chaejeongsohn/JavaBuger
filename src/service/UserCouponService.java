@@ -35,9 +35,9 @@ public class UserCouponService {
 
     /*한장 사용하는거 */
     public int deleteUserCoupon2(Connection con, int couponNumber) throws SQLException {
-        if (couponNumber == 0) {
+        /*if (couponNumber == 0) {
             return 1;
-        }
+        }*/
         int result = userCouponDAO.deleteUserCoupon2(con, couponNumber);
         //if (result == 0) throw new SQLException("쿠폰이 삭제되지 않았습니다.");
         return result;
