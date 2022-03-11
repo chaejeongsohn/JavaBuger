@@ -100,13 +100,12 @@ public class UserDetailMenuView {
                 int newPhoneNumber = Integer.parseInt(scanner.nextLine());
                 UserSessionService.getUserSession().setUserPhone(newPhoneNumber);
                 UserMemberController.updateUser(UserSessionService.getUserSession());
-                updateUserMember.setUserPhone(newPhoneNumber);
                 break;
             case "3": // 비밀번호변경
                 System.out.print("새로운 비밀번호는? > ");
                 String newPassword = scanner.nextLine();
+                UserSessionService.getUserSession().setUserPw(newPassword);
                 UserMemberController.updateUser(UserSessionService.getUserSession());
-                updateUserMember.setUserPw(newPassword);
                 break;
             case "4":
                 System.out.println("이전으로 돌아갑니다.");
