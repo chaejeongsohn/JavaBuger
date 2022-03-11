@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import controller.CouponController;
+
 
 public class PaymentDAOImpl implements PaymentDAO {
     private Properties proFile = DbUtils.getProFile();
@@ -20,6 +22,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     // OrderProductService orderproductService = new OrderProductService();
     OrderProductDAOImpl orderproductDAOimpl = new OrderProductDAOImpl();
     OrderOptionDAOImpl orderOptionDAOimpl = new OrderOptionDAOImpl();
+    UserCouponDAOImpl usercouponimpl = new UserCouponDAOImpl();
 
     @Override
     public List<Ranking> selectSalesranking(String category) throws SQLException {
@@ -219,8 +222,9 @@ public class PaymentDAOImpl implements PaymentDAO {
                 int couponresult = usercouponservice.deleteUserCoupon2(con, payment.getUserCouponNumber());
                 if (couponresult == 0) {
                     con.rollback();
-                    throw new SQLException("[주문 실패] 주문하지 못 했습니다.");
+                    throw new SQLException("[주문 실패] 해당 쿠폰은 유효하지 않은 쿠폰입니다. 주문하지 못 했습니다.");
                 }
+                
                 ps.setInt(4, payment.getUserCouponNumber());
             } else {
                 ps.setString(4, null);
@@ -248,9 +252,10 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
     /*상품 총 구매금액 구하기*/
     public int getTotalPrice(Payment payment) throws SQLException {
-    	//System.out.println("구매금액옴");
+    	System.out.println("구매금액옴");
     	int total=0;
     	int optionprice =0;
+    	int discountrate =1;
     	List<OrderProduct> orderProductList = payment.getOrderList();
     	for(OrderProduct order: orderProductList) {
     		Product products = productDAO.selectProductByProductNumber(order.getProductNumber());
@@ -265,7 +270,19 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     		total += (order.getOrderProductAmount()*products.getProductPrice())+optionprice;
     	}
+    	discountrate =getCouponDC(payment.getUserCouponNumber());
+    	total =  total*discountrate;
     	return total;
+    }
+    /*쿠폰 할인율 구하기*/
+    public int getCouponDC(int usercouponNumber) throws SQLException{
+    	System.out.println("쿠폰할인율옴");
+    	int rate =1;
+    	UserCoupon usercoupon =usercouponimpl.selectUsercouponByUCN(usercouponNumber);
+    	Coupon coupon =CouponController.selectCouponByNumber(usercoupon.getCouponNumber());
+    	rate=coupon.getCouponDiscountRate();
+    	return rate;
+    	
     }
 
     /*해당 물건 옵션 금액 구하는 메소드*/

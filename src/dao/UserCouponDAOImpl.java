@@ -195,4 +195,30 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	}
         return usercoupon;
     }
+    
+    public UserCoupon selectUsercouponByUCN(int usercouponNumber)throws SQLException{
+    	Connection con = null;
+    	PreparedStatement ps= null;
+    	ResultSet rs = null;
+    	UserCoupon usercoupon = null;
+    	String sql = proFile.getProperty("usercoupon.selectUCN");
+    	
+    	try {
+    		con = DbUtils.getConnection();
+    		ps = con.prepareStatement(sql);
+    		ps.setInt(1, usercouponNumber);
+    		
+    		rs= ps.executeQuery();
+    		if(rs.next()) {
+    			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+    		}
+    		
+    		
+    	}finally {
+    		DbUtils.close(con, ps, rs);
+    	}
+    	
+    	return usercoupon;
+    	
+    }
 }
