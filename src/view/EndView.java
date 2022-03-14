@@ -143,5 +143,13 @@ public class EndView {
 		}
 		System.out.println();
 	}
+	
+	public static void printAllUserMmber(List<UserMember> userlist) {
+		System.out.println("-------회원 목록-------");
+		for(UserMember user : userlist) {
+			System.out.println("회원아이디: "+user.getUserId()+" | 회원 이름: "+user.getUserName()+" | 회원 전화번호: "+user.getUserPhone()+ " | 회원 생년월일: "+user.getUserBirthDay()+" | 회원 가입일: "+user.getUserJoinDate());
+		}
+		
+	}
 
 }

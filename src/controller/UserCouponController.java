@@ -6,14 +6,17 @@ import java.util.List;
 
 import dto.Coupon;
 import dto.UserCoupon;
+import dto.UserMember;
 import exception.NotFoundException;
 import service.UserCouponService;
+import service.UserMemberService;
 import view.EndView;
 import view.FailView;
 import view.SuccessView;
 
 public class UserCouponController {
     static UserCouponService userCouponService = new UserCouponService();
+    static UserMemberService usermemberService = new UserMemberService();
 
     public static void insertUserCoupon(UserCoupon userCoupon) {
     		try{
@@ -67,4 +70,17 @@ public class UserCouponController {
     	}
     	return usercoupon;
     }
+    /*전체 사용자에게 쿠폰지급*/
+	public static void insertUserCouponToAll(int couponNumber) {
+		try {
+			List<UserMember> userlist =usermemberService.selectAllUser();
+			for(UserMember user : userlist) {
+				UserCoupon usercoupon = new UserCoupon(0,user.getUserId(), couponNumber, 0);
+				insertUserCoupon(usercoupon);
+			}
+		}catch(SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+		
+	}
 }

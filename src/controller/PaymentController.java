@@ -51,7 +51,7 @@ public class PaymentController {
     	 int result =0;
         try {
         	result =  paymentService.insertPayment(payment);
-            SuccessView.messagePrint("[주문 완료!]" + payment.getPaymentMethod() + "로 결제완료되었습니다.");
+            //SuccessView.messagePrint("[주문 완료!]" + payment.getPaymentMethod() + "로 결제완료되었습니다.");
             
         } catch (SQLException e) {
         	e.printStackTrace();

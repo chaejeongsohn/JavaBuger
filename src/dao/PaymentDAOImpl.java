@@ -19,7 +19,6 @@ public class PaymentDAOImpl implements PaymentDAO {
     ProductDAO productDAO = new ProductDAOImpl();
     ProductOptionDAOImpl productoptionDAO = new ProductOptionDAOImpl();
     UserCouponService usercouponservice = new UserCouponService();
-    // OrderProductService orderproductService = new OrderProductService();
     OrderProductDAOImpl orderproductDAOimpl = new OrderProductDAOImpl();
     OrderOptionDAOImpl orderOptionDAOimpl = new OrderOptionDAOImpl();
     UserCouponDAOImpl usercouponimpl = new UserCouponDAOImpl();
@@ -205,13 +204,11 @@ public class PaymentDAOImpl implements PaymentDAO {
         Connection con = null;
         PreparedStatement ps = null;
         String sql = proFile.getProperty("payment.insert");
-        //"insert into payment() values (PAY_NO_SEQ.nextval, ?,sysdate,?,?,?)"
         int result = 0;
 
         try {
         	con = DbUtils.getConnection();
             con.setAutoCommit(false);
-            //System.out.println("--페이옴--");
             int ucunom =payment.getUserCouponNumber();
             int totoalpp =getTotalPrice(payment);
             
@@ -257,14 +254,8 @@ public class PaymentDAOImpl implements PaymentDAO {
                         	}	
                     	}
                 	}	
-                con.commit();
-                
-            }
-
-        	
-        } catch (Exception e) {
-            con.rollback();
-            throw e;
+            	con.commit();               
+            }	
         } finally {
             DbUtils.close(con, ps, null);
         }
@@ -292,27 +283,22 @@ public class PaymentDAOImpl implements PaymentDAO {
     		total += (order.getOrderProductAmount()*products.getProductPrice())+optionprice;
     	}
     	if(payment.getUserCouponNumber()!=0) {
-    	discountrate =getCouponDC(payment.getUserCouponNumber());
-    	//System.out.println(discountrate+"할인..");
-    	//System.out.println(discountrate/100+"나누기");
-    	discountrate = discountrate/100;
-    	total = (int)Math.round(total*discountrate) ;
-    	
+    		discountrate =getCouponDC(payment.getUserCouponNumber());
+    		discountrate = discountrate/100;
+    		total = (int)Math.round(total*discountrate) ;
     	}else {
-    	total = total*discount2 ;
+    		total = total*discount2 ;
     	}
     	return total;
     }
     /*쿠폰 할인율 구하기*/
     public int getCouponDC(int usercouponNumber) throws SQLException{
-    	//System.out.println("쿠폰할인율옴");
     	int rate =1;
     	UserCoupon usercoupon =usercouponimpl.selectUsercouponByUCN(usercouponNumber);
     	Coupon coupon =CouponController.selectCouponByNumber(usercoupon.getCouponNumber());
     	rate=coupon.getCouponDiscountRate();
     	rate = (100-rate);
-    	return rate;
-    	
+    	return rate;   	
     }
 
     /*해당 물건 옵션 금액 구하는 메소드*/

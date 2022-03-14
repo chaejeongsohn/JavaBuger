@@ -218,4 +218,28 @@ public class UserMemberDAOImpl implements UserMemberDAO {
 		}
         return result;
     }
+    
+    /*전체 유저 리스트(쿠폰 지급할 때 쓰는 메소드)*/
+    public List<UserMember> selectAllUser() throws SQLException{
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	String sql =proFile.getProperty("usermember.selectAll");
+    	List<UserMember> userlist = new ArrayList<>();
+    	
+    	try {
+    		con = DbUtils.getConnection();
+    		ps = con.prepareStatement(sql);
+    		rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			UserMember user = new UserMember(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+    			userlist.add(user);
+    		}
+    		System.out.println("UserMemberDAOImpl옴");
+    	}finally{
+    		DbUtils.close(con, ps, rs);
+    	}
+    	return userlist;
+    }
 }

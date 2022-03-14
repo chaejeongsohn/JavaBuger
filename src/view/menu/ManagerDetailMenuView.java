@@ -1,7 +1,10 @@
 package view.menu;
 
 import controller.CouponController;
+import controller.UserCouponController;
+import controller.UserMemberController;
 import dto.Coupon;
+import dto.UserCoupon;
 import service.UserSessionService;
 
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ public class ManagerDetailMenuView {
 
     public static void printCouponMenu(){
         System.out.println("-----------------------------------");
-        System.out.println("1.쿠폰추가  |  2.쿠폰삭제  |  3.쿠폰수정  |  4.쿠폰목록  |  5.이전으로 돌아가기");
+        System.out.println("1.쿠폰추가  |  2.쿠폰삭제  |  3.쿠폰수정  |  4.쿠폰목록  |  5.사용자에게 쿠폰지급  |  6.이전으로 돌아가기");
         System.out.println("원하시는 기능의 번호를 입력하세요 > ");
         String menu = scanner.nextLine();
         switch (menu) {
@@ -29,7 +32,9 @@ public class ManagerDetailMenuView {
             case "4": // 쿠폰 목록
                 printAllCoupons();
                 break;
-            case "5":  // 이전으로 돌아가기
+            case "5": //쿠폰지급
+            	sendCouponToUser();
+            case "6":  // 이전으로 돌아가기
                 return;
             default:
 				System.out.println("번호를 다시 입력해주세요");
@@ -96,5 +101,31 @@ public class ManagerDetailMenuView {
     private static void printAllCoupons(){
         System.out.println("--------쿠폰 목록-----------");
         CouponController.selectCoupons();
+    }
+    
+    private static void sendCouponToUser() {
+    	System.out.println("---------------쿠폰 지급 방법 선택---------------");
+    	System.out.println("1. 전체 사용자에게 쿠폰 지급  2.특정 사용자에게 쿠폰 지급");
+    	System.out.println("메뉴를 선택하세요>");
+    	String menu = scanner.nextLine();
+    	switch(menu) {
+    		case "1":
+    			printAllCoupons(); // 쿠폰 종류 전체 출력
+    			System.out.print("지급할 쿠폰번호를 입력하세요 > ");
+    			int couponNumber = Integer.parseInt(scanner.nextLine());
+    			UserCouponController.insertUserCouponToAll(couponNumber);
+    			break;
+    			
+    		case "2":
+    			UserMemberController.selectAllUser(); //전체 회원 조회
+    			System.out.println("쿠폰을 지급할 회원아이디를 입력하세요 > ");
+    			String userID = scanner.nextLine();
+    			printAllCoupons(); // 쿠폰 종류 전체 출력
+    			System.out.print("지급할 쿠폰번호를 입력하세요 > ");
+    			int couponNumber2 = Integer.parseInt(scanner.nextLine());
+    			UserCoupon usercoupon = new UserCoupon(0, userID, couponNumber2, 0);
+    			UserCouponController.insertUserCoupon(usercoupon);
+    			break;
+    	}
     }
 }

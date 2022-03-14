@@ -12,7 +12,6 @@ import java.util.Properties;
 
 public class OrderProductDAOImpl implements OrderProductDAO {
     private Properties proFile = DbUtils.getProFile();
-    //OrderOptionService orderOptionService = new OrderOptionService();
     OrderOptionDAOImpl orderoptionimpl = new OrderOptionDAOImpl();
     ProductDAOImpl productDAO = new ProductDAOImpl();
 
@@ -20,10 +19,8 @@ public class OrderProductDAOImpl implements OrderProductDAO {
     public int[] insertOrderProduct(Connection con, List<OrderProduct> orderProductList) throws SQLException {
         PreparedStatement ps = null;
         String sql = proFile.getProperty("orderproduct.insert");
-        //insert into orderproduct values (ORDER_PRD_NO_SEQ.nextval, PAY_NO_SEQ.currval,?,?)
 
         try {
-            //System.out.println("오더프로덕트");
             ps = con.prepareStatement(sql);
             for (OrderProduct order : orderProductList) {
                 ps.setInt(1, order.getProductNumber());

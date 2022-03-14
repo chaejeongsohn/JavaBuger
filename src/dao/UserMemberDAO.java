@@ -82,4 +82,7 @@ public interface UserMemberDAO {
      * @throws SQLException
      */
     int deleteUser(String userId) throws SQLException;
+    
+    /*전체 유저 리스트(쿠폰 지급할 때 쓰는 메소드)*/
+    List<UserMember> selectAllUser()throws SQLException;
 }

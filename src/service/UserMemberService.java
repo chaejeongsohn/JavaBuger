@@ -257,4 +257,10 @@ public class UserMemberService {
             return false;
         }
     }
+    /*전체 유저 리스트(쿠폰 지급할 때 쓰는 메소드)*/
+    public List<UserMember> selectAllUser()throws SQLException{
+    	List<UserMember> userlist = userMemberDAO.selectAllUser();
+    	if (userlist == null || userlist.size() == 0) throw new SQLException("등록된 회원이 없습니다.");
+        return userlist;
+    }
 }

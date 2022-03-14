@@ -276,16 +276,15 @@ public class ManagerMenuView {
 			switch (menu) {
 			case "1":
 				PaymentController.selectSalseByDate();
-				salesControl();
+				break;
 			case "2":
 				PaymentController.selectSalesrankingAll();
-				salesControl();
+				break;
 			case "3":
 				break;
 			}
 			break;
 		}
-
 	}
 
 	private static void storeControl() {

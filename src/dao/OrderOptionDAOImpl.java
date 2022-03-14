@@ -17,7 +17,6 @@ public class OrderOptionDAOImpl implements OrderOptionDAO {
     public int[] insertOrderOption(Connection con, List<OrderOption> orderOptionList) throws SQLException {
         PreparedStatement ps = null;
         String sql = proFile.getProperty("orderoption.insert");
-        //insert into orderoption values (ORDER_OPT_NO_SEQ.nextval, ORDER_PRD_NO_SEQ.currval,?)
         int result[] = null;
 
         try {

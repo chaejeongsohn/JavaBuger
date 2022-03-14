@@ -40,7 +40,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		UserCoupon findCoupon = this.selectUserCouponByNumber(userCoupon.getUserId(), coupon.getCouponNumber());
     		if(findCoupon!=null) {
     			this.addUserCoupon(con, findCoupon, addNo);
-    		}
+    		}else {
     		//user쿠폰함에 쿠폰이 없다면 새로 insert
     		ps = con.prepareStatement(sql);
     		ps.setString(1, userCoupon.getUserId());
@@ -48,11 +48,16 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		ps.setInt(3, addNo);
     		    		
     		result = ps.executeUpdate();
+    		}
     	}finally {
     		DbUtils.close(con, ps);
     	}
         return result;
     }
+    /*쿠폰이 기존에 없어서 새로 등록하면 , insertUserCoupon
+     * 쿠폰이 기존에 있어서 수량만 늘리면 addUserCoupon
+     * 각각 다른 쿼리문이므로 DAO에서 하지 말고 Service에서 처리하자
+     * */
     
     
     /*user쿠폰 수량 늘리기*/
@@ -155,7 +160,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		ps = con.prepareStatement(sql);
     		ps.setString(1, userId);
     		
-    		rs = ps.executeQuery();//쿠폰 조회하고 만료날짜 체크해야 하는데 없어짐
+    		rs = ps.executeQuery();
     		while(rs.next()) {
     			UserCoupon userCoupons = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     			userCouponList.add(userCoupons);
@@ -176,7 +181,6 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     	ResultSet rs= null;
     	UserCoupon usercoupon = null;
     	String sql = proFile.getProperty("usercoupon.selectByNo");
-    	List<Coupon> couponlist = new ArrayList<>();
     	
     	try {
     		con = DbUtils.getConnection();
@@ -187,11 +191,7 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		rs= ps.executeQuery();
     		if(rs.next()) {
     			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
-    		}
-//    		//쿠폰번호에 해당하는 쿠폰정보 가져오기
-//    		Coupon coupon = couponService.selectCouponByNumber(couponNumber); //connection도 넘겨받아야 하지 않나???
-//    		couponlist.add(coupon);
-    		
+    		}	
     	}finally {
     		DbUtils.close(con, ps, rs);
     	}
@@ -213,14 +213,10 @@ public class UserCouponDAOImpl implements UserCouponDAO {
     		rs= ps.executeQuery();
     		if(rs.next()) {
     			usercoupon = new UserCoupon(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
-    		}
-    		
-    		
+    		}	
     	}finally {
     		DbUtils.close(con, ps, rs);
     	}
-    	
     	return usercoupon;
-    	
     }
 }

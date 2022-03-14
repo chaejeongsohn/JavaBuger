@@ -109,20 +109,10 @@ public class UserCouponService {
             return true;
         }
         return false;
-
-
-    	/*작동잘되면 삭제할것
-    	 * String todayFormat = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
-    	Date today = new Date(dateFormat.parse(todayFormat).getTime());
-    	Date date = new Date(dateFormat.parse(chechDate).getTime());*/
-
-
     }
 
     /*쿠폰 날짜형식 확인 메소드*/
-    public boolean validationDate(String checkDate) {
+    /*public boolean validationDate(String checkDate) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             dateFormat.setLenient(false);
@@ -131,7 +121,7 @@ public class UserCouponService {
         } catch (ParseException e) {
             return false;
         }
-    }
+    }*/
 
 
 }

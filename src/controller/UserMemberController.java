@@ -88,5 +88,14 @@ public class UserMemberController {
             FailView.errorMessage(e.getMessage());
         }
     }
+    /*전체 유저 리스트(쿠폰 지급할 때 쓰는 메소드)*/
+    public static void selectAllUser(){
+    	try {
+    		List<UserMember> userlist =userMemberService.selectAllUser();
+    		EndView.printAllUserMmber(userlist);
+    	}catch(SQLException e) {
+    		FailView.errorMessage(e.getMessage());
+    	}
+    }
 
 }

@@ -162,22 +162,12 @@ public class OrderMenuView {
 
 
     public static UserCoupon printCouponMenu(String userId) {
-        int couponNumber = 0;
-        
+        int couponNumber = 0;     
         	UserCouponController.selectUserCoupons(userId);
             System.out.println("사용하실 쿠폰 번호를 입력해주세요 >");
             couponNumber = Integer.parseInt(scanner.nextLine());
-
-       /* } catch (SQLException e) {
-            //e.printStackTrace();
-            FailView.errorMessage(e.getMessage());
-        }*/
         return UserCouponController.selectUserCouponByNumber(userId, couponNumber);
-
-
-    
-
-}
+    }
 }
     	
 
