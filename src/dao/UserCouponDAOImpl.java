@@ -1,83 +1,69 @@
 package dao;
 
-import dto.Coupon;
 import dto.UserCoupon;
 import exception.NotFoundException;
-import service.CouponService;
 import utils.DbUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class UserCouponDAOImpl implements UserCouponDAO {
 	 private Properties proFile = DbUtils.getProFile();
-	 private CouponService couponService = new CouponService();
 	 CouponDAO couponDao = new CouponDAOImpl();
 
-    @Override
-    public int insertUserCoupon(UserCoupon userCoupon) throws SQLException, NotFoundException{
-    	Connection con =null;
-    	PreparedStatement ps = null;
-    	int addNo =1;
-    	String sql = proFile.getProperty("usercoupon.insert");
-    	int result = 0;
-    	
-    	try {
-    		con = DbUtils.getConnection();
-    		//쿠폰에서 쿠폰 찾기
-    		Coupon coupon = couponDao.selectCouponByNumber(userCoupon.getCouponNumber());
-    		if(coupon==null) {
-    			throw new NotFoundException("해당 쿠폰번호를 가진 쿠폰은 없습니다.");
-    		}
-    		//user쿠폰함에 쿠폰 찾기, 있다면 수량만 1 증가
-    		UserCoupon findCoupon = this.selectUserCouponByNumber(userCoupon.getUserId(), coupon.getCouponNumber());
-    		if(findCoupon!=null) {
-    			this.addUserCoupon(con, findCoupon, addNo);
-    		}else {
-    		//user쿠폰함에 쿠폰이 없다면 새로 insert
-    		ps = con.prepareStatement(sql);
-    		ps.setString(1, userCoupon.getUserId());
-    		ps.setInt(2, userCoupon.getCouponNumber());
-    		ps.setInt(3, addNo);
-    		    		
-    		result = ps.executeUpdate();
-    		}
-    	}finally {
-    		DbUtils.close(con, ps);
-    	}
-        return result;
-    }
-    /*쿠폰이 기존에 없어서 새로 등록하면 , insertUserCoupon
-     * 쿠폰이 기존에 있어서 수량만 늘리면 addUserCoupon
-     * 각각 다른 쿼리문이므로 DAO에서 하지 말고 Service에서 처리하자
-     * */
-    
-    
-    /*user쿠폰 수량 늘리기*/
-    public int addUserCoupon(Connection con, UserCoupon usercoupon, int addNo) throws SQLException{
-    	PreparedStatement ps =null;
-    	String sql = proFile.getProperty("usercoupon.updateadd");
-    	int result = 0;
-    	try {
-    		ps =con.prepareStatement(sql);
-    		ps.setInt(1, addNo);
-    		ps.setString(2, usercoupon.getUserId());
-    		ps.setInt(3, usercoupon.getCouponNumber());
-    		
-    		result =ps.executeUpdate();
-    		
-    	}finally {
-    		DbUtils.close(null, ps);
-    	}
-    	return result;
-    }
+	 @Override
+	    public int insertUserCoupon(UserCoupon userCoupon) throws SQLException, NotFoundException{
+	    	Connection con =null;
+	    	PreparedStatement ps = null;
+	    	int addNo =1;
+	    	String sql = proFile.getProperty("usercoupon.insert");
+	    	int result = 0;
+	    	
+	    	try {
+	    		con = DbUtils.getConnection();
+	    		ps = con.prepareStatement(sql);
+	    		ps.setString(1, userCoupon.getUserId());
+	    		ps.setInt(2, userCoupon.getCouponNumber());
+	    		ps.setInt(3, addNo);
+	    		    		
+	    		result = ps.executeUpdate();
+	    		
+	    	}finally {
+	    		DbUtils.close(con, ps);
+	    	}
+	        return result;
+	    }
+	    /*쿠폰이 기존에 없어서 새로 등록하면 , insertUserCoupon
+	     * 쿠폰이 기존에 있어서 수량만 늘리면 addUserCoupon
+	     * 각각 다른 쿼리문이므로 DAO에서 하지 말고 Service에서 처리하자
+	     * */
+	    
+	    
+	    /*user쿠폰 수량 늘리기*/
+	    public int addUserCoupon(UserCoupon usercoupon, int addNo) throws SQLException{
+	    	Connection con=null;
+	    	PreparedStatement ps =null;
+	    	String sql = proFile.getProperty("usercoupon.updateadd");
+	    	int result = 0;
+	    	try {
+	    		con=DbUtils.getConnection();
+	    		ps =con.prepareStatement(sql);
+	    		ps.setInt(1, addNo);
+	    		ps.setString(2, usercoupon.getUserId());
+	    		ps.setInt(3, usercoupon.getCouponNumber());
+	    		
+	    		result =ps.executeUpdate();
+	    		
+	    	}finally {
+	    		DbUtils.close(con, ps);
+	    	}
+	    	return result;
+	    }
 
     @Override
     public int deleteUserCoupon(int couponNumber) throws SQLException {

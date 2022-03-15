@@ -4,13 +4,12 @@ import dao.CouponDAO;
 import dao.CouponDAOImpl;
 import dao.UserCouponDAO;
 import dao.UserCouponDAOImpl;
+import dto.Coupon;
 import dto.UserCoupon;
 import exception.NotFoundException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,8 +22,21 @@ public class UserCouponService {
     CouponDAO couponDAO = new CouponDAOImpl();
 
     public void insertUserCoupon(UserCoupon userCoupon) throws SQLException, NotFoundException {
-        int result = userCouponDAO.insertUserCoupon(userCoupon);
+    	//쿠폰에서 쿠폰 찾기
+		Coupon coupon = couponDAO.selectCouponByNumber(userCoupon.getCouponNumber());
+		if(coupon==null) {
+			throw new NotFoundException("해당 쿠폰번호를 가진 쿠폰은 없습니다.");
+		}
+		//user쿠폰함에 쿠폰 찾기, 있다면 수량만 1 증가
+		UserCoupon findCoupon = userCouponDAO.selectUserCouponByNumber(userCoupon.getUserId(), coupon.getCouponNumber());
+		if(findCoupon!=null) {
+			int addNo=1;		
+			userCouponDAO.addUserCoupon(findCoupon, addNo);
+		}else {
+		//user쿠폰함에 쿠폰이 없다면 새로 insert
+    	int result = userCouponDAO.insertUserCoupon(userCoupon);
         if (result == 0) throw new SQLException("쿠폰이 등록되지 않았습니다.");
+		}
     }
 
     public void deleteUserCoupon(int couponNumber) throws SQLException {

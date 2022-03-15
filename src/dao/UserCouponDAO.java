@@ -29,6 +29,8 @@ public interface UserCouponDAO {
     
     /*한장 사용하는거 */
     int deleteUserCoupon2(Connection con, int couponNumber) throws SQLException;
+    /*쿠폰 수량 증가*/
+    public int addUserCoupon(UserCoupon usercoupon,int addNo) throws SQLException;
 
     /**
      * 사용자의 쿠폰리스트
